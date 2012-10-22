@@ -37,7 +37,7 @@
         android:layout_alignBaseline="@+id/button1"
         android:layout_alignBottom="@+id/button1"
         android:layout_alignLeft="@+id/textView2"
-        android:layout_margin="true"
+      
         android:text="ou là" />
 
 </RelativeLayout>
