@@ -11,14 +11,13 @@
         android:layout_centerVertical="true"
         android:text="@string/hello_world"
         tools:context=".MainActivity" />
-
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView2"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="14dp"
         android:text="@string/made_by" />
