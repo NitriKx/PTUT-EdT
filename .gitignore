@@ -166,3 +166,6 @@ pip-log.txt
 gen/*
 bin/*
 
+/gen
+
+/bin
