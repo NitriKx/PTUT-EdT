@@ -1,10 +1,11 @@
 <resources>
 
-    <string name="app_name">PTUT-EdT</string>
+    <string name="app_name">EdT Moodle</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">EdT Moodle</string>
     <string name="made_by">Sauvere, Bienvenu, Roman, Rouelle</string>
     <string name="adresse">http://algec.iut-blagnac/~jmi/edt/INFO/edtTeacherS343.html</string>
+    <string name="appName">EdT Moodle</string>
 
 </resources>
