@@ -32,7 +32,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,11 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="OK" />
-
+
         <Button
             android:id="@+id/buttonAnnuler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_bouton"
             android:text="Annuler" />
 
     </LinearLayout>
