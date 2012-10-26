@@ -165,7 +165,5 @@ pip-log.txt
 # Android
 gen/*
 bin/*
-
-/gen
-
-/bin
+gen/
+bin/
