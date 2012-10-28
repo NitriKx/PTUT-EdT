@@ -14,6 +14,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -44,6 +45,14 @@
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/buttonInfos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="displayInfos"
+            android:text="@string/info"
+             />
+
+        <Button
             android:id="@+id/buttonOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,26 +65,5 @@
             android:layout_height="wrap_content"
             android:text="Annuler" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/madebyLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="21dp"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="@string/made_by"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:text="@string/dev_start"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
