@@ -31,7 +31,7 @@
             android:text="@string/adresse"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
-
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
@@ -39,7 +39,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="@dimen/margin_bouton"
+        android:layout_marginRight="@dimen/margin_bouton"
         android:baselineAligned="true"
         android:gravity="right"
         android:orientation="horizontal" >
@@ -49,21 +50,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="displayInfos"
-            android:text="@string/info"
-             />
+            android:text="@string/info" />
 
         <Button
             android:id="@+id/buttonOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="OK" />
+            android:text="@string/buttonOK" />
 
         <Button
             android:id="@+id/buttonAnnuler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Annuler" />
+            android:text="@string/buttonAnnuler" />
+
     </LinearLayout>
 
 </RelativeLayout>

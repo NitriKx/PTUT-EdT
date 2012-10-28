@@ -7,8 +7,10 @@
     <string name="made_by">Sauvere, Bienvenu, Roman, Rouelle</string>
     <string name="adresse">http://algec.iut-blagnac/~jmi/edt/INFO/edtTeacherS343.html</string>
     <string name="appName">EdT Moodle</string>
-    <string name="dev_start">debut de conception : 22/10/2012</string>
-    <string name="info">informations</string>
+    <string name="dev_start">Debut de conception : 22/10/2012</string>
+    <string name="info">Informations</string>
     <string name="retour">Retour</string>
+    <string name="buttonOK">OK</string>
+    <string name="buttonAnnuler">Annuler</string>
 
 </resources>
