@@ -66,6 +66,7 @@ public class MainActivity extends Activity {
 	//
 
 
+	@SuppressWarnings("deprecation")
 	public void createNotif(){
 
 		/**
@@ -89,7 +90,7 @@ public class MainActivity extends Activity {
 
 
 		// creation d'une notification
-		Notification notification = new Notification(0,"notif",System.currentTimeMillis()); // les parametres sont obligatoires pour que cela fonctionne
+		Notification notification = new Notification(R.drawable.notification,"notif",System.currentTimeMillis()); // les parametres sont obligatoires pour que cela fonctionne
 		Toast.makeText(getBaseContext(), "debug1 "+ notification.toString(), Toast.LENGTH_SHORT).show();
 		
 		String titreNotification = "en cours !";//definition du titre de la notif

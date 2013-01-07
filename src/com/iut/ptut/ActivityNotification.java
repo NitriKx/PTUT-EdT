@@ -1,15 +1,11 @@
 package com.iut.ptut;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.TextView;
  
 public class ActivityNotification extends Activity implements Serializable{
 	/**
