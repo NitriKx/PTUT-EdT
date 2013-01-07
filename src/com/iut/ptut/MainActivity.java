@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 		// Méthode java (NE PAS UTILISER). Le XML est beaucoup plus simple
 		// menu.add("testMenu");
 		// menu.add("testMenu2");
-		int useless;
+		int useless =28;
 		return true;
 	}
 	
