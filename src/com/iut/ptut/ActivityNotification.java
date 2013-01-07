@@ -26,8 +26,8 @@ public class ActivityNotification extends Activity implements Serializable{
 		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel(MainActivity.ID_NOTIFICATION);
 		
-		FileOutputStream ostream = new FileOutputStream(new File("C:/Users/Remy Bienvenu/Documents/GitHub")); 
+		/*FileOutputStream ostream = new FileOutputStream(new File("C:/Users/Remy Bienvenu/Documents/GitHub")); 
 		ObjectOutputStream o = new ObjectOutputStream(ostream); 
-		o.writeObject(ActivityNotification.class); 
+		o.writeObject(ActivityNotification.class);*/ 
 	}
 }
