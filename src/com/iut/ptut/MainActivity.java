@@ -1,8 +1,5 @@
 package com.iut.ptut;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Date;
 
 import android.app.Activity;
@@ -13,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,7 +37,33 @@ public class MainActivity extends Activity {
 	}
 
 
-
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		//possibilité d'ajouter des items au menu avec la méthode menu.add( String pS);
+		   
+		// Méthode java (NE PAS UTILISER). Le XML est beaucoup plus simple
+		// menu.add("testMenu");
+		// menu.add("testMenu2");
+		
+		return true;
+	}
+	
+	/**
+	 * méthode appelée si on clique sur une option du menu
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// juste un test pour afficher une vue en cliquant
+		if(item.getItemId()== R.id.menu_settings)
+		setContentView(R.layout.informations);
+		//On regarde quel item a été cliqué grâce à son id et on déclenche une action
+		return false;
+	}
+	
+	
+	//
+	// NOTIF
+	//
 
 
 	public void createNotif(){
@@ -100,23 +124,6 @@ public class MainActivity extends Activity {
 	}
 
 
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}
-
-	/*
-	FileOutputStream ostream = new FileOutputStream(new File("C:/Users/Remy Bienvenu/Documents/GitHub")); 
-	ObjectOutputStream o = new ObjectOutputStream(ostream); 
-	o.writeObject(ActivityNotification.class); 
-	
-	*/
-	
-	
-
 	/*
 	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un bouton, pour cela
 	 * 1) creer le bouton
@@ -146,10 +153,5 @@ public class MainActivity extends Activity {
 	public void displayMain (View v){
 		setContentView(R.layout.activity_main);
 	}
-
-
-
-
-
 
 }
