@@ -12,6 +12,7 @@
     <string name="retour">Retour</string>
     <string name="buttonOK">OK</string>
     <string name="buttonAnnuler">Annuler</string>
+    <string name="menu_param">paramètres</string>
 	
 
 </resources>

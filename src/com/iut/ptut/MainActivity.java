@@ -55,7 +55,9 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// juste un test pour afficher une vue en cliquant
 		if(item.getItemId()== R.id.menu_settings)
-		setContentView(R.layout.informations);
+			setContentView(R.layout.informations);
+		else if (item.getItemId()==R.id.menu_param)
+			setContentView(R.layout.parametres);
 		//On regarde quel item a été cliqué grâce à son id et on déclenche une action
 		return false;
 	}
