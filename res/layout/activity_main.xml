@@ -31,7 +31,8 @@
             android:text="@string/adresse"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
-
+    
+    
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
@@ -56,7 +57,7 @@
             android:id="@+id/buttonOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="displayToday"
+            android:onClick="fragment2"
             android:text="@string/buttonOK" />
 
         <Button
