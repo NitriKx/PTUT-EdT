@@ -2,6 +2,8 @@ package com.iut.ptut;
 
 import java.sql.Date;
 
+import com.iut.ptut.view.ActivityNotification;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;

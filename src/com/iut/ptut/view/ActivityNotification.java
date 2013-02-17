@@ -1,6 +1,10 @@
-package com.iut.ptut;
+package com.iut.ptut.view;
 
 import java.io.Serializable;
+
+import com.iut.ptut.MainActivity;
+import com.iut.ptut.R;
+import com.iut.ptut.R.layout;
 
 import android.app.Activity;
 import android.app.NotificationManager;
