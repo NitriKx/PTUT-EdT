@@ -50,18 +50,21 @@ public class Day {
 	public void addLesson(Lesson pLesson)
 	{
 		this.ListLesson.add(pLesson);
+		recompterDates();
 	}
 	
 	//suppression d'un cours  dans une journée
 	public void removeLesson(Lesson pLesson)
 	{
 		this.ListLesson.remove(pLesson);
+		recompterDates();
 	}
 	
 	//suppression de tous les cours d'une journée
 	public void removeAllLessons(Lesson pLesson)
 	{
 		this.ListLesson.removeAllElements();
+		recompterDates();
 	}
 		
 	public String toString()
@@ -72,6 +75,26 @@ public class Day {
 			builder.append("\t\t" + cour + "\n");
 		}
 		return builder.toString();
+	}
+	
+	private void recompterDates() {
+		this.DateDebut = new Date();
+		this.DateFin = new Date();
+		
+		if(this.ListLesson.size() > 0) {
+			Lesson jour0 = this.ListLesson.get(0);
+			this.DateDebut = jour0.getDateDebut();
+			this.DateFin = jour0.getDateFin();
+			
+			for(int i = 1; i < ListLesson.size(); i++) {
+				Lesson jour = ListLesson.get(i);
+				
+				if(this.DateDebut.after(jour.getDateDebut()))
+					this.DateDebut = jour.getDateDebut();
+				if(this.DateFin.before(jour.getDateDebut())) 
+					this.DateFin = jour.getDateFin();
+			}
+		}
 	}
 	
 }
