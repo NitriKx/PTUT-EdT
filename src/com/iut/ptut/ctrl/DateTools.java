@@ -3,7 +3,6 @@ package com.iut.ptut.ctrl;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class DateTools {
 	
@@ -13,16 +12,17 @@ public class DateTools {
 	 * @return
 	 */
 	public static long calculeTimestampDebutJour(Date date) {
-		java.util.Calendar calendrier = java.util.Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+		java.util.Calendar calendrier = java.util.Calendar.getInstance();
 		calendrier.setTime(date);
 		calendrier.set(java.util.Calendar.HOUR_OF_DAY, 0);
+		calendrier.set(java.util.Calendar.MINUTE, 0);
 		calendrier.set(java.util.Calendar.SECOND, 0);
 		calendrier.set(java.util.Calendar.MILLISECOND, 0);
 		return calendrier.getTimeInMillis();
 	}
 	
 	/**
-	 * Recupère l'heure formatté : "08:30"
+	 * Recupère l'heure formatté. Exemple "08:30"
 	 * @param date La date dont on veut l'heure.
 	 * @return Une chaine de caractère contenant l'heure et les minutes.
 	 */

@@ -2,7 +2,6 @@ package com.iut.ptut.ctrl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CalendarParser {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, ParserException {
-		Calendar calendar = CalendarParser.convertirICSEnICal4J("S4_07.ics");
+		Calendar calendar = CalendarParser.convertirICSEnICal4J("S4_08.ics");
 		System.out.println(CalendarParser.convertirCalendarEnTimeTable(calendar));
 	}
 	
@@ -69,8 +68,6 @@ public class CalendarParser {
 		    		// Si le jour n'a pas encore été crée, on l'ajoute à la map
 		    		if(jour == null){
 		    			jour = new Day();
-		    			jour.setpDateDebut(new Date(debutJourCours));
-		    			jour.setpDateFin(new Date(debutJourCours+1000*60*60*24));
 		    			mapJours.put(debutJourCours, jour);
 		    		}
 		    		
