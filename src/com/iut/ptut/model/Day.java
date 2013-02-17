@@ -21,6 +21,13 @@ public class Day {
 		ListLesson = listLesson;
 	}
 	
+	public Day(Day day) {
+		this.idDay = day.idDay;
+		this.DateDebut = new Date(day.DateDebut.getTime());
+		this.DateFin = new Date(day.DateFin.getTime());
+		this.ListLesson = new Vector<Lesson>();
+	}
+	
 	public int getIdDay() {
 		return this.idDay;
 	}

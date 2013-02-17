@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +13,6 @@ import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
-import net.fortuna.ical4j.model.Property;
 
 import com.iut.ptut.model.Day;
 import com.iut.ptut.model.Lesson;
@@ -43,6 +42,12 @@ public class CalendarParser {
 	private CalendarParser() {
 	}
 	
+	/**
+	 * Convertit un Calendar de type "iCal4j" en TimeTable de notre application.
+	 * @param cal Un calendar "iCal4j"
+	 * @return Un TimeTable avec les données du calendar
+	 */
+	@SuppressWarnings("rawtypes")
 	public static TimeTable convertirCalendarEnTimeTable(Calendar cal) {
 		
 		TimeTable tt = new TimeTable();
@@ -174,6 +179,11 @@ public class CalendarParser {
 			}
 		}
 		return resultat;
+	}
+	
+	public static List<Lesson> filterCoursGroupeDonne(List<Lesson> lesson, String groupeTP) {
+		
+		return null;
 	}
 	
 }

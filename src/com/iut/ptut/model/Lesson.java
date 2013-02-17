@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
-import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
@@ -22,6 +21,19 @@ public class Lesson {
 	private Date dateFin;
 	
 	public Lesson() {
+	}
+	
+	/**
+	 * Contructeur de recopie.
+	 * @param lesson
+	 */
+	public Lesson(Lesson lesson) {
+		this.idLesson = lesson.idLesson;
+		this.libelle = new String(lesson.libelle);
+		this.intervenant = new String(lesson.intervenant);
+		this.emplacement = new String(lesson.emplacement);
+		this.dateDebut = new Date(lesson.dateDebut.getTime());
+		this.dateFin = new Date(lesson.dateFin.getTime());
 	}
 
 	/**
