@@ -2,8 +2,6 @@ package com.iut.ptut;
 
 import java.sql.Date;
 
-import com.iut.ptut.view.ActivityNotification;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.iut.ptut.view.ActivityNotification;
+import com.iut.ptut.view.TableJavaFragment;
+import com.iut.ptut.view.TableLayoutFragment;
+
 public class MainActivity extends Activity {
 
-
+	
 
 	// definition de l'id  correspondant à la notification 
 	public static final int ID_NOTIFICATION = 1337;
@@ -29,7 +31,15 @@ public class MainActivity extends Activity {
 	Date actual = new Date(theDate);
 
 
-
+	/*
+	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un bouton, pour cela
+	 * 1) creer le bouton
+	 * 2)dans le code xml, rajouter la ligne android:onClick""
+	 * 3) mettre le nom de la methode entre les parentheses
+	 * 
+	 * /!\ pour afficher une fenetre c'est setContentView /!\
+	 * et vous pouvez rajouter du code aussi dans la methode
+	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -129,15 +139,9 @@ public class MainActivity extends Activity {
 	}
 
 
-	/*
-	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un bouton, pour cela
-	 * 1) creer le bouton
-	 * 2)dans le code xml, rajouter la ligne android:onClick""
-	 * 3) mettre le nom de la methode entre les parentheses
-	 * 
-	 * /!\ pour afficher une fenetre c'est setContentView /!\
-	 * et vous pouvez rajouter du code aussi dans la methode
-	 */
+	public void displayToday(View v){
+		setContentView(R.layout.activity_today2);
+	}
 	public void displayInfos (View v){
 
 
