@@ -9,6 +9,10 @@ import org.junit.Test;
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.ctrl.ParsingProblemException;
 
+/**
+ * Classe de test de la classe CalendarParser.
+ * @author Benoît Sauvère
+ */
 public class CalendarParserTest extends TestCase {
 	
 	/**
@@ -29,10 +33,9 @@ public class CalendarParserTest extends TestCase {
 	public void testResultatLectureSummaryCorrectTD() throws ParsingProblemException {
 		
 		final String summary = "DUT INFO/S4 CAA TD Groupe 3 -- LC";
-		CalendarParser parser = new CalendarParser();
 		
 		// On parse le summary
-		HashMap<String, String> resultat = parser.parseSummary(summary);
+		HashMap<String, String> resultat = CalendarParser.parseSummary(summary);
 		
 		assertEquals("DUT", resultat.get("formation"));
 		assertEquals("INFO", resultat.get("specialite"));
@@ -48,10 +51,9 @@ public class CalendarParserTest extends TestCase {
 	public void testResultatLectureSummaryCorrectTP() throws ParsingProblemException {
 		
 		final String summary = "DUT INFO/S4 NPC TP Groupe 3B -- IO";
-		CalendarParser parser = new CalendarParser();
 		
 		// On parse le summary
-		HashMap<String, String> resultat = parser.parseSummary(summary);
+		HashMap<String, String> resultat = CalendarParser.parseSummary(summary);
 		
 		assertEquals("DUT", resultat.get("formation"));
 		assertEquals("INFO", resultat.get("specialite"));
@@ -66,12 +68,11 @@ public class CalendarParserTest extends TestCase {
 	public void testLectureException() {
 		
 		final String summary = "DUT S4 NPC TP Groupe 3B -- IO";
-		CalendarParser parser = new CalendarParser();
 		boolean throwed = false;
 		
 		// On parse le summary
 		try {
-			HashMap<String, String> resultat = parser.parseSummary(summary);
+			CalendarParser.parseSummary(summary);
 		} catch (ParsingProblemException e) {
 			throwed = true;
 		}

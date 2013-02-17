@@ -3,6 +3,10 @@ package com.iut.ptut.ctrl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Cette exception est levée lorsque un des parseurs rencontre un problème (malformations).
+ * @author Benoît Sauvère
+ */
 public class ParsingProblemException extends Exception {
 
 	private Logger _log = Logger.getLogger(this.getClass().getName());
