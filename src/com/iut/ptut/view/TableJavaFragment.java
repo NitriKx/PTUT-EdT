@@ -1,7 +1,5 @@
 package com.iut.ptut.view;
 
-import com.iut.ptut.R;
-
 import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +11,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+
+import com.iut.ptut.R;
 
 /**
  * Ce fragment permet d'illustrer comment gérer un tableau à partir du code de

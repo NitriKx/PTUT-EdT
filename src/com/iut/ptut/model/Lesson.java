@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
+import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
@@ -21,7 +22,6 @@ public class Lesson {
 	private Date dateFin;
 	
 	public Lesson() {
-		
 	}
 
 	/**

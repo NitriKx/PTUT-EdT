@@ -8,53 +8,104 @@
 package com.iut.ptut;
 
 public final class R {
+    public static final class array {
+        public static final int locations=0x7f040000;
+    }
     public static final class attr {
     }
+    public static final class color {
+        public static final int black=0x7f050000;
+        public static final int blue=0x7f050002;
+        public static final int grey=0x7f050001;
+        public static final int white=0x7f050003;
+    }
     public static final class dimen {
-        public static final int margin_bouton=0x7f040000;
+        public static final int margin_bouton=0x7f060000;
     }
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int notification=0x7f020002;
+        public static final int tableborder=0x7f020003;
     }
     public static final class id {
-        public static final int RelativeLayout1=0x7f080007;
-        public static final int buttonAnnuler=0x7f080006;
-        public static final int buttonInfos=0x7f080004;
-        public static final int buttonOK=0x7f080005;
-        public static final int buttonRetour=0x7f080009;
-        public static final int linearLayout1=0x7f080000;
-        public static final int linearLayout2=0x7f080003;
-        public static final int linearLayout3=0x7f080001;
-        public static final int menu_settings=0x7f08000a;
-        public static final int menu_settings2=0x7f08000b;
-        public static final int textView1=0x7f080002;
-        public static final int textView2=0x7f080008;
+        public static final int RelativeLayout1=0x7f0a001a;
+        public static final int buttonAnnuler=0x7f0a0006;
+        public static final int buttonInfos=0x7f0a0004;
+        public static final int buttonOK=0x7f0a0005;
+        public static final int buttonRetour=0x7f0a001c;
+        public static final int c1l1=0x7f0a000a;
+        public static final int c1l2=0x7f0a000e;
+        public static final int c1l3=0x7f0a0012;
+        public static final int c1l4=0x7f0a0016;
+        public static final int c2l1=0x7f0a000b;
+        public static final int c2l2=0x7f0a000f;
+        public static final int c2l3=0x7f0a0013;
+        public static final int c2l4=0x7f0a0017;
+        public static final int c3l1=0x7f0a000c;
+        public static final int c3l2=0x7f0a0010;
+        public static final int c3l3=0x7f0a0014;
+        public static final int c3l4=0x7f0a0018;
+        public static final int containerTable=0x7f0a0019;
+        public static final int fragment1=0x7f0a0007;
+        public static final int fragment2=0x7f0a0008;
+        public static final int linearLayout1=0x7f0a0000;
+        public static final int linearLayout2=0x7f0a0003;
+        public static final int linearLayout3=0x7f0a0001;
+        public static final int menu_param=0x7f0a001e;
+        public static final int menu_settings=0x7f0a001d;
+        public static final int tableRow1=0x7f0a0009;
+        public static final int tableRow2=0x7f0a000d;
+        public static final int tableRow3=0x7f0a0011;
+        public static final int tableRow4=0x7f0a0015;
+        public static final int textView1=0x7f0a0002;
+        public static final int textView2=0x7f0a001b;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int informations=0x7f030001;
-        public static final int parametres=0x7f030002;
+        public static final int fragment1=0x7f030001;
+        public static final int fragment2=0x7f030002;
+        public static final int fragment3=0x7f030003;
+        public static final int informations=0x7f030004;
+        public static final int parametres=0x7f030005;
     }
     public static final class menu {
-        public static final int activity_main=0x7f070000;
+        public static final int activity_main=0x7f090000;
     }
     public static final class string {
-        public static final int adresse=0x7f050005;
-        public static final int appName=0x7f050006;
-        public static final int app_name=0x7f050000;
-        public static final int buttonAnnuler=0x7f05000b;
-        public static final int buttonOK=0x7f05000a;
-        public static final int dev_start=0x7f050007;
-        public static final int hello_world=0x7f050001;
-        public static final int info=0x7f050008;
-        public static final int made_by=0x7f050004;
-        public static final int menu_settings=0x7f050002;
-        public static final int retour=0x7f050009;
-        public static final int title_activity_main=0x7f050003;
+        public static final int adresse=0x7f070005;
+        public static final int appName=0x7f070006;
+        public static final int app_name=0x7f070000;
+        public static final int buttonAnnuler=0x7f07000b;
+        public static final int buttonOK=0x7f07000a;
+        public static final int dev_start=0x7f070007;
+        public static final int fragment1_desc=0x7f07000d;
+        public static final int fragment2_desc=0x7f07000e;
+        public static final int fragment3_desc=0x7f07000f;
+        public static final int hello_world=0x7f070001;
+        public static final int info=0x7f070008;
+        public static final int made_by=0x7f070004;
+        public static final int menu_param=0x7f07000c;
+        public static final int menu_settings=0x7f070002;
+        public static final int retour=0x7f070009;
+        public static final int title_activity_main=0x7f070003;
     }
     public static final class style {
-        public static final int AppTheme=0x7f060000;
+        public static final int AppTheme=0x7f080000;
+        public static final int defaultTextView=0x7f080001;
+        public static final int frag1Col=0x7f080005;
+        public static final int frag1HeaderCol=0x7f080006;
+        public static final int frag1HeaderTableRow=0x7f080003;
+        public static final int frag1TableLayout=0x7f080002;
+        public static final int frag1TableRow=0x7f080004;
+        public static final int frag2Col=0x7f080009;
+        public static final int frag2ColImpair=0x7f08000b;
+        public static final int frag2ColImpair1=0x7f08000c;
+        public static final int frag2ColPair=0x7f08000d;
+        public static final int frag2ColPair1=0x7f08000e;
+        public static final int frag2HeaderCol=0x7f08000a;
+        public static final int frag2TableLayout=0x7f080007;
+        public static final int frag2TableRow=0x7f080008;
+        public static final int frag3HeaderCol=0x7f08000f;
     }
 }
