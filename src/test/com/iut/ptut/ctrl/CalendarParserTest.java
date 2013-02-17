@@ -9,6 +9,10 @@ import org.junit.Test;
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.ctrl.ParsingProblemException;
 
+/**
+ * Classe de test de la classe CalendarParser.
+ * @author Benoît Sauvère
+ */
 public class CalendarParserTest extends TestCase {
 	
 	/**

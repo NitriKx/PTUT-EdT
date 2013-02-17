@@ -12,6 +12,10 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
 
+/**
+ * Cette classe regroupe les méthodes permettant de parser les fichiers ICS de l'IUT.
+ * @author Benoît Sauvère
+ */
 public class CalendarParser {
 
 	private Calendar calendar;
