@@ -33,10 +33,9 @@ public class CalendarParserTest extends TestCase {
 	public void testResultatLectureSummaryCorrectTD() throws ParsingProblemException {
 		
 		final String summary = "DUT INFO/S4 CAA TD Groupe 3 -- LC";
-		CalendarParser parser = new CalendarParser();
 		
 		// On parse le summary
-		HashMap<String, String> resultat = parser.parseSummary(summary);
+		HashMap<String, String> resultat = CalendarParser.parseSummary(summary);
 		
 		assertEquals("DUT", resultat.get("formation"));
 		assertEquals("INFO", resultat.get("specialite"));
@@ -52,10 +51,9 @@ public class CalendarParserTest extends TestCase {
 	public void testResultatLectureSummaryCorrectTP() throws ParsingProblemException {
 		
 		final String summary = "DUT INFO/S4 NPC TP Groupe 3B -- IO";
-		CalendarParser parser = new CalendarParser();
 		
 		// On parse le summary
-		HashMap<String, String> resultat = parser.parseSummary(summary);
+		HashMap<String, String> resultat = CalendarParser.parseSummary(summary);
 		
 		assertEquals("DUT", resultat.get("formation"));
 		assertEquals("INFO", resultat.get("specialite"));

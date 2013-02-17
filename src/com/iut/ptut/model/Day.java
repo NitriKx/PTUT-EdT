@@ -10,6 +10,17 @@ public class Day {
 	private Date DateFin;
 	private Vector<Lesson> ListLesson;
 	
+	public Day() {
+		this(0, new Date(), new Date(), new Vector<Lesson>());
+	}
+	
+	public Day(int idDay, Date dateDebut, Date dateFin,Vector<Lesson> listLesson) {
+		this.idDay = idDay;
+		DateDebut = dateDebut;
+		DateFin = dateFin;
+		ListLesson = listLesson;
+	}
+	
 	public int getIdDay() {
 		return this.idDay;
 	}
@@ -55,18 +66,12 @@ public class Day {
 		
 	public String toString()
 	{
-		return("Jour  : "+this.idDay + " Date début :  "+this.DateDebut + " Date fin : " +this.DateDebut
-				);
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("id=[%s] dateDebut=[%s] dateFin=[%s] \n", this.idDay, this.DateDebut, this.DateFin));
+		for(Lesson cour : this.ListLesson) {
+			builder.append("\t\t" + cour + "\n");
+		}
+		return builder.toString();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
