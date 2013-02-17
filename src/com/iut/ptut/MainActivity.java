@@ -139,9 +139,6 @@ public class MainActivity extends Activity {
 	}
 
 
-	public void displayToday(View v){
-		setContentView(R.layout.activity_today2);
-	}
 	public void displayInfos (View v){
 
 
