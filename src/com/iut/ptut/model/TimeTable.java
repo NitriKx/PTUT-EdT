@@ -56,5 +56,10 @@ public class TimeTable {
 	public void removeAllDays() {
 		this.ListDay.removeAllElements();
 	}
+	
+	public String toString()
+	{
+		return("Emploi du temps : "+this.idTT+ " Date début :  "+this.dateDebut + " Date fin : " +this.dateDebut);
+	}
 
 }

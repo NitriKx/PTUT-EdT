@@ -2,6 +2,8 @@ package com.iut.ptut.model;
 
 import java.util.Date;
 
+import net.fortuna.ical4j.model.Calendar;
+
 public class Lesson {
 
 	private int idLesson;
@@ -10,6 +12,10 @@ public class Lesson {
 	private String emplacement;
 	private Date dateDebut;
 	private Date dateFin;
+	
+	public Lesson(Calendar cal) {
+		
+	}
 
 	public int getIdLesson() {
 		return this.idLesson;

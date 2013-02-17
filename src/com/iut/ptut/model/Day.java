@@ -61,7 +61,11 @@ public class Day {
 	
 	
 		
-	
+	public String toString()
+	{
+		return("Jour  : "+this.idDay + " Date début :  "+this.DateDebut + " Date fin : " +this.DateDebut
+				);
+	}
 	
 	
 	

@@ -31,7 +31,7 @@ public class CalendarParser {
 
 		    for (Iterator j = component.getProperties().iterator(); j.hasNext();) {
 		        Property property = (Property) j.next();
-		        System.out.println("Property [" + property.getName() + ", " + property.getValue() + "]");
+		        System.out.println("\tProperty [" + property.getName() + ", " + property.getValue() + "]");
 		    }
 		}
 	}
@@ -80,7 +80,7 @@ public class CalendarParser {
 	 * 	<li>intervenant</li>
 	 * </ul>
 	 */
-	public HashMap<String, String> parseSummary(String summaryFromICS) throws ParsingProblemException {
+	public static HashMap<String, String> parseSummary(String summaryFromICS) throws ParsingProblemException {
 		
 		HashMap<String, String> resultat = new HashMap<String, String>();
 		String[] split = summaryFromICS.split(" ");
