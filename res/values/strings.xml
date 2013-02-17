@@ -13,6 +13,8 @@
     <string name="buttonOK">OK</string>
     <string name="buttonAnnuler">Annuler</string>
     <string name="menu_param">paramètres</string>
-	
+	<string name="fragment1_desc">Dans ce premier exemple le tableau est directement créé dans le layout et la bordure est gérée avec un objet drawable</string>
+	<string name="fragment2_desc">Toujours une déclaration essentiellement dans les fichiers layout mais avec cette fois une définition plus fine des bordures</string>
+	<string name="fragment3_desc">Je suis le fragment 3</string>
 
 </resources>

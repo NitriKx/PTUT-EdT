@@ -19,6 +19,10 @@ public class Lesson {
 	private String emplacement;
 	private Date dateDebut;
 	private Date dateFin;
+	
+	public Lesson() {
+		
+	}
 
 	/**
 	 * Créer un objet Lesson à partir de son entrée dans le Calendar iCal4j

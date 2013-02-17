@@ -5,8 +5,6 @@ import java.util.Vector;
 
 public class Day {
 
-	
-	
 	private int idDay;
 	private Date DateDebut;
 	private Date DateFin;
@@ -54,11 +52,12 @@ public class Day {
 	{
 		this.ListLesson.removeAllElements();
 	}
-	
-	
-	
-	
 		
+	public String toString()
+	{
+		return("Jour  : "+this.idDay + " Date début :  "+this.DateDebut + " Date fin : " +this.DateDebut
+				);
+	}
 	
 	
 	

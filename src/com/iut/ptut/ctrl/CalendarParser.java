@@ -46,7 +46,7 @@ public class CalendarParser {
 	
 	public CalendarParser(String cheminFichierICS) {
 		try {
-			this.calendar = this.parseIntoICal4J(cheminFichierICS);
+			this.calendar = CalendarParser.parseIntoICal4J(cheminFichierICS);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

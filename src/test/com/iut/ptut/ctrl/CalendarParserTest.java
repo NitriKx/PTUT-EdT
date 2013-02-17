@@ -66,12 +66,11 @@ public class CalendarParserTest extends TestCase {
 	public void testLectureException() {
 		
 		final String summary = "DUT S4 NPC TP Groupe 3B -- IO";
-		CalendarParser parser = new CalendarParser();
 		boolean throwed = false;
 		
 		// On parse le summary
 		try {
-			parser.parseSummary(summary);
+			CalendarParser.parseSummary(summary);
 		} catch (ParsingProblemException e) {
 			throwed = true;
 		}
