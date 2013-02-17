@@ -12,8 +12,6 @@ public class Day {
 	private Date DateFin;
 	private Vector<Lesson> ListLesson;
 	
-	
-	
 	public int getIdDay() {
 		return this.idDay;
 	}

@@ -71,7 +71,7 @@ public class CalendarParserTest extends TestCase {
 		
 		// On parse le summary
 		try {
-			HashMap<String, String> resultat = parser.parseSummary(summary);
+			parser.parseSummary(summary);
 		} catch (ParsingProblemException e) {
 			throwed = true;
 		}
