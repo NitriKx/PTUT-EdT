@@ -29,12 +29,12 @@ public class TableJavaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	// Inflate the layout for this fragment
-	return inflater.inflate(R.layout.fragment3, container, false);
+	return inflater.inflate(R.layout.activity_tooday, container, false);
     }
 
-    public String getName() {
+    /*public String getName() {
 	return "Fragment 3";
-    }
+    }*/
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,7 +49,8 @@ public class TableJavaFragment extends Fragment {
 	// On affiche l'enreg dans une ligne
 	TableRow tableRow = new TableRow(getActivity());
 	containerTable.addView(tableRow, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-	containerTable.setBackgroundColor(getResources().getColor(R.color.grey));
+	// bordure
+	containerTable.setBackgroundColor(getResources().getColor(R.color.black));
 
 	// On crée une ligne de x players colonnes
 	tableRow.setLayoutParams(new LayoutParams(players.length));
@@ -60,6 +61,7 @@ public class TableJavaFragment extends Fragment {
 	    TextView text = createTextView(false , i == players.length - 1);
 	    text.setText(player);
 	    text.setGravity(Gravity.CENTER);
+	    text.setBackgroundColor(getResources().getColor(R.color.blue));
 	    tableRow.addView(text, i++);
 	}
 
@@ -68,24 +70,25 @@ public class TableJavaFragment extends Fragment {
 	    containerTable.addView(tableRow, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 	    i = 0;
 	    for (String player : players) {
-		TextView text = createTextView(j==9, i == players.length - 1);
-		text.setText("123");
-		tableRow.addView(text, i++);
-		text.setGravity(Gravity.RIGHT);
+			TextView text = createTextView(j==9, i == players.length - 1);
+			text.setText("123");
+			tableRow.addView(text, i++);
+			text.setGravity(Gravity.RIGHT);
 	    }
 	}
+	
 
     }
     
     private TextView createTextView(boolean endline, boolean endcolumn){
-	TextView text = new TextView(getActivity(), null, R.style.frag3HeaderCol);
-	int bottom = endline ? 1 : 0;
-	int right = endcolumn ? 1 :0;
-	LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.3f);
-	params.setMargins(1, 1, right, bottom);
-	text.setLayoutParams(params);
-	text.setPadding(4, 4, 10, 4);
-	text.setBackgroundColor(getResources().getColor(R.color.white));
-	return text;
+		TextView text = new TextView(getActivity(), null, R.style.frag3HeaderCol);
+		int bottom = endline ? 1 : 0;
+		int right = endcolumn ? 1 :0;
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 0.3f);
+		params.setMargins(1, 1, right, bottom);
+		text.setLayoutParams(params);
+		text.setPadding(4, 4, 10, 4);
+		text.setBackgroundColor(getResources().getColor(R.color.white));
+		return text;
     }
 }
