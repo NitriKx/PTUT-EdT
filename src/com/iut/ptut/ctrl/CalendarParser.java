@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
@@ -14,27 +15,58 @@ import net.fortuna.ical4j.model.Property;
 
 public class CalendarParser {
 
+	private Calendar calendar;
+	
+	private Logger _log = Logger.getLogger(this.getClass().getName());
+	
 	/**
 	 * @param args
 	 * @throws ParserException 
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, ParserException {
-		FileInputStream fin = new FileInputStream("S4_07.ics");
-		CalendarBuilder builder = new CalendarBuilder();
-		Calendar calendar = builder.build(fin);
-		
+		Calendar calendar = new CalendarParser().parseIntoICal4J("S4_07.ics");
 		for (Iterator i = calendar.getComponents().iterator(); i.hasNext();) {
 		    Component component = (Component) i.next();
 		    System.out.println("Component [" + component.getName() + "]");
 
 		    for (Iterator j = component.getProperties().iterator(); j.hasNext();) {
 		        Property property = (Property) j.next();
-		        System.out.println("\tProperty [" + property.getName() + ", " + property.getValue() + "]");
+		        System.out.println("Property [" + property.getName() + ", " + property.getValue() + "]");
 		    }
 		}
 	}
 	
+	public CalendarParser() {
+		this.calendar = null;
+	}
+	
+	public CalendarParser(String cheminFichierICS) {
+		try {
+			this.calendar = this.parseIntoICal4J(cheminFichierICS);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Parse un fichier ICS en un objet de type Calendar de le librairie iCal4J
+	 * @param cheminFichierICS Le chemin vers le ficheir ICS
+	 * @return Un objet de type net.fortuna.ical4j.model.Calendar
+	 * @throws IOException
+	 * @throws ParserException
+	 */
+	public Calendar parseIntoICal4J(String cheminFichierICS) throws IOException, ParserException {
+		// On ouvre un flux de lecture sur le fichier : 
+		FileInputStream fin = new FileInputStream(cheminFichierICS);
+		// On le fait parser par iCal4J
+		CalendarBuilder builder = new CalendarBuilder();
+		Calendar result = builder.build(fin);
+		// On ferme le flux
+		fin.close();
+		return result;
+	}
+
 	/**
 	 * Lit le contenu du summary pour en recupérer les informations.
 	 * @param summaryFromICS le contenu d'une ligne de fichier ICS<br/> Format : "formation specialite/semestre matiere type groupe -- intervenant"
