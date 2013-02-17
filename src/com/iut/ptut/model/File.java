@@ -1,4 +1,4 @@
-package com.iut.ptut.model.fetcher;
+package com.iut.ptut.model;
 
 import java.util.Date;
 
