@@ -7,5 +7,11 @@
 		<item>Calendar</item>
 		<item>Browser</item>
 	</string-array>
+	
+	<string-array name="day">
+		<item>Heure</item>
+		<item>Matiere</item>
+		<item>Salle</item>
+	</string-array>
 
 </resources>
