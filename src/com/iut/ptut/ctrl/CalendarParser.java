@@ -36,13 +36,24 @@ public class CalendarParser {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, ParserException {
-		Calendar calendar = CalendarParser.convertirICSEnICal4J("S4_08.ics");
-//		CalendarParser.convertirCalendarEnTimeTable(calendar, "2B");
-		System.out.println(CalendarParser.convertirCalendarEnTimeTable(calendar, "2B"));
+		System.out.println(CalendarParser.getTimeTableDepuisFichierICS("S4_08.ics", "2B"));
 	}
 	
 	private CalendarParser() {
 	}
+	
+	/**
+	 * Créer un objet TimeTable pour le groupe donné avec les informations contenues dans le fichier ICS.
+	 * @param cheminFichierICS Le chemin vers le fichier ICS.
+	 * @param groupe Le groupe . Peut-être de la forme : "3", "3B", "A" (cours communs) ou "" (tout les cours de tout le monde).
+	 * @return Une objet TimeTable remplis
+	 * @throws ParserException 
+	 * @throws IOException 
+	 */
+	public static TimeTable getTimeTableDepuisFichierICS(String cheminFichierICS, String groupe) throws IOException, ParserException {
+		return CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(cheminFichierICS), groupe);
+	}
+	
 	
 	/**
 	 * Convertit un Calendar de type "iCal4j" en TimeTable de notre application.
