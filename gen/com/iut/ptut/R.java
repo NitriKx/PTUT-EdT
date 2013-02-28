@@ -9,6 +9,7 @@ package com.iut.ptut;
 
 public final class R {
     public static final class array {
+        public static final int day=0x7f040001;
         public static final int locations=0x7f040000;
     }
     public static final class attr {
@@ -29,43 +30,41 @@ public final class R {
         public static final int tableborder=0x7f020003;
     }
     public static final class id {
-        public static final int RelativeLayout1=0x7f0a001a;
-        public static final int buttonAnnuler=0x7f0a0006;
-        public static final int buttonInfos=0x7f0a0004;
-        public static final int buttonOK=0x7f0a0005;
-        public static final int buttonRetour=0x7f0a001c;
+        public static final int RelativeLayout1=0x7f0a0017;
+        public static final int buttonAnnuler=0x7f0a0005;
+        public static final int buttonInfos=0x7f0a0003;
+        public static final int buttonOK=0x7f0a0004;
+        public static final int buttonRetour=0x7f0a001a;
         public static final int c1l1=0x7f0a000a;
-        public static final int c1l2=0x7f0a000e;
-        public static final int c1l3=0x7f0a0012;
-        public static final int c1l4=0x7f0a0016;
+        public static final int c1l2=0x7f0a000d;
+        public static final int c1l3=0x7f0a0010;
+        public static final int c1l4=0x7f0a0013;
+        public static final int c1l5=0x7f0a0016;
         public static final int c2l1=0x7f0a000b;
-        public static final int c2l2=0x7f0a000f;
-        public static final int c2l3=0x7f0a0013;
-        public static final int c2l4=0x7f0a0017;
-        public static final int c3l1=0x7f0a000c;
-        public static final int c3l2=0x7f0a0010;
-        public static final int c3l3=0x7f0a0014;
-        public static final int c3l4=0x7f0a0018;
-        public static final int containerTable=0x7f0a0019;
+        public static final int c2l2=0x7f0a000e;
+        public static final int c2l3=0x7f0a0011;
+        public static final int c2l4=0x7f0a0014;
+        public static final int containerTable=0x7f0a0006;
         public static final int fragment1=0x7f0a0007;
         public static final int fragment2=0x7f0a0008;
+        public static final int fragmentContainer=0x7f0a0001;
         public static final int linearLayout1=0x7f0a0000;
-        public static final int linearLayout2=0x7f0a0003;
-        public static final int linearLayout3=0x7f0a0001;
-        public static final int menu_param=0x7f0a001e;
-        public static final int menu_settings=0x7f0a001d;
+        public static final int linearLayout2=0x7f0a0002;
+        public static final int menu_param=0x7f0a001c;
+        public static final int menu_settings=0x7f0a001b;
         public static final int tableRow1=0x7f0a0009;
-        public static final int tableRow2=0x7f0a000d;
-        public static final int tableRow3=0x7f0a0011;
-        public static final int tableRow4=0x7f0a0015;
-        public static final int textView1=0x7f0a0002;
-        public static final int textView2=0x7f0a001b;
+        public static final int tableRow2=0x7f0a000c;
+        public static final int tableRow3=0x7f0a000f;
+        public static final int tableRow4=0x7f0a0012;
+        public static final int tableRow5=0x7f0a0015;
+        public static final int textView1=0x7f0a0018;
+        public static final int textView2=0x7f0a0019;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment1=0x7f030001;
-        public static final int fragment2=0x7f030002;
-        public static final int fragment3=0x7f030003;
+        public static final int activity_tooday=0x7f030001;
+        public static final int fragment1=0x7f030002;
+        public static final int fragment2=0x7f030003;
         public static final int informations=0x7f030004;
         public static final int parametres=0x7f030005;
     }

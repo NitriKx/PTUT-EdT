@@ -12,25 +12,14 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
     </LinearLayout>
+    <LinearLayout 
+	    android:id="@+id/fragmentContainer"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" 
+		android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="95dp"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/adresse"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
+
     
     
     <LinearLayout
@@ -57,7 +46,6 @@
             android:id="@+id/buttonOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="fragment2"
             android:text="@string/buttonOK" />
 
         <Button

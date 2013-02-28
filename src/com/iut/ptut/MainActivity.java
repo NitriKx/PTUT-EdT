@@ -209,6 +209,7 @@ public class MainActivity extends Activity implements TabListener {
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
 		/*if(tab.getText().equals(TabTooday.getName()))
 			ft.replace(R.id.fragmentContainer, TabTooday);
 		else if (tab.getText().equals(TabMsg.getName())) 
