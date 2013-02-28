@@ -19,25 +19,24 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.iut.ptut.view.ActivityNotification;
+import com.iut.ptut.view.TableJavaFragment;
 import com.iut.ptut.view.TableLayoutFragment;
 
 public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
-	
-	public static Context context = null; 
-	
-	
+
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
 	
 	
-	private TableLayoutFragment frag1 = new TableLayoutFragment("Aujourd'hui", 1);
-	private TableLayoutFragment frag2 = new TableLayoutFragment("Semaine", 2);
-	private TableLayoutFragment frag3 = new TableLayoutFragment("Messages",3);
-	
+	private TableLayoutFragment TabTooday = new TableLayoutFragment("Aujourd'hui", 2);
+	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
+	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages",3);
+	private TableJavaFragment TabDebug = new TableJavaFragment();
+	private String debug= new String("debug");
 	/*
 	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un
 	 * bouton, pour cela 1) creer le bouton 2)dans le code xml, rajouter la
@@ -51,28 +50,21 @@ public class MainActivity extends Activity implements TabListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		// On stocke le contexte pour pouvoir accéder aux ressources
-		MainActivity.context = this.getApplicationContext();
-		
 		setContentView(R.layout.activity_main);
 		/*
 		 * permet de mettre en place l'actionBar
 		 * cf : http://developer.android.com/guide/topics/ui/actionbar.html
 		 */
-		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		getActionBar().addTab(getActionBar().newTab().setText(frag1.getName()).setTabListener(this));
-		getActionBar().addTab(getActionBar().newTab().setText(frag2.getName()).setTabListener(this));
-		getActionBar().addTab(getActionBar().newTab().setText(frag3.getName()).setTabListener(this));
-
+		this.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabTooday.getName()).setTabListener(this));
+		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabWeek.getName()).setTabListener(this));
+		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabMsg.getName()).setTabListener(this));
+		this.getActionBar().addTab(getActionBar().newTab().setText(this.debug).setTabListener(this));
 		
-		getActionBar().setDisplayShowTitleEnabled(false);
-		getActionBar().setDisplayShowHomeEnabled(false);
-	}
-	
-	
-	
-	
+		this.getActionBar().setDisplayShowTitleEnabled(false);
+		this.getActionBar().setDisplayShowHomeEnabled(false);
+		
+	}	
 	
 	
 
@@ -103,12 +95,6 @@ public class MainActivity extends Activity implements TabListener {
 		return false;
 	}
 
-	
-	
-	
-	public void fragment2(View v){
-		setContentView(R.layout.fragment2);
-	}
 	
 	//
 	// NOTIF
@@ -208,36 +194,35 @@ public class MainActivity extends Activity implements TabListener {
 	}
 
 
-
-
-
-
-
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+	public void onTabReselected(Tab tab, FragmentTransaction arg1) {
 		// TODO Auto-generated method stub
-		
+		//Toast.makeText(this, tab.getText() + " unselected", Toast.LENGTH_SHORT).show();
 	}
-
-
-
-
-
 
 
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
+		/*if(tab.getText().equals(TabTooday.getName()))
+			ft.replace(R.id.fragmentContainer, TabTooday);
+		else if (tab.getText().equals(TabMsg.getName())) 
+			ft.replace(R.id.fragmentContainer, TabMsg);
+		else if (tab.getText().equals(this.debug)) {
+			ft.replace(R.id.fragmentContainer, TabDebug);
+		}*/
 	}
-
-
-
-
-
-
 
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
+		if(tab.getText().equals(TabTooday.getName()))
+			ft.remove(TabTooday);
+		else if (tab.getText().equals(TabMsg.getName())) 
+			ft.remove(TabMsg);
+	
 	}
-
 }
+	
+	
+	
+
