@@ -25,7 +25,10 @@ public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
-
+	
+	public static Context context = null; 
+	
+	
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
@@ -48,6 +51,10 @@ public class MainActivity extends Activity implements TabListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// On stocke le contexte pour pouvoir accéder aux ressources
+		MainActivity.context = this.getApplicationContext();
+		
 		setContentView(R.layout.activity_main);
 		/*
 		 * permet de mettre en place l'actionBar
