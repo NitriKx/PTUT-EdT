@@ -1,6 +1,9 @@
 package test.com.iut.ptut.ctrl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -8,6 +11,7 @@ import org.junit.Test;
 
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.ctrl.ParsingProblemException;
+import com.iut.ptut.model.Lesson;
 
 /**
  * Classe de test de la classe CalendarParser.
@@ -78,6 +82,48 @@ public class CalendarParserTest extends TestCase {
 		}
 		
 		assertTrue(throwed);
+	}
+	
+	@Test
+	public void testFiltrageLessons() {
+		
+		List<Lesson> listeDonnees = new ArrayList<Lesson>();
+		
+		Lesson cour = new Lesson();
+		// On met la date courrante
+		cour.setDateDebut(new Date());
+		cour.setDateFin(new Date());
+		cour.setEmplacement("");
+		cour.setIdLesson(0);
+		cour.setLibelle("Test");
+		cour.setIntervenant("");
+		
+		cour.setNumeroGroupe("3");
+		cour.setSousGroupe("B");
+		listeDonnees.add(new Lesson(cour)); // Good
+		listeDonnees.add(new Lesson(cour)); // Good
+		listeDonnees.add(new Lesson(cour)); // Good
+
+		cour.setNumeroGroupe("3");
+		cour.setSousGroupe("A");
+		listeDonnees.add(new Lesson(cour)); // Bad
+		
+		cour.setNumeroGroupe("4");
+		cour.setSousGroupe("B");
+		listeDonnees.add(new Lesson(cour)); // Bad
+		
+		cour.setNumeroGroupe("A");
+		cour.setSousGroupe("");
+		listeDonnees.add(new Lesson(cour)); // Good
+		
+		cour.setNumeroGroupe("A");
+		cour.setSousGroupe("B");
+		listeDonnees.add(new Lesson(cour)); // Good
+		
+		List<Lesson> resultat = CalendarParser.filterCoursGroupeDonne(listeDonnees, "3B");
+		
+		assertEquals(5, resultat.size());
+		
 	}
 	
 }
