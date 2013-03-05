@@ -2,14 +2,13 @@ package com.iut.ptut.view;
 
 import java.io.Serializable;
 
-import com.iut.ptut.MainActivity;
-import com.iut.ptut.R;
-import com.iut.ptut.R.layout;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.iut.ptut.MainActivity;
+import com.iut.ptut.R;
  
 public class ActivityNotification extends Activity implements Serializable{
 	/**
