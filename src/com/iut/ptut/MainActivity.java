@@ -1,6 +1,7 @@
 package com.iut.ptut;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -34,7 +35,8 @@ public class MainActivity extends Activity implements TabListener {
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
-	WeekActivity wAct;
+	WeekActivity wAct ;
+	Calendar c = Calendar.getInstance();
 	
 	private TableLayoutFragment TabTooday = new TableLayoutFragment("Aujourd'hui", 2);
 	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
@@ -55,7 +57,7 @@ public class MainActivity extends Activity implements TabListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		//wAct.getWeekActivity();
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 		
@@ -86,6 +88,11 @@ public class MainActivity extends Activity implements TabListener {
 		getActionBar().setDisplayShowHomeEnabled(false);
 	}
 	
+	private WeekActivity WeekActivity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	protected class ActionBarTabsListener implements ActionBar.TabListener {
 
 	    private Fragment fragment;
@@ -111,8 +118,16 @@ public class MainActivity extends Activity implements TabListener {
 		        setContentView(R.layout.activity_main);
 	    	
 	    	if (getActionBar().getSelectedTab().getText()== "Semaine"){
+	    		System.out.println("dafuq");
+	    		String s =c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
 	    		
-	    		setContentView(R.layout.activity_week);}
+	    	//	setContentView(R.layout.activity_week);
+	    	//	Button b1 = (Button)findViewById(R.id.week_b1);
+	    	//	b1.setText(s);
+	    		// intent pour appeler l'autre activity
+	    		Intent intent = new Intent(MainActivity.this, WeekActivity.class);
+	    		startActivity(intent);
+	    	}
 	        i=0;
 	    }
 
@@ -123,7 +138,11 @@ public class MainActivity extends Activity implements TabListener {
 
 	}
 	
-	
+	public void launchWeek(){
+		System.out.println("voilou");
+		//setContentView(R.layout.activity_week);
+		//wAct.getSemaine();
+	}
 	
 
 	@Override
