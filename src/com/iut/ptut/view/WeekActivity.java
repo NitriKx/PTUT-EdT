@@ -2,8 +2,8 @@ package com.iut.ptut.view;
 
 
 import java.util.Calendar;
+import java.util.Date;
 
-import android.R.string;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -13,6 +13,7 @@ import com.iut.ptut.R;
 public class WeekActivity extends Activity{
 	
 	Calendar cal;
+	Date d;
 	private Button b1;
 	private Button b2;
 	private Button b3;
@@ -26,6 +27,8 @@ public class WeekActivity extends Activity{
 		setContentView(R.layout.activity_week);
 		
 		cal = Calendar.getInstance();
+		d= new Date();
+		d= cal.getTime();
 		b1 = (Button)findViewById(R.id.week_b1);
 		b2 = (Button)findViewById(R.id.week_b2);
 		b3 = (Button)findViewById(R.id.week_b3);
@@ -63,8 +66,19 @@ public class WeekActivity extends Activity{
      }
      
      
-     public int getFirstDayOfWeek (){
-		return 1;
+     public int getFirstMondayOfMonth (){
+    	 int act= Calendar.DATE, day= Calendar.DAY_OF_MONTH,bla=Calendar.DAY_OF_WEEK;
+    	 
+    	 for( act = Calendar.DAY_OF_MONTH ; act > 7 ;act--){
+    		 bla=Calendar.DAY_OF_WEEK;
+    		 day --;
+    	 }
+    	 
+    	 for (int j = bla; j!=1;j--){
+    		 day --;
+    	 }
+    	 
+		return day;
     	 
      }
      
@@ -91,13 +105,23 @@ public class WeekActivity extends Activity{
 	
 	public void getSemaine(){
 		
-		b1.setText(getJour(getFirstDayOfWeek() )+" " + cal.DAY_OF_MONTH + " " + getMois(cal.MONTH));
-		b2.setText("2");
-		b3.setText("");
-		b4.setText("");
-		b5.setText("");
+		String lun = getJour(5-cal.get(Calendar.DAY_OF_WEEK)) + " " + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)-cal.get(Calendar.DAY_OF_WEEK) )  +" " + getMois(cal.get(Calendar.MONTH));
+		String mar = getJour(6-cal.get(Calendar.DAY_OF_WEEK)) + " " + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)-cal.get(Calendar.DAY_OF_WEEK)+1) +" " + getMois(cal.get(Calendar.MONTH));
+		String mer = getJour(7-cal.get(Calendar.DAY_OF_WEEK)) + " " + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)-cal.get(Calendar.DAY_OF_WEEK)+2) +" " + getMois(cal.get(Calendar.MONTH));
+		String jeu = getJour(8-cal.get(Calendar.DAY_OF_WEEK)) + " " + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)-cal.get(Calendar.DAY_OF_WEEK)+3) +" " + getMois(cal.get(Calendar.MONTH));
+		String ven = getJour(9-cal.get(Calendar.DAY_OF_WEEK)) + " " + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)-cal.get(Calendar.DAY_OF_WEEK)+4) +" " + getMois(cal.get(Calendar.MONTH));
+		System.out.println(cal.get(Calendar.DAY_OF_MONTH)+"/"+cal.get(Calendar.MONTH));
+		
+		
+		;
+		b1.setText(lun);
+		b2.setText(mar);
+		b3.setText(mer);
+		b4.setText(jeu);
+		b5.setText(ven);
 		
 	}
+	
 	
 	public String getJour(int idJour){
 		switch(idJour){
