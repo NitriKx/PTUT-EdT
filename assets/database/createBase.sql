@@ -1,17 +1,17 @@
 CREATE TABLE timetable 
 (
 		idTT				int NOT NULL AUTO_INCREMENT,
-	 	dateDebut			date,
-	 	dateFin				date,
+	 	dateDebut			DATETIME,
+	 	dateFin				DATETIME,
 		CONSTRAINT PRIMARY KEY(idTT)
 ) ENGINE=InnoDB;
 
 CREATE TABLE lesson 
 (
 		idLesson			int NOT NULL AUTO_INCREMENT,
-		libelle				varhar(30),
-	 	dateDebut			date,
-	 	dateFin				date,
+		libelle				varchar(30),
+	 	dateDebut			DATETIME,
+	 	dateFin				DATETIME,
 		intervenant			varchar(30),
 		emplacement			varchar(30),
 		idTT				int NOT NULL,
@@ -23,6 +23,6 @@ CREATE TABLE message
 (
 		idMessage			int NOT NULL AUTO_INCREMENT,
 	 	libelle				varchar(100),
-	 	dateMessage			date,
+	 	dateMessage			DATETIME ,
 		CONSTRAINT PRIMARY KEY(idMessage)
 ) ENGINE=InnoDB;
