@@ -1,11 +1,13 @@
 package com.iut.ptut;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,11 +18,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.iut.ptut.view.ActivityNotification;
-import com.iut.ptut.view.TableJavaFragment;
 import com.iut.ptut.view.TableLayoutFragment;
+import com.iut.ptut.view.WeekActivity;
 
 public class MainActivity extends Activity implements TabListener {
 
@@ -32,13 +35,14 @@ public class MainActivity extends Activity implements TabListener {
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
-	
+	WeekActivity wAct ;
+	Calendar c = Calendar.getInstance();
 	
 	private TableLayoutFragment TabTooday = new TableLayoutFragment("Aujourd'hui", 2);
 	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
 	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages",3);
-	private TableJavaFragment TabDebug = new TableJavaFragment();
-	private String debug= new String("debug");
+	//private TableJavaFragment TabDebug = new TableJavaFragment();
+	//private String debug= new String("debug");
 	/*
 	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un
 	 * bouton, pour cela 1) creer le bouton 2)dans le code xml, rajouter la
@@ -53,30 +57,97 @@ public class MainActivity extends Activity implements TabListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		//wAct.getWeekActivity();
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 		
-		/*
-		 * permet de mettre en place l'actionBar
-		 * cf : http://developer.android.com/guide/topics/ui/actionbar.html
-		 */
-		this.getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabTooday.getName()).setTabListener(this));
-		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabWeek.getName()).setTabListener(this));
-		this.getActionBar().addTab(getActionBar().newTab().setText(this.TabMsg.getName()).setTabListener(this));
-		this.getActionBar().addTab(getActionBar().newTab().setText(this.debug).setTabListener(this));
+			ActionBar actionbar = getActionBar();
+		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
-		this.getActionBar().setDisplayShowTitleEnabled(false);
-		this.getActionBar().setDisplayShowHomeEnabled(false);
+		//definition des tabs et de leurs texte
+		 ActionBar.Tab tabToday = actionbar.newTab().setText("Aujourd'hui");
+		 ActionBar.Tab tabSemaine = actionbar.newTab().setText("Semaine");
+		 ActionBar.Tab tabMessage = actionbar.newTab().setText("Messages");
 		
-	}	
+		 //definition des fragments qui seronts associés 
+		 // http://developer.android.com/guide/components/fragments.html
+		 Fragment fragToday = new Fragment();
+		 Fragment fragSemaine = new Fragment();
+		 Fragment fragMessage = new Fragment();
+		 
+		 
+		 tabToday.setTabListener(new ActionBarTabsListener(fragToday));
+		 tabSemaine.setTabListener(new ActionBarTabsListener(fragSemaine));
+		 tabMessage.setTabListener(new ActionBarTabsListener(fragMessage));
+		 
+		 actionbar.addTab(tabToday);
+		 actionbar.addTab(tabSemaine);
+		 actionbar.addTab(tabMessage);
+		 
+		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+	}
 	
+	private WeekActivity WeekActivity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected class ActionBarTabsListener implements ActionBar.TabListener {
+
+	    private Fragment fragment;
+	    int i=0;
+	    public ActionBarTabsListener(Fragment fragment) {
+	        this.fragment = fragment;
+	    }
+
+	    public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	        // TODO Auto-generated method stub
+	    	i++;
+	    	if (i>=7){
+	    		Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ",
+						Toast.LENGTH_SHORT).show();
+	    	}
+	    }
+
+	    public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	    	if (getActionBar().getSelectedTab().getText()== "Messages")
+	        setContentView(R.layout.informations);
+	    	
+	    	if (getActionBar().getSelectedTab().getText()== "Aujourd'hui")
+		        setContentView(R.layout.activity_main);
+	    	
+	    	if (getActionBar().getSelectedTab().getText()== "Semaine"){
+	    		System.out.println("dafuq");
+	    		String s =c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
+	    		
+	    	//	setContentView(R.layout.activity_week);
+	    	//	Button b1 = (Button)findViewById(R.id.week_b1);
+	    	//	b1.setText(s);
+	    		// intent pour appeler l'autre activity
+	    		Intent intent = new Intent(MainActivity.this, WeekActivity.class);
+	    		startActivity(intent);
+	    	}
+	        i=0;
+	    }
+
+	    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	        // TODO Auto-generated method stub
+
+	    }
+
+	}
+	
+	public void launchWeek(){
+		System.out.println("voilou");
+		//setContentView(R.layout.activity_week);
+		//wAct.getSemaine();
+	}
 	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		//getMenuInflater().inflate(R.menu.activity_list_item, menu);
 		// possibilité d'ajouter des items au menu avec la méthode menu.add(
 		// String pS);
 
@@ -91,6 +162,7 @@ public class MainActivity extends Activity implements TabListener {
 	 * méthode appelée si on clique sur une option du menu
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
+		/**
 		// juste un test pour afficher une vue en cliquant
 		if (item.getItemId() == R.id.menu_settings)
 			setContentView(R.layout.informations);
@@ -99,6 +171,8 @@ public class MainActivity extends Activity implements TabListener {
 		// On regarde quel item a été cliqué grâce à son id et on déclenche une
 		// action
 		return false;
+		*/
+		return true;
 	}
 
 	
@@ -191,7 +265,7 @@ public class MainActivity extends Activity implements TabListener {
 			System.out.println("sa marche pas la : " + e.getMessage());
 		}
 
-		setContentView(R.layout.informations);
+		setContentView(R.layout.activity_main);
 
 	}
 
