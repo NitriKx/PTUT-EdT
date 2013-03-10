@@ -1,12 +1,13 @@
 package com.iut.ptut.model;
 
 public class Groups {
-	
+
 	private String idGroup;
-	
-	public Groups()
-	{
-		
+	private int annee;
+
+	public Groups(String idGroupe, int annee) {
+		this.setIdGroup(idGroupe);
+		this.setAnnee(annee);
 	}
 
 	public String getIdGroup() {
@@ -16,12 +17,22 @@ public class Groups {
 	public void setIdGroup(String pIdGroup) {
 		this.idGroup = pIdGroup;
 	}
-	
-	public String toString()
-	{
-		return("id Groupe : "+this.idGroup);
+
+	public int getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(int annee) {
+		this.annee = annee;
 	}
 	
+	//
+	// TO STRING
+	// 
 	
+	public String toString() {
+		return "id Groupe : " + this.idGroup + " Année : " + this.annee.getIdYear();
+	}
 
+	
 }

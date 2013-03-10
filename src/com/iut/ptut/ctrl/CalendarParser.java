@@ -218,7 +218,7 @@ public class CalendarParser {
 	public static List<Lesson> filterCoursGroupeDonne(List<Lesson> lessons, String groupeTP) {
 		
 		if(groupeTP.length() > 2) {
-			throw new InvalidParameterException("Le paramètre groupeTP n'est pas correctement renseigné. Il doit ressembler à par exemple à 3 ou 3B.");
+			throw new InvalidParameterException("Le paramètre groupe TP n'est pas correctement renseigné. Il doit ressembler à par exemple à 3 ou 3B.");
 		}
 		
 		List<Lesson> resultat = new ArrayList<Lesson>();
