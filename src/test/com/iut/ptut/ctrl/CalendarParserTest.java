@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.ctrl.ParsingProblemException;
+import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 
 /**
@@ -98,29 +99,26 @@ public class CalendarParserTest extends TestCase {
 		cour.setLibelle("Test");
 		cour.setIntervenant("");
 		
-		cour.setNumeroGroupe("3");
-		cour.setSousGroupe("B");
+		cour.setGroupe(new Group("3B", 4, 2012));
 		listeDonnees.add(new Lesson(cour)); // Good
 		listeDonnees.add(new Lesson(cour)); // Good
 		listeDonnees.add(new Lesson(cour)); // Good
 
-		cour.setNumeroGroupe("3");
-		cour.setSousGroupe("A");
+		cour.setGroupe(new Group("3A", 4, 2012));
+
 		listeDonnees.add(new Lesson(cour)); // Bad
 		
-		cour.setNumeroGroupe("4");
-		cour.setSousGroupe("B");
+		cour.setGroupe(new Group("4B", 4, 2012));
+
 		listeDonnees.add(new Lesson(cour)); // Bad
 		
-		cour.setNumeroGroupe("A");
-		cour.setSousGroupe("");
+		cour.setGroupe(new Group("A", 4, 2012));
 		listeDonnees.add(new Lesson(cour)); // Good
 		
-		cour.setNumeroGroupe("A");
-		cour.setSousGroupe("B");
+		cour.setGroupe(new Group("AB", 4, 2012));
 		listeDonnees.add(new Lesson(cour)); // Good
 		
-		List<Lesson> resultat = CalendarParser.filterCoursGroupeDonne(listeDonnees, "3B");
+		List<Lesson> resultat = CalendarParser.filterCoursGroupeDonne(listeDonnees, new Group("3B", 4, 2012));
 		
 		assertEquals(5, resultat.size());
 		

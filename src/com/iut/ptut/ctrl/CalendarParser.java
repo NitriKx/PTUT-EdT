@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 
 import com.iut.ptut.model.Day;
+import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
 
@@ -36,7 +38,7 @@ public class CalendarParser {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException, ParserException {
-		System.out.println(CalendarParser.getTimeTableDepuisFichierICS("S4_08.ics", "2B"));
+		System.out.println(CalendarParser.getTimeTableDepuisFichierICS("S4_08.ics", new Group("3B", 4, 2012) ));
 	}
 	
 	private CalendarParser() {
@@ -45,12 +47,12 @@ public class CalendarParser {
 	/**
 	 * Créer un objet TimeTable pour le groupe donné avec les informations contenues dans le fichier ICS.
 	 * @param cheminFichierICS Le chemin vers le fichier ICS.
-	 * @param groupe Le groupe . Peut-être de la forme : "3", "3B", "A" (cours communs) ou "" (tout les cours de tout le monde).
+	 * @param groupe Un objet Group
 	 * @return Une objet TimeTable remplis
 	 * @throws ParserException 
 	 * @throws IOException 
 	 */
-	public static TimeTable getTimeTableDepuisFichierICS(String cheminFichierICS, String groupe) throws IOException, ParserException {
+	public static TimeTable getTimeTableDepuisFichierICS(String cheminFichierICS, Group groupe) throws IOException, ParserException {
 		return CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(cheminFichierICS), groupe);
 	}
 	
@@ -62,7 +64,7 @@ public class CalendarParser {
 	 * @return Un TimeTable avec toute les données du calendar, pour tout les groupes.
 	 */
 	public static TimeTable convertirCalendarEnTimeTable(Calendar cal) {
-		return CalendarParser.convertirCalendarEnTimeTable(cal, "");
+		return CalendarParser.convertirCalendarEnTimeTable(cal, new Group());
 	}
 	
 	/**
@@ -74,7 +76,7 @@ public class CalendarParser {
 	 * @return Un TimeTable avec les données du calendar
 	 */
 	@SuppressWarnings("rawtypes")
-	public static TimeTable convertirCalendarEnTimeTable(Calendar cal, String groupe) {
+	public static TimeTable convertirCalendarEnTimeTable(Calendar cal, Group groupe) {
 		
 		TimeTable tt = new TimeTable();
 		// Une map associant le timestamp du début du jour à l'objet du jour correspondant
@@ -194,7 +196,7 @@ public class CalendarParser {
 			// SPECIAL - On sépare la spécialité du semestre (un /)
 			String[] splitPartie2 = split[1].split("/");
 			if(splitPartie2.length != 2) {
-				throw new ParsingProblemException("Le deuxième bloc du summary est malformé.");
+				throw new ParsingProblemException("Le deuxième bloc du summary est malformé. Summary=[" + summaryFromICS+"]");
 			}
 			resultat.put("specialite", splitPartie2[0]);
 			resultat.put("semestre", splitPartie2[1]);
@@ -209,15 +211,39 @@ public class CalendarParser {
 		return resultat;
 	}
 	
+	public static int getAnneeScolairePourDate(Date date) {
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		java.util.Calendar calJuillet = java.util.Calendar.getInstance();
+
+		cal.setTime(date);
+		
+		// On créer un calendrier au 1er juillet
+		calJuillet.setTime(date);
+		calJuillet.set(java.util.Calendar.MONTH, java.util.Calendar.JULY);
+		calJuillet.set(java.util.Calendar.DAY_OF_MONTH, 1);
+		calJuillet.set(java.util.Calendar.HOUR, 0);
+		calJuillet.set(java.util.Calendar.MINUTE, 0);
+		calJuillet.set(java.util.Calendar.SECOND, 0);
+		calJuillet.set(java.util.Calendar.MILLISECOND, 0);
+
+		// Si la date est avant Juillet on considère que c'est l'année scolaire suivante
+		if(cal.before(calJuillet)) {
+			return cal.get(java.util.Calendar.YEAR)-1;
+		} 
+		
+		// Sinon on est à la bonne année
+		return cal.get(java.util.Calendar.YEAR);
+	}
+	
 	/**
 	 * Filtre une liste de Lesson pour en extraire les cours d'un groupe de TP
 	 * @param lessons La liste de lessons à filtrer
 	 * @param groupeTP Le groupe de TP. Le numéro de sous groupe peut-être omis. Le groupe "A" désigne seulement les cours communs à tous.
 	 * @return La liste des cours filtrés.
 	 */
-	public static List<Lesson> filterCoursGroupeDonne(List<Lesson> lessons, String groupeTP) {
+	public static List<Lesson> filterCoursGroupeDonne(List<Lesson> lessons, Group groupe) {
 		
-		if(groupeTP.length() > 2) {
+		if(groupe.getGroupe().length() > 2) {
 			throw new InvalidParameterException("Le paramètre groupe TP n'est pas correctement renseigné. Il doit ressembler à par exemple à 3 ou 3B.");
 		}
 		
@@ -225,7 +251,7 @@ public class CalendarParser {
 		
 		for(Lesson lesson : lessons) {
 			// Si le cours est pour le groupe de TD/TP ou pour tout le monde (Amphi...)
-			if(lesson.estDansLeGroupe(groupeTP))
+			if(lesson.estDansLeGroupe(groupe))
 				resultat.add(new Lesson(lesson));
 		}
 		

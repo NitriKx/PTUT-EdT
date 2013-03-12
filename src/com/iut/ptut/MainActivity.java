@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
 import com.iut.ptut.view.TableLayoutFragment;
 import com.iut.ptut.view.WeekActivity;
@@ -56,10 +57,13 @@ public class MainActivity extends Activity implements TabListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		//wAct.getWeekActivity();
+		
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
+		
+		setContentView(R.layout.activity_main);
+		//wAct.getWeekActivity();
+		
 		
 			ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

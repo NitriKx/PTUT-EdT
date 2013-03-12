@@ -39,6 +39,7 @@ public class DatabaseCreator extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		_log.log(Level.INFO, "Création de la base de données...");
 		db.execSQL(this.scriptCreation);
 	}
 

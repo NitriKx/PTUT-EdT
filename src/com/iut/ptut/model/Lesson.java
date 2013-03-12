@@ -1,6 +1,7 @@
 package com.iut.ptut.model;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,25 +20,19 @@ public class Lesson {
 	private String emplacement;
 	private Date dateDebut;
 	private Date dateFin;
+	private int idTimeTable;
 
-	/**
-	 * Le numéro de groupe peut-être un chiffre (1,2,3...) ou un "A" si c'est un
-	 * cour commun à toute la promotion (le groupe de TP est vide).
-	 */
-	private String numeroGroupe;
-	/**
-	 * Le numéro de sousGroupe (ou groupe TP) est soit une lettre (A,B,C...)
-	 * soit est vide.
-	 */
-	private String sousGroupe;
+	private Group groupe;
 
 	public Lesson() {
 		this.libelle = "";
 		this.intervenant = "";
 		this.emplacement = "";
-		this.idLesson = 0;
+		this.idLesson = -1;
+		this.idTimeTable = -1;
 		this.dateDebut = new Date();
 		this.dateFin = new Date();
+		this.groupe = new Group();
 	}
 
 	/**
@@ -52,8 +47,8 @@ public class Lesson {
 		this.emplacement = new String(lesson.emplacement);
 		this.dateDebut = new Date(lesson.dateDebut.getTime());
 		this.dateFin = new Date(lesson.dateFin.getTime());
-		this.numeroGroupe = new String(lesson.numeroGroupe);
-		this.sousGroupe = new String(lesson.sousGroupe);
+		this.idTimeTable = lesson.idTimeTable;
+		this.groupe = new Group(lesson.getGroupe());
 	}
 
 	/**
@@ -66,7 +61,10 @@ public class Lesson {
 	 */
 	public Lesson(Component comp) throws ParseException,
 			ParsingProblemException {
-
+		
+		this.idTimeTable = -1;
+		this.idLesson = -1;
+		
 		// Date de début
 		Property prop = comp.getProperty("DTSTART");
 		if (prop == null || "".equals(prop.getValue()))
@@ -92,20 +90,26 @@ public class Lesson {
 		this.libelle = parsedSummary.get("matiere");
 		
 		// - Si le groupe est définis, on le lit
+		this.groupe = new Group();
+		String sousGroupe = "";
+		String numeroGroupe = "";
 		if (parsedSummary.get("groupe") != null) {
-			this.numeroGroupe = parsedSummary.get("groupe").substring(0, 1);
+			numeroGroupe = parsedSummary.get("groupe").substring(0, 1);
 			// - Si le sous groupe n'existe pas
 			if (parsedSummary.get("groupe").length() == 2)
-				this.sousGroupe = parsedSummary.get("groupe").substring(1, 2);
+				sousGroupe = parsedSummary.get("groupe").substring(1, 2);
 			else
-				this.sousGroupe = "";
+				sousGroupe = "";
 		
 		// - Sinon c'est un cour commun à tous
 		} else {
-			this.numeroGroupe = "A";
-			this.sousGroupe = "";
+			numeroGroupe = "A";
+			sousGroupe = "";
 		}
-
+		this.groupe.setGroupe(numeroGroupe + sousGroupe);
+		this.groupe.setAnnee(CalendarParser.getAnneeScolairePourDate(this.dateDebut));
+		this.groupe.setSemestre(Integer.parseInt(parsedSummary.get("semestre").replaceAll("S", "")));
+		
 		// Emplacement
 		prop = comp.getProperty("LOCATION");
 		if (prop == null || "".equals(prop.getValue()))
@@ -121,24 +125,25 @@ public class Lesson {
 	 *            Le groupe. Peut-être de la forme : "3", "3B, "A" (commun à
 	 *            tous) ou vide. Si le groupe est vide, la méthode renverra
 	 *            vrai.
-	 * @return True si la cours est pour le groupe désigné.
+	 * @return True si le cours est pour le groupe désigné.
 	 */
-	public boolean estDansLeGroupe(String groupe) {
-		String groupeTD = (groupe.length() > 0) ? groupe.substring(0, 1) : "";
-		String groupeTP = (groupe.length() > 1) ? groupe.substring(1, 2) : "";
+	public boolean estDansLeGroupe(Group groupe) {
+		String s1 =groupe.getGroupe().substring(0, 1);
+		String s2 = this.getGroupe().getGroupe().substring(0, 1);
 		// Si les numéro de groupe et de tp correspondent, ou que le groupe est
 		// une chaine vide,
 		// ou que le cours est une cours commun on retourne vrai.
-		return (groupeTD.equals(this.getNumeroGroupe()) && groupeTP.equals(this.getSousGroupe()))
-				|| (groupeTD.equals(this.getNumeroGroupe()) && "".equals(this.getSousGroupe()))
-				|| groupe.equals("")
-				|| "A".equals(this.getNumeroGroupe());
+		return (groupe.equals(this.getGroupe()))
+				|| (this.groupe.getGroupe().length() == 1 && groupe.getAnnee() == this.getGroupe().getAnnee() && groupe.getSemestre() == this.getGroupe().getSemestre() 
+					&& groupe.getGroupe().substring(0, 1).equals(this.getGroupe().getGroupe().substring(0, 1)))
+				|| "".equals(groupe.getGroupe())
+				|| "A".equals(this.getGroupe().getGroupe().substring(0, 1));
 	}
 
 	public String toString() {
-		return String.format("Id=[%d] Libellé=[%s] Emplacement=[%s] Intervenant=[%s] Début=[%s] Fin=[%s] NumeroGroupe=[%s] SousGroupe=[%s]",
+		return String.format("Id=[%d] Libellé=[%s] Emplacement=[%s] Intervenant=[%s] Début=[%s] Fin=[%s] Groupe=[%s]",
 						this.idLesson, this.libelle, this.emplacement,
-						this.intervenant, this.dateDebut, this.dateFin, this.getNumeroGroupe(), this.getSousGroupe());
+						this.intervenant, this.dateDebut, this.dateFin, this.getGroupe());
 	}
 
 	//
@@ -195,20 +200,20 @@ public class Lesson {
 		this.dateFin = pDateFin;
 	}
 
-	public String getNumeroGroupe() {
-		return numeroGroupe;
+	public int getIdTimeTable() {
+		return idTimeTable;
 	}
 
-	public void setNumeroGroupe(String numeroGroupe) {
-		this.numeroGroupe = numeroGroupe;
+	public void setIdTimeTable(int idTimeTable) {
+		this.idTimeTable = idTimeTable;
 	}
 
-	public String getSousGroupe() {
-		return sousGroupe;
+	public Group getGroupe() {
+		return groupe;
 	}
 
-	public void setSousGroupe(String sousGroupe) {
-		this.sousGroupe = sousGroupe;
+	public void setGroupe(Group groupe) {
+		this.groupe = groupe;
 	}
-
+	
 }

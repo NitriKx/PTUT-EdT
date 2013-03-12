@@ -1,9 +1,17 @@
+CREATE TABLE groupe
+(
+		idGroupe			varchar(9) NOT NULL, -- "YYYY-4-2B" / ANNEE-SEMESTRE-GROUPE
+		CONSTRAINT PRIMARY KEY(idGroupe)
+) ENGINE=InnoDB;
+
 CREATE TABLE timetable 
 (
 		idTT				int NOT NULL AUTO_INCREMENT,
 	 	dateDebut			DATETIME,
 	 	dateFin				DATETIME,
-		CONSTRAINT PRIMARY KEY(idTT)
+		groupe				varchar(9),
+		CONSTRAINT PRIMARY KEY(idTT),
+		CONSTRAINT FOREIGN KEY(groupe) REFERENCES groupe(idGroupe)
 ) ENGINE=InnoDB;
 
 CREATE TABLE lesson 

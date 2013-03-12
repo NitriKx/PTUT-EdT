@@ -3,25 +3,33 @@ package com.iut.ptut.model;
 import java.util.Date;
 import java.util.Vector;
 
+/**
+ * 
+ * @author jérémie Rouelle, Benoît Sauvère
+ *
+ */
 public class TimeTable {
 
 	private int idTT;
 	private Date dateDebut;
 	private Date dateFin;
 	private Vector<Day> ListDay;
+	private Group groupe;
 
 	public TimeTable() {
 		this.idTT = 0;
 		this.dateDebut = new Date();
 		this.dateFin = new Date();
 		this.ListDay = new Vector<Day>();
+		this.setGroupe(new Group());
 	}
 	
-	public TimeTable(int idTT, Date dateDebut, Date dateFin, Vector<Day> listDay) {
+	public TimeTable(int idTT, Date dateDebut, Date dateFin, Vector<Day> listDay, Group groupe) {
 		this.idTT = idTT;
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
-		ListDay = listDay;
+		this.ListDay = listDay;
+		this.setGroupe(groupe);
 	}
 
 	public int getId() {
@@ -54,6 +62,14 @@ public class TimeTable {
 
 	public void setListJour(Vector<Day> pListJour) {
 		this.ListDay = pListJour;
+	}
+
+	public Group getGroupe() {
+		return groupe;
+	}
+
+	public void setGroupe(Group groupe) {
+		this.groupe = groupe;
 	}
 
 	// ajout d'un jour pDay à la liste de jours ListDay
