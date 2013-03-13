@@ -1,8 +1,12 @@
 package com.iut.ptut.model.database;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.iut.ptut.MainActivity;
@@ -18,6 +22,8 @@ import com.iut.ptut.model.TimeTable;
  *
  */
 public class DatabaseManager {
+	
+	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
 	private static DatabaseManager _instance;
 	
@@ -82,6 +88,32 @@ public class DatabaseManager {
 	//
 	//
 	
+	public long insererGroupe(Group groupe) throws CannotInsertException {
+		
+		long nouvelId = -1;
+		
+		// On contruit la liste des associations colonne -> valeur
+		ContentValues vals = new ContentValues();
+		vals.put(GroupTable.col_id, formaterGroupe(groupe));
+		
+		nouvelId = this.bdd.insert(GroupTable.nom, null, vals);
+		
+		if(nouvelId < 0) {
+			throw new CannotInsertException("Error lors de l'ajout du Group=[" + groupe  +"]");
+		}
+		
+		_log.log(Level.INFO, "Le Group=[" + groupe + "] à bien été inséré.");
+		
+		return nouvelId;
+	}
+	
+	public void supprimerGroupe(Group groupe) throws CannotDeleteException{
+		if(this.bdd.delete(GroupTable.nom, GroupTable.col_id + " = '" + formaterGroupe(groupe) + "'", null) == 0)
+			throw new CannotDeleteException("Impossible de supprimer le Group=[" + groupe + "]");
+		else
+			_log.log(Level.INFO, "Le Group=[" + groupe + "] à bien été supprimé.");
+	}
+	
 	public static String formaterGroupe(Group g) {
 		return g.getAnnee() + "-" + g.getSemestre() + "-" + g.getGroupe();
 	}
@@ -106,7 +138,7 @@ public class DatabaseManager {
 		// Nécessaire pour convertir les date en texte au format SQL.
 		// En effet les ContentValues ne peuvent recevoir directement un objet Date
 		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()); 
 		
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();
@@ -119,8 +151,10 @@ public class DatabaseManager {
 		
 		// Si il y a eu une erreur lors de l'ajout
 		if(nouvelId < 0) {
-			throw new Exception("Error lors de l'ajout du TimeTable [" + timetable + "]");
+			throw new CannotInsertException("Error lors de l'ajout du TimeTable [" + timetable + "]");
 		}
+		
+		_log.log(Level.INFO, "Le TimeTable=[" + timetable + "] à bien été inséré.");
 		
 		timetable.setId((int)nouvelId);
 		
@@ -148,13 +182,14 @@ public class DatabaseManager {
 	 * <b>L'objet Lesson sera modifier pour y ajouter l'identifiant dans la base de données.</b>
 	 * @param lesson L'objet Lesson à insérer.
 	 * @return L'id dans la bdd de l'objet Lesson.
+	 * @throws CannotInsertException 
 	 */
-	public long insererLesson(Lesson lesson) {
+	public long insererLesson(Lesson lesson) throws CannotInsertException {
 		
 		// Nécessaire pour convertir les date en texte au format SQL.
 		// En effet les ContentValues ne peuvent recevoir directement un objet Date
 		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()); 
 		
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();
@@ -167,6 +202,13 @@ public class DatabaseManager {
 		
 		// On insère la lesson.
 		long nouvelId = this.bdd.insert(LessonTable.nom, null, vals);
+		
+		if(nouvelId < 0) {
+			throw new CannotInsertException("Error lors de l'ajout de la Lesson=[" + lesson + "] voir les logs.");
+		}
+
+		_log.log(Level.INFO, "La Lesson=[" + lesson + "] à bien été inséré.");
+		
 		// On ajoute le nouvel id à l'objet Lesson.
 		lesson.setIdLesson((int) nouvelId);
 		// On retourne le nouvel id.
@@ -177,10 +219,13 @@ public class DatabaseManager {
 	 * Supprime un objet de type Lesson présent dans la base de données.<br/>
 	 * La suppression se fait en se basant sur le champs "id" de l'objet.
 	 * @param lesson La lesson à supprimer.
-	 * @return True si la suppression s'est bien passée.
+	 * @throws CannotDeleteException 
 	 */
-	public boolean supprimerLesson(Lesson lesson) {
-		return this.bdd.delete(LessonTable.nom, LessonTable.col_id + "=" + lesson.getIdLesson(), null) > 0;
+	public void supprimerLesson(Lesson lesson)  throws CannotDeleteException {
+		if(this.bdd.delete(LessonTable.nom, LessonTable.col_id + "=" + lesson.getIdLesson(), null) == 0)
+			throw new CannotDeleteException("Impossible de supprimer cette Lesson=[" + lesson + "]");
+		else
+			_log.log(Level.INFO, "La Lesson=[" + lesson + "] à bien été supprimé.");
 	}
 	
 	/**
@@ -194,7 +239,7 @@ public class DatabaseManager {
 		// Nécessaire pour convertir les date en texte au format SQL.
 		// En effet les ContentValues ne peuvent recevoir directement un objet Date
 		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()); 
 		
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();

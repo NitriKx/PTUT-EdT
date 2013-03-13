@@ -16,8 +16,8 @@ public class DatabaseCreator extends SQLiteOpenHelper {
 	
 	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
-	private String scriptCreation;
-	private String scriptDestruction;
+	private String[] scriptCreation;
+	private String[] scriptDestruction;
 	/**
 	 * 
 	 * @param context
@@ -35,26 +35,36 @@ public class DatabaseCreator extends SQLiteOpenHelper {
 		} catch (Exception e){
 			_log.log(Level.SEVERE, "Impossible de charger tout les scripts de manipulation de la base de données.");
 		}
+		
+		
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		_log.log(Level.INFO, "Création de la base de données...");
-		db.execSQL(this.scriptCreation);
+		
+		for(String sql : this.scriptCreation)
+			db.execSQL(sql.trim() + ";");
+		
+		_log.log(Level.INFO, "Base de données crée...");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(this.scriptDestruction);
+		_log.log(Level.INFO, "Destruction de la base de données...");
+		for(String sql : this.scriptDestruction)
+			db.execSQL(sql + ";");
 		onCreate(db);
 	}
 
-	private static String chargerScriptDestruction() throws IOException {
-		return AssetsManager.lireContenuAssets("db_creation_script_name");
+	private static String[] chargerScriptDestruction() throws IOException {
+		String sql =  AssetsManager.lireContenuAssets("db_destruction_script_name");
+		return sql.split(";(\\s)*[\n\r]");
 	}
 	
-	private static String chargerScriptCreation() throws IOException {
-		return AssetsManager.lireContenuAssets("db_destruction_script_name");
+	private static String[] chargerScriptCreation() throws IOException {
+		String sql = AssetsManager.lireContenuAssets("db_creation_script_name");
+		return sql.split(";(\\s)*[\n\r]");
 	}
 	
 }

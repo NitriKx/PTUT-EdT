@@ -2,6 +2,8 @@ package com.iut.ptut;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -21,6 +23,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.iut.ptut.model.Group;
+import com.iut.ptut.model.database.CannotDeleteException;
+import com.iut.ptut.model.database.CannotInsertException;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
 import com.iut.ptut.view.TableLayoutFragment;
@@ -30,6 +35,8 @@ public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
+	
+	private final Logger _log = Logger.getLogger(this.getClass().getName()); 
 
 	public static Context context = null;
 	
@@ -63,6 +70,23 @@ public class MainActivity extends Activity implements TabListener {
 		
 		setContentView(R.layout.activity_main);
 		//wAct.getWeekActivity();
+		
+		DatabaseManager bdd = DatabaseManager.getInstance();
+		try {
+		
+			bdd.open();
+			
+			bdd.supprimerGroupe(new Group("2B", 4, 2012));
+			bdd.insererGroupe(new Group("2B", 4, 2012));
+
+		} catch(CannotInsertException e) {
+			_log.log(Level.SEVERE, "Erreur lors de l'insertion.");
+		} catch (CannotDeleteException e) {
+			_log.log(Level.SEVERE, "Erreur lors de la suppression.");
+		} finally {
+			bdd.close();
+		}
+		
 		
 		
 			ActionBar actionbar = getActionBar();

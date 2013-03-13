@@ -19,8 +19,8 @@ public class AssetsManager {
 		byte buf[] = new byte[30];
 		InputStream is = MainActivity.context.getAssets().open(ConfigManager.getInstance().getProperty(nom)); 
 		BufferedInputStream bis = new BufferedInputStream(is);
-		while (is.available() > 0) {
-			contenu.append(bis.read(buf));
+		while (bis.read(buf) > 0) {
+			contenu.append(new String(buf));
 		}
 		return contenu.toString();
 	}

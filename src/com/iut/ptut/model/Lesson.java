@@ -1,9 +1,9 @@
 package com.iut.ptut.model;
 
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
@@ -128,8 +128,6 @@ public class Lesson {
 	 * @return True si le cours est pour le groupe désigné.
 	 */
 	public boolean estDansLeGroupe(Group groupe) {
-		String s1 =groupe.getGroupe().substring(0, 1);
-		String s2 = this.getGroupe().getGroupe().substring(0, 1);
 		// Si les numéro de groupe et de tp correspondent, ou que le groupe est
 		// une chaine vide,
 		// ou que le cours est une cours commun on retourne vrai.
@@ -141,7 +139,7 @@ public class Lesson {
 	}
 
 	public String toString() {
-		return String.format("Id=[%d] Libellé=[%s] Emplacement=[%s] Intervenant=[%s] Début=[%s] Fin=[%s] Groupe=[%s]",
+		return String.format(Locale.getDefault(), "Id=[%d] Libellé=[%s] Emplacement=[%s] Intervenant=[%s] Début=[%s] Fin=[%s] Groupe=[%s]",
 						this.idLesson, this.libelle, this.emplacement,
 						this.intervenant, this.dateDebut, this.dateFin, this.getGroupe());
 	}

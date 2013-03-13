@@ -1,4 +1,4 @@
-DROP TABLE lesson;
-DROP TABLE timetable;
-DROP TABLE groupe;
-DROP TABLE message;
+DROP TABLE IF EXISTS lesson;
+DROP TABLE IF EXISTS timetable;
+DROP TABLE IF EXISTS groupe;
+DROP TABLE IF EXISTS message;
