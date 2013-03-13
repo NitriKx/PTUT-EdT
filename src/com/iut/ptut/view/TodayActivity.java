@@ -1,13 +1,18 @@
 package com.iut.ptut.view;
 
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -16,23 +21,82 @@ import android.widget.TextView;
 import com.iut.ptut.R;
 import com.iut.ptut.model.Day;
 
-public class ToodayActivity extends Fragment {
+public class TodayActivity extends Activity {
+	
+	Calendar cal;
+	Date d;
+	private Button h0800;
+	private Button h0930;
+	private Button h1105;
+	private Button h1415;
+	private Button h1540;
+	private Button h1715;
+	
+	
+	public void onCreate (Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_today);
+		
+		cal = Calendar.getInstance();
+		d= new Date();
+		d= cal.getTime();
+		
+		this.h0800 = (Button)findViewById(R.id.h0800);
+		this.h0930 = (Button)findViewById(R.id.h0930);
+		this.h1105 = (Button)findViewById(R.id.h1105);
+		this.h1415 = (Button)findViewById(R.id.h1415);
+		this.h1540 = (Button)findViewById(R.id.h1540);
+		this.h1715 = (Button)findViewById(R.id.h1715);
+		 
+		
+	} 
+	protected void onStart(){
+		 super.onStart();
+		 getDay();
+		 System.out.println("test");
+	 }
+	
+	 
+   protected void onRestart(){
+  	 super.onRestart();
+   }
 
-	private TableLayout containerTable;
-	private Day today;
-	private int nbCreneaux = 7;
-	public ToodayActivity() {
-		// TODO Auto-generated constructor stub
-		this.today = new Day();
+   protected void onResume(){
+  	 super.onResume();
+   }
+
+   protected void onPause(){
+  	 super.onPause();
+   }
+
+   protected void onStop(){
+  	 super.onStop();
+   }
+
+   protected void onDestroy(){
+  	 super.onDestroy();
+   }
+	
+	public TodayActivity getTodayActivity(){
+		if (this == null){
+			return (new TodayActivity());
+		}
+		
+		return this;
 	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.activity_tooday, container, false);
+	
+	public void getDay(){
+		this.h0800.setText(" 08:00-09h30 - ACSI - 102 ");
+		this.h0930.setText(" 09:30-11h05 - CN - 103 ");
+		this.h1105.setText(" 11:05-12h30 - CLO - 105 ");
+		this.h1415.setText(" 14:15-15h45 - CLO - 105 ");
+		this.h1540.setText(" 15:45-17h15 - CLO - 105 ");
+		this.h1715.setText(" 17:15-18h40 - CLO - 105 ");
 	}
-
+	
+	
+	/*
+	//ancienne version
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -110,6 +174,6 @@ public class ToodayActivity extends Fragment {
 		text.setPadding(4, 4, 10, 4);
 		text.setBackgroundColor(getResources().getColor(R.color.white));
 		return text;
-	}
+	}*/
 
 }

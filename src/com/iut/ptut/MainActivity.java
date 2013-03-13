@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.iut.ptut.view.ActivityNotification;
 import com.iut.ptut.view.TableLayoutFragment;
+import com.iut.ptut.view.TodayActivity;
 import com.iut.ptut.view.WeekActivity;
 
 public class MainActivity extends Activity implements TabListener {
@@ -38,7 +39,7 @@ public class MainActivity extends Activity implements TabListener {
 	WeekActivity wAct ;
 	Calendar c = Calendar.getInstance();
 	
-	private TableLayoutFragment TabTooday = new TableLayoutFragment("Aujourd'hui", 2);
+	private TableLayoutFragment TabToday = new TableLayoutFragment("Aujourd'hui", 2);
 	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
 	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages",3);
 	//private TableJavaFragment TabDebug = new TableJavaFragment();
@@ -92,6 +93,10 @@ public class MainActivity extends Activity implements TabListener {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	private TodayActivity TodayActivity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	protected class ActionBarTabsListener implements ActionBar.TabListener {
 
@@ -114,8 +119,10 @@ public class MainActivity extends Activity implements TabListener {
 	    	if (getActionBar().getSelectedTab().getText()== "Messages")
 	        setContentView(R.layout.informations);
 	    	
-	    	if (getActionBar().getSelectedTab().getText()== "Aujourd'hui")
-		        setContentView(R.layout.activity_main);
+	    	if (getActionBar().getSelectedTab().getText()== "Aujourd'hui"){
+	    		Intent intent = new Intent(MainActivity.this, TodayActivity.class);
+	    		startActivity(intent);
+	    	}
 	    	
 	    	if (getActionBar().getSelectedTab().getText()== "Semaine"){
 	    		System.out.println("dafuq");
@@ -295,8 +302,8 @@ public class MainActivity extends Activity implements TabListener {
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
-		if(tab.getText().equals(TabTooday.getName()))
-			ft.remove(TabTooday);
+		if(tab.getText().equals(TabToday.getName()))
+			ft.remove(TabToday);
 		else if (tab.getText().equals(TabMsg.getName())) 
 			ft.remove(TabMsg);
 	
