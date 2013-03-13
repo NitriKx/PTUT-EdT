@@ -1,12 +1,14 @@
 package com.iut.ptut.model.database;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteConstraintException;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.iut.ptut.MainActivity;
@@ -88,6 +90,12 @@ public class DatabaseManager {
 	//
 	//
 	
+	/**
+	 * Insère un groupe dans la base de données.
+	 * @param groupe Le groupe à ajouter.
+	 * @return L'id du groupe (rowid)
+	 * @throws CannotInsertException Exception levée si ce n'est pas possible d'insérer le groupe. (déjà présent, ...)
+	 */
 	public long insererGroupe(Group groupe) throws CannotInsertException {
 		
 		long nouvelId = -1;
@@ -96,8 +104,10 @@ public class DatabaseManager {
 		ContentValues vals = new ContentValues();
 		vals.put(GroupTable.col_id, formaterGroupe(groupe));
 		
+		// On ajoute le groupe
 		nouvelId = this.bdd.insert(GroupTable.nom, null, vals);
 		
+		// Si l'id est inférieur à -1 il y une erreur
 		if(nouvelId < 0) {
 			throw new CannotInsertException("Error lors de l'ajout du Group=[" + groupe  +"]");
 		}
@@ -107,15 +117,42 @@ public class DatabaseManager {
 		return nouvelId;
 	}
 	
+	/**
+	 * Supprime le groupe de la base de données.
+	 * Cette méthode se base sur les champs du groupe pour déterminer l'id de la ligne à supprimer.
+	 * @param groupe Le groupe à supprimer.
+	 * @throws CannotDeleteException Levé si il y a une erreur lors de la supprission (existe pas, ...)
+	 */
 	public void supprimerGroupe(Group groupe) throws CannotDeleteException{
+		// On tente de supprimer le groupe
 		if(this.bdd.delete(GroupTable.nom, GroupTable.col_id + " = '" + formaterGroupe(groupe) + "'", null) == 0)
 			throw new CannotDeleteException("Impossible de supprimer le Group=[" + groupe + "]");
 		else
 			_log.log(Level.INFO, "Le Group=[" + groupe + "] à bien été supprimé.");
 	}
 	
+	/**
+	 * Récupère la liste des groupes présents dans la base de données.
+	 * @return La liste de Group.
+	 */
+	public List<Group> getAllGroups() {
+		List<Group> list = new ArrayList<Group>();
+		// On récupère un Cursor contenant toute les lignes
+		Cursor c = this.bdd.query(GroupTable.nom, new String[]{GroupTable.col_id}, null, null, null, null, null);
+		while(c.moveToNext())
+			list.add(lireGroupe(c.getString(0)));
+		c.close();
+		return list;
+	}
+	
+	
 	public static String formaterGroupe(Group g) {
 		return g.getAnnee() + "-" + g.getSemestre() + "-" + g.getGroupe();
+	}
+	
+	public static Group lireGroupe(String s) {
+		String[] l = s.split("-");
+		return new Group(l[2], Integer.parseInt(l[1]), Integer.parseInt(l[0]));
 	}
 	
 	//
@@ -126,7 +163,7 @@ public class DatabaseManager {
 	
 	/**
 	 * Insère un objet TimeTable dans la base de données. <br/>
-	 * L'identifiant sera automatiquement rajouté dans l'objet.
+	 * L'identifiant sera <b>automatiquement rajouté</b> dans l'objet.
 	 * @param timetable Le TimeTable a insérer.
 	 * @return L'id du TimeTable inséré (également rajouté dans l'objet).
 	 * @throws Exception Est levée lorsque le groupe n'existe pas.

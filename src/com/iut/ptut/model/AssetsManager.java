@@ -25,4 +25,8 @@ public class AssetsManager {
 		return contenu.toString();
 	}
 	
+	public static InputStream ouvrirInputStreamAsset(String nom) throws IOException {
+		return new BufferedInputStream(MainActivity.context.getAssets().open(ConfigManager.getInstance().getProperty(nom))); 
+	}
+	
 }

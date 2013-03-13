@@ -1,7 +1,10 @@
 package com.iut.ptut.ctrl;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,9 +56,26 @@ public class CalendarParser {
 	 * @throws IOException 
 	 */
 	public static TimeTable getTimeTableDepuisFichierICS(String cheminFichierICS, Group groupe) throws IOException, ParserException {
-		return CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(cheminFichierICS), groupe);
+		FileInputStream fis = new FileInputStream(new File(cheminFichierICS));
+		TimeTable r = CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(fis), groupe);
+		fis.close();
+		return r;
 	}
 	
+	/**
+	 * Créer un objet TimeTable pour le groupe donné avec les informations contenues dans le fichier ICS.
+	 * @param cheminFichierICS Le chemin vers le fichier ICS.
+	 * @param groupe Un objet Group
+	 * @return Une objet TimeTable remplis
+	 * @throws ParserException 
+	 * @throws IOException 
+	 */
+	public static TimeTable getTimeTableDepuisFichierICSStream(InputStream is, Group groupe) throws IOException, ParserException {
+		BufferedInputStream bis = new BufferedInputStream(is);
+		TimeTable r = CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(bis), groupe);
+		bis.close();
+		return r;
+	}
 	
 	/**
 	 * Convertit un Calendar de type "iCal4j" en TimeTable de notre application.
@@ -130,14 +150,10 @@ public class CalendarParser {
 	 * @throws IOException
 	 * @throws ParserException
 	 */
-	public static Calendar convertirICSEnICal4J(String cheminFichierICS) throws IOException, ParserException {
-		// On ouvre un flux de lecture sur le fichier : 
-		FileInputStream fin = new FileInputStream(cheminFichierICS);
+	public static Calendar convertirICSEnICal4J(InputStream is) throws IOException, ParserException {
 		// On le fait parser par iCal4J
 		CalendarBuilder builder = new CalendarBuilder();
-		Calendar result = builder.build(fin);
-		// On ferme le flux
-		fin.close();
+		Calendar result = builder.build(is);
 		return result;
 	}
 	

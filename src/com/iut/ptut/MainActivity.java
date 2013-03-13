@@ -1,9 +1,11 @@
 package com.iut.ptut;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import net.fortuna.ical4j.data.ParserException;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -20,12 +22,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.iut.ptut.ctrl.CalendarParser;
+import com.iut.ptut.model.AssetsManager;
 import com.iut.ptut.model.Group;
-import com.iut.ptut.model.database.CannotDeleteException;
-import com.iut.ptut.model.database.CannotInsertException;
+import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
 import com.iut.ptut.view.TableLayoutFragment;
@@ -36,22 +38,23 @@ public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
-	
-	private final Logger _log = Logger.getLogger(this.getClass().getName()); 
+
+	private final Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public static Context context = null;
-	
+
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
-	WeekActivity wAct ;
+	WeekActivity wAct;
 	Calendar c = Calendar.getInstance();
-	
+
 	private TableLayoutFragment TabToday = new TableLayoutFragment("Aujourd'hui", 2);
 	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
-	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages",3);
-	//private TableJavaFragment TabDebug = new TableJavaFragment();
-	//private String debug= new String("debug");
+	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages", 3);
+
+	// private TableJavaFragment TabDebug = new TableJavaFragment();
+	// private String debug= new String("debug");
 	/*
 	 * le code ci-dessous permet d'afficher une aute fenetre a partir d'un
 	 * bouton, pour cela 1) creer le bouton 2)dans le code xml, rajouter la
@@ -65,62 +68,59 @@ public class MainActivity extends Activity implements TabListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
-		
-		setContentView(R.layout.activity_main);
-		//wAct.getWeekActivity();
-		
-		DatabaseManager bdd = DatabaseManager.getInstance();
-		try {
-		
-			bdd.open();
-			
-			bdd.supprimerGroupe(new Group("2B", 4, 2012));
-			bdd.insererGroupe(new Group("2B", 4, 2012));
 
-		} catch(CannotInsertException e) {
-			_log.log(Level.SEVERE, "Erreur lors de l'insertion.");
-		} catch (CannotDeleteException e) {
-			_log.log(Level.SEVERE, "Erreur lors de la suppression.");
-		} finally {
-			bdd.close();
+		setContentView(R.layout.activity_main);
+		// wAct.getWeekActivity();
+
+		DatabaseManager bdd = DatabaseManager.getInstance();
+
+		bdd.open();
+
+		try {
+			TimeTable t = CalendarParser.getTimeTableDepuisFichierICSStream(AssetsManager.ouvrirInputStreamAsset("tests/S4_08.ics"), new Group("2B", 4, 2012));
+			System.out.println(t);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserException e) {
+			e.printStackTrace();
 		}
 		
-		
-		
-			ActionBar actionbar = getActionBar();
+		bdd.close();
+
+		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-		//definition des tabs et de leurs texte
-		 ActionBar.Tab tabToday = actionbar.newTab().setText("Aujourd'hui");
-		 ActionBar.Tab tabSemaine = actionbar.newTab().setText("Semaine");
-		 ActionBar.Tab tabMessage = actionbar.newTab().setText("Messages");
-		
-		 //definition des fragments qui seronts associés 
-		 // http://developer.android.com/guide/components/fragments.html
-		 Fragment fragToday = new Fragment();
-		 Fragment fragSemaine = new Fragment();
-		 Fragment fragMessage = new Fragment();
-		 
-		 
-		 tabToday.setTabListener(new ActionBarTabsListener(fragToday));
-		 tabSemaine.setTabListener(new ActionBarTabsListener(fragSemaine));
-		 tabMessage.setTabListener(new ActionBarTabsListener(fragMessage));
-		 
-		 actionbar.addTab(tabToday);
-		 actionbar.addTab(tabSemaine);
-		 actionbar.addTab(tabMessage);
-		 
+
+		// definition des tabs et de leurs texte
+		ActionBar.Tab tabToday = actionbar.newTab().setText("Aujourd'hui");
+		ActionBar.Tab tabSemaine = actionbar.newTab().setText("Semaine");
+		ActionBar.Tab tabMessage = actionbar.newTab().setText("Messages");
+
+		// definition des fragments qui seronts associés
+		// http://developer.android.com/guide/components/fragments.html
+		Fragment fragToday = new Fragment();
+		Fragment fragSemaine = new Fragment();
+		Fragment fragMessage = new Fragment();
+
+		tabToday.setTabListener(new ActionBarTabsListener(fragToday));
+		tabSemaine.setTabListener(new ActionBarTabsListener(fragSemaine));
+		tabMessage.setTabListener(new ActionBarTabsListener(fragMessage));
+
+		actionbar.addTab(tabToday);
+		actionbar.addTab(tabSemaine);
+		actionbar.addTab(tabMessage);
+
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
 	}
-	
+
 	private WeekActivity WeekActivity() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	private TodayActivity TodayActivity() {
 		// TODO Auto-generated method stub
 		return null;
@@ -128,61 +128,60 @@ public class MainActivity extends Activity implements TabListener {
 
 	protected class ActionBarTabsListener implements ActionBar.TabListener {
 
-	    private Fragment fragment;
-	    int i=0;
-	    public ActionBarTabsListener(Fragment fragment) {
-	        this.fragment = fragment;
-	    }
+		private Fragment fragment;
+		int i = 0;
 
-	    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-	        // TODO Auto-generated method stub
-	    	i++;
-	    	if (i>=7){
-	    		Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ",
-						Toast.LENGTH_SHORT).show();
-	    	}
-	    }
+		public ActionBarTabsListener(Fragment fragment) {
+			this.fragment = fragment;
+		}
 
-	    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	    	if (getActionBar().getSelectedTab().getText()== "Messages")
-	        setContentView(R.layout.informations);
-	    	
-	    	if (getActionBar().getSelectedTab().getText()== "Aujourd'hui"){
-	    		Intent intent = new Intent(MainActivity.this, TodayActivity.class);
-	    		startActivity(intent);
-	    	}
-	    	
-	    	if (getActionBar().getSelectedTab().getText()== "Semaine"){
-	    		System.out.println("dafuq");
-	    		String s =c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
-	    		
-	    	//	setContentView(R.layout.activity_week);
-	    	//	Button b1 = (Button)findViewById(R.id.week_b1);
-	    	//	b1.setText(s);
-	    		// intent pour appeler l'autre activity
-	    		Intent intent = new Intent(MainActivity.this, WeekActivity.class);
-	    		startActivity(intent);
-	    	}
-	        i=0;
-	    }
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+			i++;
+			if (i >= 7) {
+				Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ", Toast.LENGTH_SHORT).show();
+			}
+		}
 
-	    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	        // TODO Auto-generated method stub
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			if (getActionBar().getSelectedTab().getText() == "Messages")
+				setContentView(R.layout.informations);
 
-	    }
+			if (getActionBar().getSelectedTab().getText() == "Aujourd'hui") {
+				Intent intent = new Intent(MainActivity.this, TodayActivity.class);
+				startActivity(intent);
+			}
+
+			if (getActionBar().getSelectedTab().getText() == "Semaine") {
+				System.out.println("dafuq");
+				String s = c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
+
+				// setContentView(R.layout.activity_week);
+				// Button b1 = (Button)findViewById(R.id.week_b1);
+				// b1.setText(s);
+				// intent pour appeler l'autre activity
+				Intent intent = new Intent(MainActivity.this, WeekActivity.class);
+				startActivity(intent);
+			}
+			i = 0;
+		}
+
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
-	
-	public void launchWeek(){
+
+	public void launchWeek() {
 		System.out.println("voilou");
-		//setContentView(R.layout.activity_week);
-		//wAct.getSemaine();
+		// setContentView(R.layout.activity_week);
+		// wAct.getSemaine();
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		//getMenuInflater().inflate(R.menu.activity_list_item, menu);
+		// getMenuInflater().inflate(R.menu.activity_list_item, menu);
 		// possibilité d'ajouter des items au menu avec la méthode menu.add(
 		// String pS);
 
@@ -198,19 +197,16 @@ public class MainActivity extends Activity implements TabListener {
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		/**
-		// juste un test pour afficher une vue en cliquant
-		if (item.getItemId() == R.id.menu_settings)
-			setContentView(R.layout.informations);
-		else if (item.getItemId() == R.id.menu_param)
-			setContentView(R.layout.parametres);
-		// On regarde quel item a été cliqué grâce à son id et on déclenche une
-		// action
-		return false;
-		*/
+		 * // juste un test pour afficher une vue en cliquant if
+		 * (item.getItemId() == R.id.menu_settings)
+		 * setContentView(R.layout.informations); else if (item.getItemId() ==
+		 * R.id.menu_param) setContentView(R.layout.parametres); // On regarde
+		 * quel item a été cliqué grâce à son id et on déclenche une // action
+		 * return false;
+		 */
 		return true;
 	}
 
-	
 	//
 	// NOTIF
 	//
@@ -240,12 +236,15 @@ public class MainActivity extends Activity implements TabListener {
 		final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 		// creation d'une notification
-		Notification notification = new Notification(R.drawable.notification,
-				"notif", System.currentTimeMillis()); // les parametres sont
-														// obligatoires pour que
-														// cela fonctionne
-		Toast.makeText(getBaseContext(), "debug1 " + notification.toString(),
-				Toast.LENGTH_SHORT).show();
+		Notification notification = new Notification(R.drawable.notification, "notif", System.currentTimeMillis()); // les
+																													// parametres
+																													// sont
+																													// obligatoires
+																													// pour
+																													// que
+																													// cela
+																													// fonctionne
+		Toast.makeText(getBaseContext(), "debug1 " + notification.toString(), Toast.LENGTH_SHORT).show();
 
 		String titreNotification = "en cours !";// definition du titre de la
 												// notif
@@ -259,8 +258,7 @@ public class MainActivity extends Activity implements TabListener {
 		 */
 		notification.vibrate = new long[] { 0, 200, 100, 200, 100, 200 };
 
-		Toast.makeText(getBaseContext(), "debug2 " + notification.toString(),
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(getBaseContext(), "debug2 " + notification.toString(), Toast.LENGTH_SHORT).show();
 
 		/**
 		 * Les intents sont l’une des pierres angulaires de la plateforme (ndlr.
@@ -271,13 +269,11 @@ public class MainActivity extends Activity implements TabListener {
 		 * exemple : Quand votre mobile reçoit un appel, la plateforme lance un
 		 * Intent signalant l’arrivée de l'appel.
 		 */
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, ActivityNotification.class), 0);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, ActivityNotification.class), 0);
 
 		// On configure notre notification avec tous les paramètres que l'on
 		// vient de créer
-		notification.setLatestEventInfo(getApplicationContext(),
-				titreNotification, textNotification, pendingIntent);
+		notification.setLatestEventInfo(getApplicationContext(), titreNotification, textNotification, pendingIntent);
 
 		// Enfin on ajoute notre notification et son ID à notre gestionnaire de
 		// notification
@@ -289,14 +285,11 @@ public class MainActivity extends Activity implements TabListener {
 
 		try {
 			createNotif();
-			Toast.makeText(getBaseContext(), "createNotif executé ",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "createNotif executé ", Toast.LENGTH_SHORT).show();
 		} catch (NullPointerException e) {
 			// le Toast est un message "notification" qui permet d'afficher
 			// quelque chose a l'utilisateur sans changer de fentre
-			Toast.makeText(getBaseContext(),
-					"sa marche pas la : " + e.getMessage(), Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getBaseContext(), "sa marche pas la : " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			System.out.println("sa marche pas la : " + e.getMessage());
 		}
 
@@ -308,36 +301,34 @@ public class MainActivity extends Activity implements TabListener {
 		setContentView(R.layout.activity_main);
 	}
 
-
 	public void onTabReselected(Tab tab, FragmentTransaction arg1) {
 		// TODO Auto-generated method stub
-		//Toast.makeText(this, tab.getText() + " unselected", Toast.LENGTH_SHORT).show();
+		// Toast.makeText(this, tab.getText() + " unselected",
+		// Toast.LENGTH_SHORT).show();
 	}
-
 
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
-		/*if(tab.getText().equals(TabTooday.getName()))
-			ft.replace(R.id.fragmentContainer, TabTooday);
-		else if (tab.getText().equals(TabMsg.getName())) 
-			ft.replace(R.id.fragmentContainer, TabMsg);
-		else if (tab.getText().equals(this.debug)) {
-			ft.replace(R.id.fragmentContainer, TabDebug);
-		}*/
+		// Toast.makeText(this, tab.getText() + " selected",
+		// Toast.LENGTH_SHORT).show();
+		/*
+		 * if(tab.getText().equals(TabTooday.getName()))
+		 * ft.replace(R.id.fragmentContainer, TabTooday); else if
+		 * (tab.getText().equals(TabMsg.getName()))
+		 * ft.replace(R.id.fragmentContainer, TabMsg); else if
+		 * (tab.getText().equals(this.debug)) {
+		 * ft.replace(R.id.fragmentContainer, TabDebug); }
+		 */
 	}
 
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		//Toast.makeText(this, tab.getText() + " selected", Toast.LENGTH_SHORT).show();
-		if(tab.getText().equals(TabToday.getName()))
+		// Toast.makeText(this, tab.getText() + " selected",
+		// Toast.LENGTH_SHORT).show();
+		if (tab.getText().equals(TabToday.getName()))
 			ft.remove(TabToday);
-		else if (tab.getText().equals(TabMsg.getName())) 
+		else if (tab.getText().equals(TabMsg.getName()))
 			ft.remove(TabMsg);
-	
+
 	}
 }
-	
-	
-	
-
