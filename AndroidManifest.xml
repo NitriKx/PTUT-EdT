@@ -25,6 +25,9 @@
         <activity 
             android:name=".view.WeekActivity">
         </activity>
+        <activity 
+            android:name=".view.TodayActivity">
+        </activity>
     </application>
 <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>
