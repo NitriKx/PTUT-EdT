@@ -2,6 +2,7 @@ package com.iut.ptut.model.database;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -156,8 +157,13 @@ public class DatabaseManager {
 		List<Group> list = new ArrayList<Group>();
 		// On récupère un Cursor contenant toute les lignes
 		Cursor c = this.bdd.query(GroupTable.nom, new String[]{GroupTable.col_id}, null, null, null, null, null);
+		
+		// Pour ne pas perdre le premier enregistrement
+		list.add(lireGroupe(c.getString(0)));
 		while(c.moveToNext())
 			list.add(lireGroupe(c.getString(0)));
+		
+		// On ferme le cursor pour libérer les ressources
 		c.close();
 		return list;
 	}
@@ -228,11 +234,45 @@ public class DatabaseManager {
 		return nouvelId;
 	}
 	
+	
+	/**
+	 * Récupère un TimeTable depuis la base de données.
+	 * @param groupe Le groupe du TimeTable
+	 * @param semaine La semaine de cours que l'on souhaite récupérer
+	 * @param annee L'année de cette semaine
+	 * @return Une TimeTable correctement remplis
+	 */
+	public TimeTable recupererTimeTable(Group groupe, int semaine, int annee) {
+		return null;
+	}
+	
 	//
 	//
 	// LESSONS
 	//
 	//
+	
+	/**
+	 * Récupère la liste des Lessons pour une période donnée.
+	 * @param debut Le début de la préiode (compris)
+	 * @param fin La fin de la période (non compris)
+	 * @return Une liste d'objet Lesson où le cours se déroule dans la période.
+	 */
+	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin) {
+		List<Lesson> resultat = new ArrayList<Lesson>();
+		
+		Cursor c = this.bdd.query(LessonTable.nom, new String[] {}, 
+				LessonTable.col_date_debut + " > datetime(" + (debut.getTime()/100) + ", 'unixepoch', 'localtime')" , 
+				null, null, null, null, null);
+		
+		
+		
+		while(c.moveToNext()) {
+			
+		}
+		
+		return resultat;
+	}
 	
 	/**
 	 * Cette méthode insère un objet Lesson dans la base de données. <br/>
