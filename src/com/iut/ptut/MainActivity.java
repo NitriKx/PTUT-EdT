@@ -81,10 +81,12 @@ public class MainActivity extends Activity implements TabListener {
 
 		try {
 			TimeTable t = CalendarParser.getTimeTableDepuisFichierICSStream(AssetsManager.ouvrirInputStreamAsset("tests/S4_08.ics"), new Group("2B", 4, 2012));
-			System.out.println(t);
+			bdd.insererTimeTable(t);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParserException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

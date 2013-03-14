@@ -1,5 +1,9 @@
 package com.iut.ptut.model;
 
+import java.util.Date;
+
+import com.iut.ptut.ctrl.CalendarParser;
+
 public class Group {
 
 	private String groupe;
@@ -9,7 +13,7 @@ public class Group {
 	public Group() {
 		this.groupe = "";
 		this.semestre = 1;
-		this.annee = 2012;
+		this.annee = CalendarParser.getAnneeScolairePourDate(new Date());
 	}
 	
 	/**
