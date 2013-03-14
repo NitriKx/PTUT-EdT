@@ -99,6 +99,7 @@ public class CalendarParser {
 	public static TimeTable convertirCalendarEnTimeTable(Calendar cal, Group groupe) {
 		
 		TimeTable tt = new TimeTable();
+		tt.setGroupe(groupe);
 		// Une map associant le timestamp du début du jour à l'objet du jour correspondant
 		HashMap<Long, Day> mapJours = new HashMap<Long, Day>();
 		

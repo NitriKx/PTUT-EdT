@@ -91,6 +91,23 @@ public class DatabaseManager {
 	//
 	
 	/**
+	 * Insère le groupe s'il ne se trouve pas déjà dans la base de données.
+	 * @param groupe Le groupe à tester
+	 * @return -1 si le groupe existe déjà, le nouvel rowid du groupe si il n'existait pas.
+	 * @throws CannotInsertException
+	 */
+	public long insererGroupeSiIlNExistePas(Group groupe) throws CannotInsertException {
+		// On récupère la liste des Group dans la bdd
+		List<Group> list = this.getAllGroups();
+		
+		// Si le groupe n'y est pas
+		if(!list.contains(groupe))
+			return this.insererGroupe(groupe);
+		
+		return -1;
+	}
+	
+	/**
 	 * Insère un groupe dans la base de données.
 	 * @param groupe Le groupe à ajouter.
 	 * @return L'id du groupe (rowid)
@@ -171,6 +188,9 @@ public class DatabaseManager {
 	public long insererTimeTable(TimeTable timetable) throws Exception {
 		
 		long nouvelId = -1;
+		
+		// Si le groupe du timetable n'existe pas on l'ajoute.
+		this.insererGroupeSiIlNExistePas(timetable.getGroupe());
 		
 		// Nécessaire pour convertir les date en texte au format SQL.
 		// En effet les ContentValues ne peuvent recevoir directement un objet Date
