@@ -23,7 +23,7 @@ public class TimeTableFetcher {
 	
 	/**
 	 * Créer un TimeTable en récupérant le fichier depuis le serveur de l'IUT. 
-	 * @param semestre Le semestre 
+	 * @param semestre Le semestre (Juste le numéro)
 	 * @param semaine La semaine (2 digit)
 	 * @param groupe Le groupe dont on veut l'emploi du temps
 	 * @return Un TimeTable contenant les cours pour le grouep demandé.
@@ -32,17 +32,6 @@ public class TimeTableFetcher {
 	 * @throws ParserException
 	 */
 	public TimeTable recuperer(String semestre, String semaine, Group groupe) throws MalformedURLException, IOException, ParserException {
-		
-		// Si la première lettre du semestre n'est pas S on le rajoute
-		if(!semestre.startsWith("S")) {
-			semestre  = "S" + semestre;
-		}
-		
-		// Si l'utiliateur à fournit un numéro de semaine sans le zéro on le rajoute
-		if(semaine.length() < 2) {
-			semaine = "0" + semaine;
-		}
-		
 		// On créer le parseur
 		ICSFetcher file = new ICSFetcher(semestre, semaine);
 		

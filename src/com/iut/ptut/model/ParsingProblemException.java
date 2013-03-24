@@ -1,4 +1,4 @@
-package com.iut.ptut.ctrl;
+package com.iut.ptut.model;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -10,7 +10,6 @@ import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Property;
 
 import com.iut.ptut.ctrl.CalendarParser;
-import com.iut.ptut.ctrl.ParsingProblemException;
 
 public class Lesson {
 

@@ -22,6 +22,7 @@ import net.fortuna.ical4j.model.Component;
 import com.iut.ptut.model.Day;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
+import com.iut.ptut.model.ParsingProblemException;
 import com.iut.ptut.model.TimeTable;
 
 /**

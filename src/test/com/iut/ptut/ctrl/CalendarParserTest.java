@@ -10,9 +10,9 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.iut.ptut.ctrl.CalendarParser;
-import com.iut.ptut.ctrl.ParsingProblemException;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
+import com.iut.ptut.model.ParsingProblemException;
 
 /**
  * Classe de test de la classe CalendarParser.
