@@ -35,6 +35,17 @@ public class Lesson {
 		this.groupe = new Group();
 	}
 
+	public Lesson(int idLesson, String libelle, String intervenant, String emplacement, Date dateDebut, Date dateFin, int idTimeTable, Group groupe) {
+		this.idLesson = idLesson;
+		this.libelle = libelle;
+		this.intervenant = intervenant;
+		this.emplacement = emplacement;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
+		this.idTimeTable = idTimeTable;
+		this.groupe = groupe;
+	}
+
 	/**
 	 * Contructeur de recopie.
 	 * 

@@ -70,7 +70,7 @@ public class CalendarParser {
 	 * @throws ParserException 
 	 * @throws IOException 
 	 */
-	public static TimeTable getTimeTableDepuisFichierICSStream(InputStream is, Group groupe) throws IOException, ParserException {
+	public static TimeTable getTimeTableDepuisICS(InputStream is, Group groupe) throws IOException, ParserException {
 		BufferedInputStream bis = new BufferedInputStream(is);
 		TimeTable r = CalendarParser.convertirCalendarEnTimeTable(CalendarParser.convertirICSEnICal4J(bis), groupe);
 		bis.close();
@@ -83,7 +83,8 @@ public class CalendarParser {
 	 * @param cal Un calendar "iCal4j"
 	 * @return Un TimeTable avec toute les données du calendar, pour tout les groupes.
 	 */
-	public static TimeTable convertirCalendarEnTimeTable(Calendar cal) {
+	@SuppressWarnings("unused")
+	private static TimeTable convertirCalendarEnTimeTable(Calendar cal) {
 		return CalendarParser.convertirCalendarEnTimeTable(cal, new Group());
 	}
 	
@@ -96,7 +97,7 @@ public class CalendarParser {
 	 * @return Un TimeTable avec les données du calendar
 	 */
 	@SuppressWarnings("rawtypes")
-	public static TimeTable convertirCalendarEnTimeTable(Calendar cal, Group groupe) {
+	private static TimeTable convertirCalendarEnTimeTable(Calendar cal, Group groupe) {
 		
 		TimeTable tt = new TimeTable();
 		tt.setGroupe(groupe);
@@ -151,7 +152,7 @@ public class CalendarParser {
 	 * @throws IOException
 	 * @throws ParserException
 	 */
-	public static Calendar convertirICSEnICal4J(InputStream is) throws IOException, ParserException {
+	private static Calendar convertirICSEnICal4J(InputStream is) throws IOException, ParserException {
 		// On le fait parser par iCal4J
 		CalendarBuilder builder = new CalendarBuilder();
 		Calendar result = builder.build(is);

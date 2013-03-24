@@ -1,12 +1,13 @@
 package com.iut.ptut;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.fortuna.ical4j.data.ParserException;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.model.AssetsManager;
 import com.iut.ptut.model.Group;
+import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
@@ -75,13 +77,38 @@ public class MainActivity extends Activity implements TabListener {
 		setContentView(R.layout.activity_main);
 		// wAct.getWeekActivity();
 
-		/*DatabaseManager bdd = DatabaseManager.getInstance();
+		DatabaseManager bdd = DatabaseManager.getInstance();
 
 		bdd.open();
 
 		try {
-			TimeTable t = CalendarParser.getTimeTableDepuisFichierICSStream(AssetsManager.ouvrirInputStreamAsset("tests/S4_08.ics"), new Group("2B", 4, 2012));
+			Group grp =  new Group("2B", 4, 2012);
+			Date debut = null;
+			Date fin = null;
+			TimeTable t = CalendarParser.getTimeTableDepuisICS(AssetsManager.ouvrirInputStreamAsset("tests/S4_08.ics"), grp);
 			bdd.insererTimeTable(t);
+			
+			Calendar cal  = Calendar.getInstance();
+			
+			cal.set(Calendar.YEAR, 2013);
+			cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+			cal.set(Calendar.DAY_OF_MONTH, 20);
+			
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			debut = cal.getTime();
+			
+			cal.set(Calendar.HOUR_OF_DAY, 23);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			cal.set(Calendar.MILLISECOND, 999);
+			fin = cal.getTime();
+			
+			List<Lesson> l = bdd.getListeLessonPourPeriode(debut, fin);
+			_log.log(Level.INFO, l.toString());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParserException e) {
@@ -90,7 +117,7 @@ public class MainActivity extends Activity implements TabListener {
 			e.printStackTrace();
 		}
 		
-		bdd.close();*/
+		bdd.close();
 
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

@@ -17,6 +17,7 @@ public class AssetsManager {
 	public static final String lireContenuAssets(String nom) throws IOException {
 		StringBuffer contenu = new StringBuffer();
 		byte buf[] = new byte[30];
+		// On récupère un InputStream vers l'asset
 		InputStream is = MainActivity.context.getAssets().open(ConfigManager.getInstance().getProperty(nom)); 
 		BufferedInputStream bis = new BufferedInputStream(is);
 		while (bis.read(buf) > 0) {
