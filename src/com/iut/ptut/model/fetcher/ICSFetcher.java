@@ -41,7 +41,7 @@ public class ICSFetcher {
 		String nomFichier = templateFichier.replaceAll("@semestre@", this.semestre).replaceAll("@semaine@", this.semaine);
 		
 		// On récupère le fichier
-		return this.getFile(new URL(String.format("%s://%s", protocol, host + chemin + nomFichier)));
+		return this.getFile(new URL(String.format("%s://%s", protocol, host + chemin + nomFichier))); 
 	}
 		
 	private InputStream getFile(URL u) throws IOException {
