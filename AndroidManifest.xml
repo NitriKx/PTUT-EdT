@@ -26,6 +26,9 @@
             android:name=".view.WeekActivity">
         </activity>
         <activity 
+            android:name=".view.MessagesActivity">
+        </activity>
+        <activity 
             android:name=".view.TodayActivity">
         </activity>
     </application>

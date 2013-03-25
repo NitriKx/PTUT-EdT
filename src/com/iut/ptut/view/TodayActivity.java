@@ -5,8 +5,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ActionBar.Tab;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,16 +19,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 import com.iut.ptut.R;
+import com.iut.ptut.ctrl.DateTools;
 import com.iut.ptut.model.Day;
+import com.iut.ptut.view.MessagesActivity.ActionBarTabsListener;
 
 public class TodayActivity extends Activity {
 	
 	Calendar cal;
 	Date d;
+	DateTools dt;
 	private Button h0800;
 	private Button h0930;
 	private Button h1105;
@@ -49,11 +57,35 @@ public class TodayActivity extends Activity {
 		this.h1715 = (Button)findViewById(R.id.h1715);
 		 
 		
+		ActionBar actionbar = getActionBar();
+		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		
+		ActionBar.Tab tabToday = actionbar.newTab().setText("Aujourd'hui");
+		ActionBar.Tab tabSemaine = actionbar.newTab().setText("Semaine");
+		ActionBar.Tab tabMessage = actionbar.newTab().setText("Messages");
+
+		// definition des fragments qui seronts associés
+		// http://developer.android.com/guide/components/fragments.html
+		Fragment fragToday = new Fragment();
+		Fragment fragSemaine = new Fragment();
+		Fragment fragMessage = new Fragment();
+
+		tabToday.setTabListener(new ActionBarTabsListener(fragToday));
+		tabSemaine.setTabListener(new ActionBarTabsListener(fragSemaine));
+		tabMessage.setTabListener(new ActionBarTabsListener(fragMessage));
+
+		actionbar.addTab(tabToday);
+		actionbar.addTab(tabSemaine);
+		actionbar.addTab(tabMessage);
+
+		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+		
 	} 
 	protected void onStart(){
 		 super.onStart();
-		 getDay();
-		 System.out.println("test");
+		
 	 }
 	
 	 
@@ -86,6 +118,7 @@ public class TodayActivity extends Activity {
 	}
 	
 	public void getDay(){
+		
 		this.h0800.setText(" 08:00-09h30 - ACSI - 102 ");
 		this.h0930.setText(" 09:30-11h05 - CN - 103 ");
 		this.h1105.setText(" 11:05-12h30 - CLO - 105 ");
@@ -176,4 +209,46 @@ public class TodayActivity extends Activity {
 		return text;
 	}*/
 
+	
+	
+	 protected class ActionBarTabsListener implements ActionBar.TabListener {
+
+	 		private Fragment fragment;
+	 		int i = 0;
+
+	 		public ActionBarTabsListener(Fragment fragment) {
+	 			this.fragment = fragment;
+	 		}
+
+	 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	 			// TODO Auto-generated method stub
+	 			i++;
+	 			if (i >= 7) {
+	 				Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ", Toast.LENGTH_SHORT).show();
+	 			}
+	 		}
+
+	 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	 			if (getActionBar().getSelectedTab().getText() == "Messages"){
+	 				Intent intent = new Intent(TodayActivity.this, MessagesActivity.class);
+	 				startActivity(intent);
+	 			}
+
+	 			if (getActionBar().getSelectedTab().getText() == "Aujourd'hui") {
+	 				
+	 			}
+
+	 			if (getActionBar().getSelectedTab().getText() == "Semaine") {
+	 				Intent intent = new Intent(TodayActivity.this, WeekActivity.class);
+	 				startActivity(intent);
+	 			}
+	 			i = 0;
+	 		}
+
+	 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	 			// TODO Auto-generated method stub
+
+	 		}
+
+	 	}
 }
