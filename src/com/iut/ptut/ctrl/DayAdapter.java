@@ -8,6 +8,7 @@ import java.util.List;
 import com.iut.ptut.model.Day;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.database.DatabaseManager;
+import com.iut.ptut.model.database.DatabaseManipulationException;
 
 /**
  * Cette classe permet de retourner une liste de lesson, en fonction du jour courant.
@@ -16,7 +17,7 @@ import com.iut.ptut.model.database.DatabaseManager;
  */
 public class DayAdapter {
 	
-	public static List<Lesson> getLesson() {
+	public static List<Lesson> getLesson() throws DatabaseManipulationException {
 		
 		// On récupère l'instance unique de la base de données 
 		DatabaseManager bdd = DatabaseManager.getInstance();
@@ -47,11 +48,11 @@ public class DayAdapter {
 		Date fin = cal.getTime();
 		
 		// On récupère dans la base le lessons pour le jour
-		List<Lesson> coursJour = bdd.getListeLessonPourPeriode(debut, fin);
+		List<Lesson> coursJour;
 		
+		coursJour = bdd.getListeLessonPourPeriode(debut, fin);
+	
 		bdd.close();
-		
-		// TODO: Vérifier si pas de jours ?
 			
 		return coursJour;
 	}
