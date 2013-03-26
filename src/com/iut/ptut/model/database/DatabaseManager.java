@@ -37,6 +37,12 @@ public class DatabaseManager {
 
 	private SQLiteDatabase bdd;
 	private DatabaseCreator bdd_creator;
+	
+	// Nécessaire pour convertir les date en texte au format SQL.
+	// En effet les ContentValues ne peuvent recevoir directement un objet
+	// Date
+	// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 	private class LessonTable {
 		public static final String nom = "lesson";
@@ -173,12 +179,16 @@ public class DatabaseManager {
 		List<Group> list = new ArrayList<Group>();
 		// On récupère un Cursor contenant toute les lignes
 		Cursor c = this.bdd.query(GroupTable.nom, new String[] { GroupTable.col_id }, null, null, null, null, null);
-
-		// Pour ne pas perdre le premier enregistrement
-		list.add(lireGroupe(c.getString(0)));
-		while (c.moveToNext())
+		c.moveToFirst();
+		
+		// Si il y a des groupes
+		if(c.getCount() > 0) {
+			// Pour ne pas perdre le premier enregistrement
 			list.add(lireGroupe(c.getString(0)));
-
+			while (c.moveToNext())
+				list.add(lireGroupe(c.getString(0)));
+		}
+		
 		// On ferme le cursor pour libérer les ressources
 		c.close();
 		return list;
@@ -198,30 +208,70 @@ public class DatabaseManager {
 	// TIMETABLES
 	//
 	//
+	
+	/**
+	 * Met à jour le TimeTable pour une semaine. <br/>
+	 * Pour le moment la méthode supprime le TimeTable de la même semaine et du même groupe que le TimeTable
+	 * passé en paramètre et ajoute simplement le nouveau.
+	 * @param nouveauTT Le TimeTable contenant les nouvelles données.
+	 * @return L'indentifant du TimeTable ajouté à la base (égament rajouté dnas l'objet). 
+	 * @throws DatabaseManipulationException 
+	 */
+	public long majTimeTable(TimeTable nouveauTT) throws DatabaseManipulationException {
+		
+		Calendar cal = Calendar.getInstance();
+		
+		// On récupère les date de début et de fin de semaine
+		cal.setTime(nouveauTT.getDateDebut());
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date dateDebutSemaine = cal.getTime();
+		
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+		Date dateFinSemaine = cal.getTime();
+		
+		String selectionSQL = "dateDebut >= '" + dateFormat.format(dateDebutSemaine) + "' AND " + "dateFin <= '" + dateFormat.format(dateFinSemaine) + "' AND " + "groupe = '" + formaterGroupe(nouveauTT.getGroupe()) + "'";
+		Cursor c = this.bdd.query(TimeTableTable.nom, new String[]{TimeTableTable.col_id}, selectionSQL, null, null, null, null);
+		c.moveToFirst();
+		// Si il n'y a pas de TimeTable pour la période
+		if(c.getCount() <= 0) {
+			_log.log(Level.INFO, "Impossible de trouver un emploi du temps pour la période.");
+		
+		} else {
+			int col = c.getColumnIndex(TimeTableTable.col_id);
+			int id = c.getInt(col);
+			// On le supprime
+			this.supprimerTimeTable(id);
+		}
+		
+		return this.insererTimeTable(nouveauTT);
+	}
+	
 
 	/**
 	 * Insère un objet TimeTable dans la base de données. <br/>
 	 * L'identifiant sera <b>automatiquement rajouté</b> dans l'objet.
 	 * 
 	 * @param timetable
-	 *            Le TimeTable a insérer.
+	 *            Le TimeTable a insérer (l'id sera rajouté).
 	 * @return L'id du TimeTable inséré (également rajouté dans l'objet).
-	 * @throws DatabaseManipulationException 
-	 * 				Est levée lorsque le groupe n'existe pas.
-	 *             
+	 * @throws DatabaseManipulationException
+	 *             Est levée lorsque le groupe n'existe pas.
+	 * 
 	 */
-	public long insererTimeTable(TimeTable timetable) throws DatabaseManipulationException {
+	private long insererTimeTable(TimeTable timetable) throws DatabaseManipulationException {
 
 		long nouvelId = -1;
 
 		// Si le groupe du timetable n'existe pas on l'ajoute.
 		this.insererGroupeSiIlNExistePas(timetable.getGroupe());
-
-		// Nécessaire pour convertir les date en texte au format SQL.
-		// En effet les ContentValues ne peuvent recevoir directement un objet
-		// Date
-		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();
@@ -264,101 +314,99 @@ public class DatabaseManager {
 	 *            La semaine de cours que l'on souhaite récupérer
 	 * @param annee
 	 *            L'année de cette semaine
-	 * @return Une TimeTable correctement remplis ou null si aucun TimeTable n'a été trouvé
-	 * @throws ParseException 
+	 * @return Une TimeTable correctement remplis ou null si aucun TimeTable n'a
+	 *         été trouvé
+	 * @throws ParseException
 	 */
-	public TimeTable recupererTimeTable(Group groupe, int semaine, int annee) throws ParseException {
-		
-		// Nécessaire pour convertir les date en texte au format SQL.
-		// En effet les ContentValues ne peuvent recevoir directement un objet
-		// Date
-		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-		
+	public TimeTable getTimeTable(Group groupe, int semaine, int annee) throws ParseException {
+
 		Date debutSemaine = DateTools.calculeTimestampDebutSemaine(semaine, annee);
 		Date finSemaine = DateTools.calculeTimestampFinSemaine(semaine, annee);
-		
-		String selectionSQL = "dateDebut >= " + dateFormat.format(debutSemaine) +
-				" AND " +
-				"dateFin <= " + dateFormat.format(finSemaine) +
-				" AND " +
-				"groupe = " + formaterGroupe(groupe);
-		
+
+		String selectionSQL = "dateDebut >= '" + dateFormat.format(debutSemaine) + "' AND " + "dateFin <= '" + dateFormat.format(finSemaine) + "' AND " + "groupe = '" + formaterGroupe(groupe) + "'";
+
 		// On récupère un Cursor contenant l'emploi du temps
 		Cursor cTT = this.bdd.query(TimeTableTable.nom, null, selectionSQL, null, null, null, null);
-		
+
 		// Si le TimeTable n'existe pas on retourne null
-		if(cTT.getCount() <= 0) {
+		if (cTT.getCount() <= 0) {
 			return null;
 		}
-		
+
 		// On créer un TimeTable (sans les jours) avec les données de la base
-		TimeTable timeTable = new TimeTable(
-				cTT.getInt(cTT.getColumnIndex(TimeTableTable.col_id)), 
-				dateFormat.parse(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_date_debut))), 
-				dateFormat.parse(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_date_fin))), 
-				new Vector<Day>(), 
-				lireGroupe(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_groupe))));
-		
+		TimeTable timeTable = new TimeTable(cTT.getInt(cTT.getColumnIndex(TimeTableTable.col_id)), dateFormat.parse(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_date_debut))),
+				dateFormat.parse(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_date_fin))), new Vector<Day>(), lireGroupe(cTT.getString(cTT.getColumnIndex(TimeTableTable.col_groupe))));
+
 		// On récupère le sjours associé au TimeTable
 		selectionSQL = LessonTable.col_id_timetable + " = " + timeTable.getId();
 		Cursor cLesson = this.bdd.query(LessonTable.nom, null, selectionSQL, null, null, null, null);
-		
+
 		// Pour les 5 jours de cours
-		for(int i = 2; i < 2+5; i++) {
-			
+		for (int i = 2; i < 2 + 5; i++) {
+
 			Day jour = new Day();
-			
+
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.YEAR, annee);
 			cal.set(Calendar.WEEK_OF_YEAR, semaine);
-			// Ici le i est une valeur de l'énumrtion des jour de la semaine de Calendar (2 = MONDAY, ...)
+			// Ici le i est une valeur de l'énumrtion des jour de la semaine de
+			// Calendar (2 = MONDAY, ...)
 			cal.set(Calendar.DAY_OF_WEEK, i);
-			
+
 			cal.set(Calendar.HOUR_OF_DAY, 0);
 			cal.set(Calendar.MINUTE, 0);
 			cal.set(Calendar.SECOND, 0);
 			cal.set(Calendar.MILLISECOND, 0);
 			Date debutJour = cal.getTime();
-			
+
 			cal.set(Calendar.HOUR_OF_DAY, 23);
 			cal.set(Calendar.MINUTE, 59);
 			cal.set(Calendar.SECOND, 59);
 			cal.set(Calendar.MILLISECOND, 999);
 			Date finJour = cal.getTime();
-			
+
 			// Pour toute les lesson recupérées
 			for (int j = 0; j < cLesson.getCount(); j++) {
-				
+
 				// On convertit les date du jour selectionné
 				Date debutCours = dateFormat.parse(cLesson.getString(cLesson.getColumnIndex(LessonTable.col_date_debut)));
 				Date finCours = dateFormat.parse(cLesson.getString(cLesson.getColumnIndex(LessonTable.col_date_fin)));
 
 				// Si le cours est dans le jour actuel
-				if(debutJour.before(debutCours) && finJour.after(finCours)) {
+				if (debutJour.before(debutCours) && finJour.after(finCours)) {
 					// On créer la Lesson et on l'ajout au jour.
-					Lesson l = new Lesson(
-							cLesson.getInt(cLesson.getColumnIndex(LessonTable.col_id)), 
-							cLesson.getString(cLesson.getColumnIndex(LessonTable.col_libelle)), 
-							cLesson.getString(cLesson.getColumnIndex(LessonTable.col_intervenant)), 
-							cLesson.getString(cLesson.getColumnIndex(LessonTable.col_emplacement)), 
-							debutCours, 
-							finCours, 
-							timeTable.getId(), 
+					Lesson l = new Lesson(cLesson.getInt(cLesson.getColumnIndex(LessonTable.col_id)), cLesson.getString(cLesson.getColumnIndex(LessonTable.col_libelle)), cLesson.getString(cLesson
+							.getColumnIndex(LessonTable.col_intervenant)), cLesson.getString(cLesson.getColumnIndex(LessonTable.col_emplacement)), debutCours, finCours, timeTable.getId(),
 							timeTable.getGroupe());
 					jour.addLesson(l);
 				}
-				
+
 			}
-			
+
 			// On reset le curseur
 			cLesson.moveToFirst();
 			timeTable.addDay(jour);
 		}
-		
-		
+
 		return timeTable;
 	}
+	
+	/**
+	 * Supprimme le TimeTable de la base et les Lessons associées
+	 * @param tt Le TimeTable à supprimer (basé sur le champs Id)
+	 * @return le nombre de destructions
+	 */
+	public int supprimerTimeTable(int idTT) {
+		int nb = 0;
+		// Destruction des Lessons associées
+		nb += this.bdd.delete(LessonTable.nom, LessonTable.col_id_timetable + " = " + idTT, null);
+		// Destruction de l'entrée TimeTable
+		nb += this.bdd.delete(TimeTableTable.nom, TimeTableTable.col_id + " = " + idTT, null);
+		
+		_log.log(Level.INFO, "TimeTable n°" + idTT + "supprimé (" + nb + " suppressions).");
+		return nb;
+	}
+	
 
 	//
 	//
@@ -374,40 +422,34 @@ public class DatabaseManager {
 	 * @param fin
 	 *            La fin de la période (non compris)
 	 * @return Une liste d'objet Lesson où le cours se déroule dans la période.
-	 * @throws DatabaseManipulationException 
+	 * @throws DatabaseManipulationException
 	 */
 	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin) throws DatabaseManipulationException {
 		List<Lesson> resultat = new ArrayList<Lesson>();
-		SimpleDateFormat parserSQLite = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
-		
+
 		Cursor c = this.bdd
 				.query(LessonTable.nom, new String[] {}, LessonTable.col_date_debut + " > datetime(" + (debut.getTime() / 100) + ", 'unixepoch', 'localtime')", null, null, null, null, null);
 
 		// Si on a des résultats
-		if(c.getCount() > 0) {
+		if (c.getCount() > 0) {
 			do {
 				try {
-					
-					// On créer l'objet Lesson et on l'ajout à la liste de résultats
-					resultat.add(new Lesson(
-							c.getInt(c.getColumnIndex(LessonTable.col_id)),
-							c.getString(c.getColumnIndex(LessonTable.col_libelle)),
-							c.getString(c.getColumnIndex(LessonTable.col_intervenant)),
-							c.getString(c.getColumnIndex(LessonTable.col_emplacement)),
-							parserSQLite.parse(c.getString(c.getColumnIndex(LessonTable.col_date_debut))),
-							parserSQLite.parse(c.getString(c.getColumnIndex(LessonTable.col_date_fin))),
-							c.getInt(c.getColumnIndex(LessonTable.col_id_timetable)),
-							new Group()
-					));
-					
+
+					// On créer l'objet Lesson et on l'ajout à la liste de
+					// résultats
+					resultat.add(new Lesson(c.getInt(c.getColumnIndex(LessonTable.col_id)), c.getString(c.getColumnIndex(LessonTable.col_libelle)), c.getString(c
+							.getColumnIndex(LessonTable.col_intervenant)), c.getString(c.getColumnIndex(LessonTable.col_emplacement)), dateFormat.parse(c.getString(c
+							.getColumnIndex(LessonTable.col_date_debut))), dateFormat.parse(c.getString(c.getColumnIndex(LessonTable.col_date_fin))), c.getInt(c
+							.getColumnIndex(LessonTable.col_id_timetable)), new Group()));
+
 				} catch (ParseException e) {
 					throw new DatabaseManipulationException("Erreur lors de la lecture de la date pour le Lesson.");
 				}
 			} while (c.moveToNext());
 		}
-		
+
 		c.close();
-		
+
 		return resultat;
 	}
 
@@ -422,12 +464,6 @@ public class DatabaseManager {
 	 * @throws DatabaseManipulationException
 	 */
 	public long insererLesson(Lesson lesson) throws DatabaseManipulationException {
-
-		// Nécessaire pour convertir les date en texte au format SQL.
-		// En effet les ContentValues ne peuvent recevoir directement un objet
-		// Date
-		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();
@@ -477,12 +513,6 @@ public class DatabaseManager {
 	 * @return True si la mise à jour s'est bien passée.
 	 */
 	public boolean majLesson(Lesson lesson) {
-
-		// Nécessaire pour convertir les date en texte au format SQL.
-		// En effet les ContentValues ne peuvent recevoir directement un objet
-		// Date
-		// pour mettre dans une colonne DATETIME, il faut le convertir en texte.
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
 		// On contruit la liste des associations colonne -> valeur
 		ContentValues vals = new ContentValues();

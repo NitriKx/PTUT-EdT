@@ -24,6 +24,10 @@ public class ICSFetcher {
 		if(pSemaine.length() < 2)
 			pSemaine = "0" + pSemaine;
 		
+		// Si le semestre possède plusieur caractère on ne garde que le dernier
+		if(pSemestre.length() > 1) {
+			pSemestre = "" + pSemestre.charAt(pSemestre.length()-1);
+		}
 		
 		this.semestre=pSemestre;
 		this.semaine=pSemaine;

@@ -6,9 +6,12 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import test.com.iut.ptut.model.database.DatabaseManagerTest;
+
 import net.fortuna.ical4j.data.ParserException;
 
 import android.content.ContextWrapper;
+import android.os.AsyncTask;
 
 import com.buzzbox.mob.android.scheduler.Task;
 import com.buzzbox.mob.android.scheduler.TaskResult;
@@ -18,7 +21,7 @@ import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
 
-public class CRONFetcher implements Task {
+public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 
 	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
@@ -32,6 +35,7 @@ public class CRONFetcher implements Task {
 		
 		
 		
+		_log.log(Level.FINE, "CRON terminé !");
 		
 		return result;
 	}
@@ -62,7 +66,8 @@ public class CRONFetcher implements Task {
 		TimeTable resultat = fetcher.recuperer(semestre, noSemaine, groupUtilisateur);
 		
 		manager.open();
-		manager.insererTimeTable(resultat);
+		// On met à jour le TimeTable pour la semaine et le groupe contenu dans le résultat.
+		manager.majTimeTable(resultat);
 		manager.close();
 		
 	}
@@ -83,6 +88,18 @@ public class CRONFetcher implements Task {
 
 	public String getTitle() {
 		return "IUT BLagnac EdT Fetcher";
+	}
+
+
+	@Override
+	protected Void doInBackground(String...params) {
+		// TEST // 
+		try {
+			DatabaseManagerTest.main(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
