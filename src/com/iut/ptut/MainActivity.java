@@ -20,9 +20,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.QuickContactBadge;
 import android.widget.Toast;
 
 import com.iut.ptut.ctrl.CalendarParser;
@@ -32,7 +35,6 @@ import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
-import com.iut.ptut.view.TableLayoutFragment;
 import com.iut.ptut.view.TodayActivity;
 import com.iut.ptut.view.WeekActivity;
 
@@ -40,20 +42,23 @@ public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
-
+	
 	private final Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public static Context context = null;
-
+	
+	private String menuAbout;
+	private String menuActualiser;
+	
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
 	WeekActivity wAct;
 	Calendar c = Calendar.getInstance();
-
-	private TableLayoutFragment TabToday = new TableLayoutFragment("Aujourd'hui", 2);
-	private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
-	private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages", 3);
+	
+	//private TableLayoutFragment TabToday = new TableLayoutFragment("Aujourd'hui", 2);
+	//private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
+	//private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages", 3);
 
 	// private TableJavaFragment TabDebug = new TableJavaFragment();
 	// private String debug= new String("debug");
@@ -74,9 +79,13 @@ public class MainActivity extends Activity implements TabListener {
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 
-		setContentView(R.layout.activity_main);
-		// wAct.getWeekActivity();
-
+		//setContentView(R.layout.activity_main);
+		
+<<<<<<< HEAD
+		
+=======
+/*
+>>>>>>> origin/master
 		DatabaseManager bdd = DatabaseManager.getInstance();
 
 		bdd.open();
@@ -118,7 +127,7 @@ public class MainActivity extends Activity implements TabListener {
 		}
 		
 		bdd.close();
-
+*/
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -143,6 +152,8 @@ public class MainActivity extends Activity implements TabListener {
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+		
+		
 	}
 
 	private WeekActivity WeekActivity() {
@@ -155,52 +166,7 @@ public class MainActivity extends Activity implements TabListener {
 		return null;
 	}
 
-	protected class ActionBarTabsListener implements ActionBar.TabListener {
-
-		private Fragment fragment;
-		int i = 0;
-
-		public ActionBarTabsListener(Fragment fragment) {
-			this.fragment = fragment;
-		}
-
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-			i++;
-			if (i >= 7) {
-				Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ", Toast.LENGTH_SHORT).show();
-			}
-		}
-
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-			if (getActionBar().getSelectedTab().getText() == "Messages")
-				setContentView(R.layout.informations);
-
-			if (getActionBar().getSelectedTab().getText() == "Aujourd'hui") {
-				Intent intent = new Intent(MainActivity.this, TodayActivity.class);
-				startActivity(intent);
-			}
-
-			if (getActionBar().getSelectedTab().getText() == "Semaine") {
-				System.out.println("dafuq");
-				String s = c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
-
-				// setContentView(R.layout.activity_week);
-				// Button b1 = (Button)findViewById(R.id.week_b1);
-				// b1.setText(s);
-				// intent pour appeler l'autre activity
-				Intent intent = new Intent(MainActivity.this, WeekActivity.class);
-				startActivity(intent);
-			}
-			i = 0;
-		}
-
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
+	
 
 	public void launchWeek() {
 		System.out.println("voilou");
@@ -210,13 +176,16 @@ public class MainActivity extends Activity implements TabListener {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// getMenuInflater().inflate(R.menu.activity_list_item, menu);
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.liste_menu, menu);
+	    
+		//getMenuInflater().inflate(R.menu.liste_menu, menu);
 		// possibilité d'ajouter des items au menu avec la méthode menu.add(
 		// String pS);
 
 		// Méthode java (NE PAS UTILISER). Le XML est beaucoup plus simple
-		// menu.add("testMenu");
-		// menu.add("testMenu2");
+		//menu.add("About");
+		//menu.add("Actualiser");
 
 		return true;
 	}
@@ -233,7 +202,18 @@ public class MainActivity extends Activity implements TabListener {
 		 * quel item a été cliqué grâce à son id et on déclenche une // action
 		 * return false;
 		 */
-		return true;
+		switch (item.getItemId()) {
+		case R.id.menu_about:
+			setContentView(R.layout.informations);
+			return true;
+		case R.id.menu_param:
+			return true;
+			
+		default:
+			break;
+		}
+		return false;
+		
 	}
 
 	//
@@ -354,10 +334,71 @@ public class MainActivity extends Activity implements TabListener {
 		// TODO Auto-generated method stub
 		// Toast.makeText(this, tab.getText() + " selected",
 		// Toast.LENGTH_SHORT).show();
+		
+		/*
 		if (tab.getText().equals(TabToday.getName()))
 			ft.remove(TabToday);
 		else if (tab.getText().equals(TabMsg.getName()))
 			ft.remove(TabMsg);
+			*/
 
 	}
+	
+	
+	
+	protected class ActionBarTabsListener implements ActionBar.TabListener {
+
+		private Fragment fragment;
+		int i = 0;
+
+		public ActionBarTabsListener(Fragment fragment) {
+			this.fragment = fragment;
+		}
+
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+			i++;
+			if (i >= 7) {
+				Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			if (getActionBar().getSelectedTab().getText() == "Messages")
+				setContentView(R.layout.informations);
+
+			if (getActionBar().getSelectedTab().getText() == "Aujourd'hui") {
+				Intent intent = new Intent(MainActivity.this, TodayActivity.class);
+				startActivity(intent);
+			}
+
+			if (getActionBar().getSelectedTab().getText() == "Semaine") {
+				System.out.println("dafuq");
+				String s = c.DECEMBER + " " + c.DAY_OF_MONTH + " " + c.MONTH;
+
+				// setContentView(R.layout.activity_week);
+				// Button b1 = (Button)findViewById(R.id.week_b1);
+				// b1.setText(s);
+				// intent pour appeler l'autre activity
+				Intent intent = new Intent(MainActivity.this, WeekActivity.class);
+				startActivity(intent);
+			}
+			i = 0;
+		}
+
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

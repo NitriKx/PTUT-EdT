@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_actualiser"
+        android:title="Actualiser"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    
+    <item android:id="@+id/menu_param"
+        android:title="Paramètre"
+        android:orderInCategory="100"        
+        android:showAsAction="never" />
+    
+    <item android:id="@+id/menu_about"
+        android:title="A propos"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>

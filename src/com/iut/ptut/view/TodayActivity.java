@@ -1,30 +1,37 @@
 package com.iut.ptut.view;
 
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TableRow.LayoutParams;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iut.ptut.R;
-import com.iut.ptut.model.Day;
-
+import com.iut.ptut.ctrl.DayAdapter;
+import com.iut.ptut.model.Group;
+import com.iut.ptut.model.Lesson;
+import com.iut.ptut.model.database.DatabaseManipulationException;
+/**
+ * 
+ * @author Hugz2 & modified by Remy
+ *
+ */
 public class TodayActivity extends Activity {
-	
-	Calendar cal;
-	Date d;
+
+	//h0800 pour créneaux 8h00
+	//h0930 pour créneaux 09h30
 	private Button h0800;
 	private Button h0930;
 	private Button h1105;
@@ -32,31 +39,191 @@ public class TodayActivity extends Activity {
 	private Button h1540;
 	private Button h1715;
 	
+	private List<Lesson> MyListLesson;
 	
 	public void onCreate (Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_today);
 		
-		cal = Calendar.getInstance();
-		d= new Date();
-		d= cal.getTime();
+		//code de remy pour l'acionBar et les fragment
+		//Extract Méthode by Hugz2
+		setEnFonctionActionBar();
 		
-		this.h0800 = (Button)findViewById(R.id.h0800);
-		this.h0930 = (Button)findViewById(R.id.h0930);
-		this.h1105 = (Button)findViewById(R.id.h1105);
-		this.h1415 = (Button)findViewById(R.id.h1415);
-		this.h1540 = (Button)findViewById(R.id.h1540);
-		this.h1715 = (Button)findViewById(R.id.h1715);
-		 
+		try{
+			/*code de test, A SUPPRIMER APRES*/
+			Lesson less = new Lesson(1, "ACSI", "JMB", "101", new Date(), new Date(), 1, new Group());
+			/*FIN de code de test.*/
+			this.MyListLesson = DayAdapter.getLesson();
 		
+			//association entre les boutons java et les boutons du XML
+			this.h0800 = (Button)findViewById(R.id.h0800);
+			this.h0930 = (Button)findViewById(R.id.h0930);
+			this.h1105 = (Button)findViewById(R.id.h1105);
+			this.h1415 = (Button)findViewById(R.id.h1415);
+			this.h1540 = (Button)findViewById(R.id.h1540);
+			this.h1715 = (Button)findViewById(R.id.h1715);
+			
+			//Permet de remplire tous les boutons avec la liste de lesson du jour courant.
+			setValuesButtons();
+			
+		}catch(DatabaseManipulationException e)
+		{
+			DatabaseManipulationException e1 = new DatabaseManipulationException("Erreur dans mon test");
+		}
+	}
+	
+	/**
+	 * permet de charger toutes les valeur des lessons d'un jour dans les bouttons.
+	 * @author Hugz2
+	 * @param
+	 */
+	public void setValuesButtons(){
+			
+		try {
+			// Si la liste est vide n'est pas vide on continue
+			if(!MyListLesson.isEmpty())
+			{				
+				//boucle pour parcourir les 6 créneaux de la journée.
+				//pour chaque créneaux je change le text du bouton qui correspond à ce créneaux
+				String b1;
+				for (int i = 0; i <DayAdapter.getLesson().size() ; i++) {
+					b1 = getValueButton(i);
+					
+					switch (i) {
+					case 0:
+						this.h0800.setText(b1);
+						break;
+					case 1:
+						this.h0930.setText(b1);
+						break;
+					case 2:
+						this.h1105.setText(b1);
+						break;
+					case 3:
+						this.h1415.setText(b1);
+						break;
+					case 4:
+						this.h1540.setText(b1);		
+						break;
+					case 5:
+						this.h1715.setText(b1);
+						break;
+
+					default:
+						break;
+					}
+				}
+				
+			}else{
+				//on gére le cas ou la liste est vide, on remplis tous les champs à "Tu n'as pas cours"
+				this.h0800.setText("Tu n'as pas cours");
+				this.h0930.setText("Tu n'as pas cours");
+				this.h1105.setText("Tu n'as pas cours");
+				this.h1415.setText("Tu n'as pas cours");
+				this.h1540.setText("Tu n'as pas cours");
+				this.h1715.setText("Tu n'as pas cours");
+			}	
+		} catch (DatabaseManipulationException e) {
+			// TODO Auto-generated catch block
+			DatabaseManipulationException e1 = 
+					new DatabaseManipulationException("erreur dans l'initialisation des valeur des boutons");
+			
+		}
+		
+	}
+	
+	/**
+	 * permet de créer une chaine de caractere formaté : "08:00-09:30 - ACSI - 102" en fonction d'un indice pour une Liste de lesson.
+	 * @author Hugz2
+	 * @param  
+	 */
+	private String getValueButton(int pind) throws DatabaseManipulationException {
+		String b1;
+		// je concatenne tous les champs pour faire une chaine affichable dans un boutton.
+		try{
+			try{
+			b1 = ""+this.MyListLesson.get(pind).getDateDebut().getHours()
+					+":"+this.MyListLesson.get(pind).getDateDebut().getMinutes();
+			
+			//9h30
+			b1 += "-"+this.MyListLesson.get(pind).getDateFin().getHours()
+					+":"+this.MyListLesson.get(pind).getDateFin().getMinutes();
+			//cours
+			b1 += " - "+this.MyListLesson.get(pind).getLibelle();
+			//emplacement
+			b1 += " - "+this.MyListLesson.get(pind).getEmplacement();
+			
+			return b1;
+			
+			}catch (Exception e/*test pour nullPointerExep*/) 
+			{
+				return "Tu n'as pas cours";
+			}
+		}catch(Exception e/*test pour DatabaseManipulationExep*/)
+		{
+			return "Tu n'as pas cours";
+		}
+	}
+	
+	/**
+	 * permet de l'allerger le code
+	 * @author Hugz2& remy
+	 */
+	private void setEnFonctionActionBar() {
+		ActionBar actionbar = getActionBar();
+		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		ActionBar.Tab tabToday = actionbar.newTab().setText("Aujourd'hui");
+		ActionBar.Tab tabSemaine = actionbar.newTab().setText("Semaine");
+		ActionBar.Tab tabMessage = actionbar.newTab().setText("Messages");
+
+		// definition des fragments qui seronts associés
+		// http://developer.android.com/guide/components/fragments.html
+		Fragment fragToday = new Fragment();
+		Fragment fragSemaine = new Fragment();
+		Fragment fragMessage = new Fragment();
+
+		tabToday.setTabListener(new ActionBarTabsListener(fragToday));
+		tabSemaine.setTabListener(new ActionBarTabsListener(fragSemaine));
+		tabMessage.setTabListener(new ActionBarTabsListener(fragMessage));
+
+		actionbar.addTab(tabToday);
+		actionbar.addTab(tabSemaine);
+		actionbar.addTab(tabMessage);
+
+		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
 	} 
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.liste_menu, menu);
+	  
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.menu_about:
+			setContentView(R.layout.informations);
+			return true;
+		case R.id.menu_param:
+			return true;
+			
+		default:
+			break;
+		}
+		return false;
+		
+	}
+	
 	protected void onStart(){
 		 super.onStart();
-		 getDay();
-		 System.out.println("test");
+		
 	 }
 	
-	 
    protected void onRestart(){
   	 super.onRestart();
    }
@@ -85,95 +252,45 @@ public class TodayActivity extends Activity {
 		return this;
 	}
 	
-	public void getDay(){
-		this.h0800.setText(" 08:00-09h30 - ACSI - 102 ");
-		this.h0930.setText(" 09:30-11h05 - CN - 103 ");
-		this.h1105.setText(" 11:05-12h30 - CLO - 105 ");
-		this.h1415.setText(" 14:15-15h45 - CLO - 105 ");
-		this.h1540.setText(" 15:45-17h15 - CLO - 105 ");
-		this.h1715.setText(" 17:15-18h40 - CLO - 105 ");
-	}
 	
-	
-	/*
-	//ancienne version
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+	 protected class ActionBarTabsListener implements ActionBar.TabListener {
 
-		containerTable = (TableLayout) getActivity().findViewById(
-				R.id.containerTable);
+	 		private Fragment fragment;
+	 		int i = 0;
 
-		// Recuperation du table layout sur lequel nous allons agir
-		String[] journee = getResources().getStringArray(R.array.day);
+	 		public ActionBarTabsListener(Fragment fragment) {
+	 			this.fragment = fragment;
+	 		}
 
-		// On va calculer la largeur des colonnes en fonction de la marge de 7
-		// On affiche l'enreg dans une ligne
-		TableRow tableRow = new TableRow(getActivity());
-		containerTable.addView(tableRow, new LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		// bordure
-		containerTable.setBackgroundColor(getResources()
-				.getColor(R.color.black));
+	 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	 			// TODO Auto-generated method stub
+	 			i++;
+	 			if (i >= 7) {
+	 				Toast.makeText(getBaseContext(), "éh toi! Appuyer une fois c'est suffisant ! ", Toast.LENGTH_SHORT).show();
+	 			}
+	 		}
 
-		// On crée une ligne de x "journee" colonnes
-		tableRow.setLayoutParams(new LayoutParams(journee.length));
+	 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	 			if (getActionBar().getSelectedTab().getText() == "Messages"){
+	 				Intent intent = new Intent(TodayActivity.this, MessagesActivity.class);
+	 				startActivity(intent);
+	 			}
 
-		// On va commencer par renseigner une ligne de titre par journe
-		int i = 0;
-		for (String item : journee) {
-			TextView text = createTextView(false, i == journee.length - 1);
-			text.setText(item);
-			text.setGravity(Gravity.CENTER);
-			text.setBackgroundColor(getResources().getColor(R.color.blue));
-			tableRow.addView(text, i++);
-		}
+	 			if (getActionBar().getSelectedTab().getText() == "Aujourd'hui") {
+	 				
+	 			}
 
-		for (int j = 0; j < this.nbCreneaux; j++) {
-			tableRow = new TableRow(getActivity());
-			containerTable.addView(tableRow, new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		
-			TextView textHeure = createTextView(j == 6, i == journee.length - 1);
-			TextView textMat = createTextView(j == 6, i == journee.length - 1);
-			TextView textSalle = createTextView(j == 6, i == journee.length - 1);
-			
-			HashMap<String, Integer> map = new HashMap<String, Integer>();
-			
-			map.put("heure", 0);
-			map.put("matiere", 1);
-			map.put("salle", 2);
-			//this.today.getDateDebut().getHours() remplacer par l'outil de benoit
-			String heure = new String();
-			
-			//heure =
-			textHeure.setText("");
-			textMat.setText(this.today.getListLesson().elementAt(j).getLibelle());
-			textSalle.setText(this.today.getListLesson().elementAt(j).getEmplacement());
-			
-			textHeure.setGravity(Gravity.RIGHT);
-			textMat.setGravity(Gravity.RIGHT);
-			textSalle.setGravity(Gravity.RIGHT);
-			
-			tableRow.addView(textHeure, map.get("heure"));
-			tableRow.addView(textMat,  map.get("matiere"));
-			tableRow.addView(textSalle,  map.get("salle"));
-		}
+	 			if (getActionBar().getSelectedTab().getText() == "Semaine") {
+	 				Intent intent = new Intent(TodayActivity.this, WeekActivity.class);
+	 				startActivity(intent);
+	 			}
+	 			i = 0;
+	 		}
 
-	}
+	 		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	 			// TODO Auto-generated method stub
 
-	private TextView createTextView(boolean endline, boolean endcolumn) {
-		TextView text = new TextView(getActivity(), null,
-				R.style.frag3HeaderCol);
-		int bottom = endline ? 1 : 0;
-		int right = endcolumn ? 1 : 0;
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT, 0.3f);
-		params.setMargins(1, 1, right, bottom);
-		text.setLayoutParams(params);
-		text.setPadding(4, 4, 10, 4);
-		text.setBackgroundColor(getResources().getColor(R.color.white));
-		return text;
-	}*/
+	 		}
 
+	 	}
 }
