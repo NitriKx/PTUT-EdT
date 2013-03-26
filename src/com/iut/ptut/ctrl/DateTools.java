@@ -2,6 +2,7 @@ package com.iut.ptut.ctrl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateTools {
@@ -19,6 +20,46 @@ public class DateTools {
 		calendrier.set(java.util.Calendar.SECOND, 0);
 		calendrier.set(java.util.Calendar.MILLISECOND, 0);
 		return calendrier.getTimeInMillis();
+	}
+	
+	/**
+	 * Retourne une date pointant vers le début de la semaine désignée.
+	 * @param noSemaine Le numéro de la semaine dans l'année (1 à 52)
+	 * @param annee L'année dans laquelel est la semaine
+	 * @return Une date pointant vers le début de la semaine désignée
+	 */
+	public static Date calculeTimestampDebutSemaine(int noSemaine, int annee) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.WEEK_OF_YEAR, noSemaine);
+		
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		
+		return cal.getTime();
+	}
+	
+	/**
+	 * Retourne une date pointant vers la fin de la semaine désignée.
+	 * @param noSemaine Le numéro de la semaine dans l'année (1 à 52)
+	 * @param annee L'année dans laquelel est la semaine
+	 * @return Une date pointant vers la fin de la semaine désignée
+	 */
+	public static Date calculeTimestampFinSemaine(int noSemaine, int annee) {
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.WEEK_OF_YEAR, noSemaine);
+		
+		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+		
+		return cal.getTime();
 	}
 	
 	/**
