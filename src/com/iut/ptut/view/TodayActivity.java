@@ -29,9 +29,7 @@ import com.iut.ptut.model.database.DatabaseManipulationException;
  *
  */
 public class TodayActivity extends Activity {
-	
-	//static SimpleDateFormat fmt = new SimpleDateFormat("HH-mm");
-	
+
 	//h0800 pour créneaux 8h00
 	//h0930 pour créneaux 09h30
 	private Button h0800;
