@@ -4,34 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <Button
         android:id="@+id/butTitre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusableInTouchMode="false"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button"
-        android:textStyle="bold" />
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/h0800"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button" />
-
+
     <Button
         android:id="@+id/h0930"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button" />
-
+
     <Button
         android:id="@+id/h1105"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
+        android:gravity="center"
         android:text="Button" />
 
     <TextView
@@ -40,26 +41,26 @@
         android:layout_height="wrap_content"
         android:text="     "
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <Button
         android:id="@+id/h1415"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button" />
-
+
     <Button
         android:id="@+id/h1540"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button" />
-
+
     <Button
         android:id="@+id/h1715"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
+        android:gravity="center"
         android:text="Button" />
 
 </LinearLayout>
