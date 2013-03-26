@@ -1,6 +1,8 @@
 package com.iut.ptut.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -122,5 +124,5 @@ public class TimeTable {
 		}
 		return builder.toString();
 	}
-
+	
 }

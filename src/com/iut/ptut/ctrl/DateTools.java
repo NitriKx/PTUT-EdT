@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateTools {
 	
@@ -68,7 +69,7 @@ public class DateTools {
 	 * @return Une chaine de caractère contenant l'heure et les minutes.
 	 */
 	public static String recupererHeureFormatte(Date date) {
-		DateFormat df = new SimpleDateFormat("HH:mm");
+		DateFormat df = new SimpleDateFormat("HH:mm", Locale.FRANCE);
 		return df.format(date);
 	}
 	
