@@ -51,7 +51,7 @@ public class DayAdapter {
 		//List<Lesson> coursJour;
 		
 		/*code de test, A SUPPRIMER APRES //A DECOMMENTER QUAND LA BDD SERA OK!*/
-		Lesson less = new Lesson(1, "ACSI", "JMB", "101", new Date(), new Date(), 1, new Group());
+		Lesson less = new Lesson(1, "CN", "JMB", "101", new Date(), new Date(), 1, new Group());
 		List<Lesson> coursJour = new ArrayList<Lesson>();
 		coursJour.add(less);
 		coursJour.add(less);

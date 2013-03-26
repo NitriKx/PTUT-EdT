@@ -1,7 +1,6 @@
 package com.iut.ptut.view;
 
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.iut.ptut.R;
+import com.iut.ptut.ctrl.DateTools;
 import com.iut.ptut.ctrl.DayAdapter;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
@@ -38,9 +38,10 @@ public class TodayActivity extends Activity {
 	private Button h1415;
 	private Button h1540;
 	private Button h1715;
+	private Button butTitre;
 	
 	private List<Lesson> MyListLesson;
-	
+
 	public void onCreate (Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_today);
@@ -62,7 +63,12 @@ public class TodayActivity extends Activity {
 			this.h1415 = (Button)findViewById(R.id.h1415);
 			this.h1540 = (Button)findViewById(R.id.h1540);
 			this.h1715 = (Button)findViewById(R.id.h1715);
+			this.butTitre = (Button)findViewById(R.id.butTitre);
 			
+			String titre ="-- Créneaux Deb-Fin  ---  Mathiére  ---  Salle --";
+			//String titre =" Créneaux Deb-Fin | Mathiére | Salle ";
+			this.butTitre.setText(titre);
+		
 			//Permet de remplire tous les boutons avec la liste de lesson du jour courant.
 			setValuesButtons();
 			
@@ -142,18 +148,19 @@ public class TodayActivity extends Activity {
 		// je concatenne tous les champs pour faire une chaine affichable dans un boutton.
 		try{
 			try{
-			b1 = ""+this.MyListLesson.get(pind).getDateDebut().getHours()
-					+":"+this.MyListLesson.get(pind).getDateDebut().getMinutes();
-			
-			//9h30
-			b1 += "-"+this.MyListLesson.get(pind).getDateFin().getHours()
-					+":"+this.MyListLesson.get(pind).getDateFin().getMinutes();
-			//cours
-			b1 += " - "+this.MyListLesson.get(pind).getLibelle();
-			//emplacement
-			b1 += " - "+this.MyListLesson.get(pind).getEmplacement();
-			
-			return b1;
+				b1 = "-- "+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateDebut());
+				b1 += "-"+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateFin());
+				b1 += " ------------"+this.MyListLesson.get(pind).getLibelle();//cours
+				
+				//je test la longeur de la salle pour combler les blanc
+				if(this.MyListLesson.get(pind).getEmplacement().length()==1)
+					b1 += " -----------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
+				else if(this.MyListLesson.get(pind).getEmplacement().length()==2)
+					b1 += " ----------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
+				else if(this.MyListLesson.get(pind).getEmplacement().length()==3)
+					b1 += " ---------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
+				
+				return b1;
 			
 			}catch (Exception e/*test pour nullPointerExep*/) 
 			{
