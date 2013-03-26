@@ -20,9 +20,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.QuickContactBadge;
 import android.widget.Toast;
 
 import com.iut.ptut.ctrl.CalendarParser;
@@ -32,7 +35,6 @@ import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.view.ActivityNotification;
-import com.iut.ptut.view.TableLayoutFragment;
 import com.iut.ptut.view.TodayActivity;
 import com.iut.ptut.view.WeekActivity;
 
@@ -40,17 +42,20 @@ public class MainActivity extends Activity implements TabListener {
 
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
-
+	
 	private final Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public static Context context = null;
-
+	
+	private String menuAbout;
+	private String menuActualiser;
+	
 	// permettra simplement de recuperer la date l'heure ....
 	long theDate;
 	Date actual = new Date(theDate);
 	WeekActivity wAct;
 	Calendar c = Calendar.getInstance();
-
+	
 	//private TableLayoutFragment TabToday = new TableLayoutFragment("Aujourd'hui", 2);
 	//private TableLayoutFragment TabWeek = new TableLayoutFragment("Semaine", 2);
 	//private TableLayoutFragment TabMsg = new TableLayoutFragment("Messages", 3);
@@ -76,7 +81,7 @@ public class MainActivity extends Activity implements TabListener {
 
 		//setContentView(R.layout.activity_main);
 		
-
+		
 		DatabaseManager bdd = DatabaseManager.getInstance();
 
 		bdd.open();
@@ -143,6 +148,8 @@ public class MainActivity extends Activity implements TabListener {
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+		
+		
 	}
 
 	private WeekActivity WeekActivity() {
@@ -165,13 +172,16 @@ public class MainActivity extends Activity implements TabListener {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// getMenuInflater().inflate(R.menu.activity_list_item, menu);
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.liste_menu, menu);
+	    
+		//getMenuInflater().inflate(R.menu.liste_menu, menu);
 		// possibilité d'ajouter des items au menu avec la méthode menu.add(
 		// String pS);
 
 		// Méthode java (NE PAS UTILISER). Le XML est beaucoup plus simple
-		// menu.add("testMenu");
-		// menu.add("testMenu2");
+		//menu.add("About");
+		//menu.add("Actualiser");
 
 		return true;
 	}
@@ -188,7 +198,18 @@ public class MainActivity extends Activity implements TabListener {
 		 * quel item a été cliqué grâce à son id et on déclenche une // action
 		 * return false;
 		 */
-		return true;
+		switch (item.getItemId()) {
+		case R.id.menu_about:
+			setContentView(R.layout.informations);
+			return true;
+		case R.id.menu_param:
+			return true;
+			
+		default:
+			break;
+		}
+		return false;
+		
 	}
 
 	//

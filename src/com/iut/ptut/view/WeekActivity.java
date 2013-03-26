@@ -11,6 +11,9 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -81,8 +84,36 @@ public class WeekActivity extends Activity{
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+		
+		
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.liste_menu, menu);
+	  
+		return true;
+	}
+	/**
+	 * méthode appelée si on clique sur une option du menu
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.menu_about:
+			setContentView(R.layout.informations);
+			return true;
+		case R.id.menu_param:
+			return true;
+		case R.id.menu_actualiser:
+			return true;
+		default:
+			break;
+		}
+		return false;
+		
+	}
 	
 	 protected void onStart(){
 		 super.onStart();
