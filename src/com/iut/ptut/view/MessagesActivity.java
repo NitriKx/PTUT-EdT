@@ -109,7 +109,8 @@ public class MessagesActivity extends Activity{
  			}
 
  			if (getActionBar().getSelectedTab().getText() == "Semaine") {
- 				
+ 				Intent intent = new Intent(MessagesActivity.this, WeekActivity.class);
+ 				startActivity(intent);
  			}
  			i = 0;
  		}

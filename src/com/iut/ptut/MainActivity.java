@@ -81,7 +81,11 @@ public class MainActivity extends Activity implements TabListener {
 
 		//setContentView(R.layout.activity_main);
 		
+<<<<<<< HEAD
 		
+=======
+/*
+>>>>>>> origin/master
 		DatabaseManager bdd = DatabaseManager.getInstance();
 
 		bdd.open();
@@ -123,7 +127,7 @@ public class MainActivity extends Activity implements TabListener {
 		}
 		
 		bdd.close();
-
+*/
 		ActionBar actionbar = getActionBar();
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 

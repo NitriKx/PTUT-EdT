@@ -4,9 +4,11 @@ package com.iut.ptut.view;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.R.string;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -118,7 +120,8 @@ public class WeekActivity extends Activity{
 	 protected void onStart(){
 		 super.onStart();
 		 getSemaine();
-		 System.out.println("test");
+		 
+		
 	 }
 	
 	 
@@ -191,11 +194,11 @@ public class WeekActivity extends Activity{
 		
 		
 		
-		b1.setText(lun);
-		b2.setText(mar);
-		b3.setText(mer);
-		b4.setText(jeu);
-		b5.setText(ven);
+		b1.setText(getlibJour(1));
+		b2.setText(getlibJour(2));
+		b3.setText(getlibJour(3));
+		b4.setText(getlibJour(4));
+		b5.setText(getlibJour(5));
 		
 		b6.setClickable(false);
 		b7.setClickable(false);
@@ -234,9 +237,73 @@ public class WeekActivity extends Activity{
 		case 10 : return "Novembre";
 		case 11 : return "Decembre";
 		default : return "erreur mois";
+		}	
+	}
+	
+	public String verifMois(int jour){
+		int m=cal.get(Calendar.MONTH) ; // m sert a recuperer le mois pour les verifications.
+		System.out.println(m);
+		if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)<1 && m==1 || m==3 || m==5 || m==7 || m==8 || m==10 || m==12){
+			System.out.println("debug 0");
+			return(String.valueOf(31 - cal.get( Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 ) + " " + getMois(cal.get(Calendar.MONTH)-1));
+		}else if ((cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)<1 && m==2 && !IsLeapYear(cal.get(Calendar.YEAR))){
+			System.out.println("debug 2");
+			return(String.valueOf(29 -cal.get( Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+2 ) + " " + getMois(cal.get(Calendar.MONTH)-1));
+		}else if ((cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)<1 && m==2 && IsLeapYear(cal.get(Calendar.YEAR))){
+			System.out.println("debug 3");
+			return(String.valueOf(29 -cal.get( Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 ) + " " + getMois(cal.get(Calendar.MONTH)-1));
+		}else if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)<1 && m==4 || m==6 || m==9 || m==11){
+			System.out.println("debug 4");
+			return(String.valueOf(31 - (cal.get( Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 )) + " " + getMois(cal.get(Calendar.MONTH)-1));
+		}else if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)>31 && m==1 || m==3 || m==5 || m==7 || m==8 || m==10 || m==12){
+			System.out.println("debug 5");
+			return(String.valueOf(31 - cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 ) + " " + getMois(cal.get(Calendar.MONTH)+1));
+		}else if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)>28 && m==2 && !IsLeapYear(cal.get(Calendar.YEAR))){
+			System.out.println("debug 6");
+			return(String.valueOf(28 -cal.get( Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 ) + " " + getMois(cal.get(Calendar.MONTH)+1));
+		}else if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)>29 && m==2 && IsLeapYear(cal.get(Calendar.YEAR))){
+			System.out.println("debug 7");
+			return(String.valueOf(29 - cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1 ) + " " + getMois(cal.get(Calendar.MONTH)+1));
+		}else if ( (cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1)>30 && m==4 || m==6 || m==9 || m==11){
+			System.out.println("debug 8");
+			 return(String.valueOf(32 - cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+jour+1  ) + " " + getMois(cal.get(Calendar.MONTH)+1));
+		}else {
+			System.out.println("debug ultime");
+			return(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)- cal.get(Calendar.DAY_OF_WEEK)+1+jour ) + " " + getMois(cal.get(Calendar.MONTH)));
 		}
 	}
 	
+	public String getlibJour(int jourSem){
+		String str = null;
+		
+		
+		switch (jourSem){
+		case 1:
+			str= "lundi "+verifMois(1);
+			break;
+		case 2:
+			str= "mardi "+verifMois(2);
+			break;	
+		case 3:
+			str= "mercredi "+verifMois(3);
+			break;	
+		case 4:
+			str= "jeudi "+verifMois(4);
+			break;
+		case 5:
+			str= "vendredi "+verifMois(5);
+		break;
+		default : 
+			str = "soucis";
+			break;
+		}
+		return str;
+	}
+	
+	 public static boolean IsLeapYear(int Year) {
+	       return (((Year & 3) == 0) && ((Year % 100 != 0) || (Year % 400 == 0)));
+	 } 
+	 
 	
 	protected class ActionBarTabsListener implements ActionBar.TabListener {
 
