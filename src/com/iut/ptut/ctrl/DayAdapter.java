@@ -1,12 +1,15 @@
 package com.iut.ptut.ctrl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import net.fortuna.ical4j.data.ParserException;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
-
 /**
  * Cette classe permet de retourner une liste de lesson, en fonction du jour courant.
  * @author Hugz2 & NitriKx
@@ -14,7 +17,8 @@ import com.iut.ptut.model.database.DatabaseManipulationException;
  */
 public class DayAdapter {
 	
-	public static List<Lesson> getLesson() throws DatabaseManipulationException {
+	
+	public static List<Lesson> getLesson() throws DatabaseManipulationException, MalformedURLException, IOException, ParserException {
 		
 		// On récupère l'instance unique de la base de données 
 		DatabaseManager bdd = DatabaseManager.getInstance();
@@ -44,8 +48,7 @@ public class DayAdapter {
 		
 		Date fin = cal.getTime();
 		List<Lesson> coursJour;
-		
-		/*code de test, A SUPPRIMER APRES //A DECOMMENTER QUAND LA BDD SERA OK!
+		/*code de test, A SUPPRIMER APRES 
 		Lesson less = new Lesson(1, "CN", "JMB", "101", new Date(), new Date(), 1, new Group());
 		List<Lesson> coursJour = new ArrayList<Lesson>();
 		coursJour.add(less);
@@ -58,9 +61,7 @@ public class DayAdapter {
 		
 		
 		// On récupère dans la base le lessons pour le jour
-		//A DECOMMENTER QUAND LA BDD SERA OK!
 		coursJour = bdd.getListeLessonPourPeriode(debut, fin); 
-		System.out.println(coursJour.toString());
 		bdd.close();
 			
 		return coursJour;

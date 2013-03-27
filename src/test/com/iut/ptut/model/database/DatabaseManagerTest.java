@@ -5,13 +5,15 @@ import java.net.MalformedURLException;
 
 import net.fortuna.ical4j.data.ParserException;
 
+import android.accounts.NetworkErrorException;
+
 import com.iut.ptut.ctrl.CRONFetcher;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
 
 public class DatabaseManagerTest {
 	
-	public static void main (String args[]) throws MalformedURLException, IOException, ParserException, DatabaseManipulationException {
+	public static void main (String args[]) throws MalformedURLException, IOException, ParserException, DatabaseManipulationException, NetworkErrorException {
 		
 		DatabaseManager manager = DatabaseManager.getInstance();
 		manager.open();

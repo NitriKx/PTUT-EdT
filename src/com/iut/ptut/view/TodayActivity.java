@@ -2,8 +2,11 @@ package com.iut.ptut.view;
 
 
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
+import net.fortuna.ical4j.data.ParserException;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -42,19 +45,18 @@ public class TodayActivity extends Activity {
 	private List<Lesson> MyListLesson;
 
 	public void onCreate (Bundle savedInstanceState){
+		
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_today);
-		
 		//code de remy pour l'acionBar et les fragment
 		//Extract Méthode by Hugz2
 		setEnFonctionActionBar();
 		
 		try{
-			/*code de test, A SUPPRIMER APRES*/
-			//Lesson less = new Lesson(1, "ACSI", "JMB", "101", new Date(), new Date(), 1, new Group());
-			/*FIN de code de test.*/
+			
 			this.MyListLesson = DayAdapter.getLesson();
-		
+			
 			//association entre les boutons java et les boutons du XML
 			this.h0800 = (Button)findViewById(R.id.h0800);
 			this.h0930 = (Button)findViewById(R.id.h0930);
@@ -71,11 +73,20 @@ public class TodayActivity extends Activity {
 			//Permet de remplire tous les boutons avec la liste de lesson du jour courant.
 			setValuesButtons();
 			
+		} catch (MalformedURLException e) {
+			 e = new MalformedURLException("URL pas malformé, MalformedURLException");
+			 System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (ParserException e) {
+			System.out.println(e.getMessage());
 		}catch(DatabaseManipulationException e)
 		{
 			e = new DatabaseManipulationException("Erreur dans mon test");
 		}
+		
 	}
+	
 	
 	/**
 	 * permet de charger toutes les valeur des lessons d'un jour dans les bouttons.
@@ -84,14 +95,14 @@ public class TodayActivity extends Activity {
 	 */
 	public void setValuesButtons(){
 			
-		try {
+		
 			// Si la liste est vide n'est pas vide on continue
 			if(!MyListLesson.isEmpty())
 			{				
 				//boucle pour parcourir les 6 créneaux de la journée.
 				//pour chaque créneaux je change le text du bouton qui correspond à ce créneaux
 				String b1;
-				for (int i = 0; i <DayAdapter.getLesson().size() ; i++) {
+				for (int i = 0; i <this.MyListLesson.size() ; i++) {
 					b1 = getValueButton(i);
 					
 					switch (i) {
@@ -121,18 +132,15 @@ public class TodayActivity extends Activity {
 				
 			}else{
 				//on gére le cas ou la liste est vide, on remplis tous les champs à "Tu n'as pas cours"
-				this.h0800.setText(this.MyListLesson.toString()+DayAdapter.getLesson().toString()+"Tu n'as pas cours");
+				this.h0800.setText("Tu n'as pas cours");
 				this.h0930.setText("Tu n'as pas cours");
 				this.h1105.setText("Tu n'as pas cours");
 				this.h1415.setText("Tu n'as pas cours");
 				this.h1540.setText("Tu n'as pas cours");
 				this.h1715.setText("Tu n'as pas cours");
 			}	
-		} catch (DatabaseManipulationException e) {
-			// TODO Auto-generated catch block
-			e = new DatabaseManipulationException("erreur dans l'initialisation des valeur des boutons");
 			
-		}
+		
 		
 	}
 	
@@ -141,11 +149,11 @@ public class TodayActivity extends Activity {
 	 * @author Hugz2
 	 * @param  
 	 */
-	private String getValueButton(int pind) throws DatabaseManipulationException {
+	private String getValueButton(int pind)  {
 		String b1;
 		// je concatenne tous les champs pour faire une chaine affichable dans un boutton.
 		try{
-			try{
+			
 				b1 = "-- "+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateDebut());
 				b1 += "-"+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateFin());
 				b1 += " ---------"+this.MyListLesson.get(pind).getLibelle();//cours
@@ -160,14 +168,12 @@ public class TodayActivity extends Activity {
 				
 				return b1;
 			
-			}catch (Exception e/*test pour nullPointerExep*/) 
-			{
-				return "Tu n'as pas cours";
-			}
-		}catch(Exception e/*test pour DatabaseManipulationExep*/)
+		}catch (Exception e/*test pour nullPointerExep*/) 
 		{
 			return "Tu n'as pas cours";
 		}
+			
+		
 	}
 	
 	/**
