@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.iut.ptut.view.MainActivity;
+import com.iut.ptut.MainActivity;
 
 import android.content.res.AssetManager;
 

@@ -29,7 +29,7 @@ public class DayAdapter {
 		// On récupère l'instance de Calendar (au jour courant par défaut)
 		Calendar cal = Calendar.getInstance();
 		
-		// cal.getTime() -> Récupère la date courrante
+		// cal.getTime() -> Récupèe la date courrante
 		
 		// On met le calendrier au tout début du jour (1 javier 2013 00:00.000)
 		cal.set(Calendar.HOUR_OF_DAY, 0);
