@@ -19,5 +19,7 @@
 	<string name="menu_about">A propos</string>
 	<string name="version">Version : 0.2 ALPHA PRE-RELEASE</string>
 	<string name="creator">Notre Equipe :</string>
-
+	<string name="tab_today">Aujourd\'hui</string>
+	<string name="tab_week">Semaine</string>
+	<string name="tab_message">Messages</string>
 </resources>
