@@ -4,15 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/butTitre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="false"
-        android:gravity="center"
-        android:text="Button"
-        android:textStyle="bold" />
 
     <Button
         android:id="@+id/h0800"
