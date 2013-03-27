@@ -40,7 +40,6 @@ public class TodayActivity extends Activity {
 	private Button h1415;
 	private Button h1540;
 	private Button h1715;
-	private Button butTitre;
 	
 	private List<Lesson> MyListLesson;
 
@@ -64,12 +63,7 @@ public class TodayActivity extends Activity {
 			this.h1415 = (Button)findViewById(R.id.h1415);
 			this.h1540 = (Button)findViewById(R.id.h1540);
 			this.h1715 = (Button)findViewById(R.id.h1715);
-			this.butTitre = (Button)findViewById(R.id.butTitre);
 			
-			String titre ="-- Créneaux Deb-Fin - Matière  -  Salle --";
-			//String titre =" Créneaux Deb-Fin | Mathiére | Salle ";
-			this.butTitre.setText(titre);
-		
 			//Permet de remplire tous les boutons avec la liste de lesson du jour courant.
 			setValuesButtons();
 			
@@ -154,26 +148,17 @@ public class TodayActivity extends Activity {
 		// je concatenne tous les champs pour faire une chaine affichable dans un boutton.
 		try{
 			
-				b1 = "-- "+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateDebut());
-				b1 += "-"+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateFin());
-				b1 += " ---------"+this.MyListLesson.get(pind).getLibelle();//cours
-				
-				//je test la longeur de la salle pour combler les blanc
-				if(this.MyListLesson.get(pind).getEmplacement().length()==1)
-					b1 += " ---------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
-				else if(this.MyListLesson.get(pind).getEmplacement().length()==2)
-					b1 += " --------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
-				else if(this.MyListLesson.get(pind).getEmplacement().length()==3)
-					b1 += " -------"+this.MyListLesson.get(pind).getEmplacement()+" --";//emplacement
-				
-				return b1;
+			b1 = "--- "+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateDebut());
+			b1 += "-"+DateTools.recupererHeureFormatte(this.MyListLesson.get(pind).getDateFin());
+			b1 += " -- "+this.MyListLesson.get(pind).getLibelle();//cours
+			b1 += " -- "+this.MyListLesson.get(pind).getEmplacement()+" --- ";//emplacement
+		
+			return b1;
 			
 		}catch (Exception e/*test pour nullPointerExep*/) 
 		{
 			return "Tu n'as pas cours";
 		}
-			
-		
 	}
 	
 	/**
