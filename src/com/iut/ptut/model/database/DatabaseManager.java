@@ -15,12 +15,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.iut.ptut.MainActivity;
 import com.iut.ptut.ctrl.DateTools;
 import com.iut.ptut.model.Day;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
+import com.iut.ptut.view.MainActivity;
 
 /**
  * Cette classe fournit une collection de méthodes pour intéragir avec la base
@@ -428,7 +428,8 @@ public class DatabaseManager {
 		List<Lesson> resultat = new ArrayList<Lesson>();
 
 		Cursor c = this.bdd
-				.query(LessonTable.nom, new String[] {}, LessonTable.col_date_debut + " > datetime(" + (debut.getTime() / 100) + ", 'unixepoch', 'localtime')", null, null, null, null, null);
+				.query(LessonTable.nom, null, LessonTable.col_date_debut + " =< datetime(" + (debut.getTime() / 100) + ", 'unixepoch', 'localtime')" +
+						" AND " + LessonTable.col_date_fin + " >= datetime(" + (fin.getTime() / 100) + ", 'unixepoch', 'localtime')", null, null, null, null, null);
 
 		// Si on a des résultats
 		if (c.getCount() > 0) {
