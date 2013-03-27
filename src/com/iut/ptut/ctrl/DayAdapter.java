@@ -1,13 +1,8 @@
 package com.iut.ptut.ctrl;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
-import com.iut.ptut.model.Day;
-import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
@@ -48,9 +43,9 @@ public class DayAdapter {
 		cal.set(Calendar.MILLISECOND, 999);
 		
 		Date fin = cal.getTime();
-		//List<Lesson> coursJour;
+		List<Lesson> coursJour;
 		
-		/*code de test, A SUPPRIMER APRES //A DECOMMENTER QUAND LA BDD SERA OK!*/
+		/*code de test, A SUPPRIMER APRES //A DECOMMENTER QUAND LA BDD SERA OK!
 		Lesson less = new Lesson(1, "CN", "JMB", "101", new Date(), new Date(), 1, new Group());
 		List<Lesson> coursJour = new ArrayList<Lesson>();
 		coursJour.add(less);
@@ -64,7 +59,8 @@ public class DayAdapter {
 		
 		// On récupère dans la base le lessons pour le jour
 		//A DECOMMENTER QUAND LA BDD SERA OK!
-		//coursJour = bdd.getListeLessonPourPeriode(debut, fin); 
+		coursJour = bdd.getListeLessonPourPeriode(debut, fin); 
+		System.out.println(coursJour.toString());
 		bdd.close();
 			
 		return coursJour;

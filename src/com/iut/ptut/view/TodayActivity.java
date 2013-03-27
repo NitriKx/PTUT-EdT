@@ -1,7 +1,7 @@
 package com.iut.ptut.view;
 
 
-import java.util.Date;
+
 import java.util.List;
 
 import android.app.ActionBar;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.iut.ptut.R;
 import com.iut.ptut.ctrl.DateTools;
 import com.iut.ptut.ctrl.DayAdapter;
-import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.database.DatabaseManipulationException;
 /**
@@ -52,7 +51,7 @@ public class TodayActivity extends Activity {
 		
 		try{
 			/*code de test, A SUPPRIMER APRES*/
-			Lesson less = new Lesson(1, "ACSI", "JMB", "101", new Date(), new Date(), 1, new Group());
+			//Lesson less = new Lesson(1, "ACSI", "JMB", "101", new Date(), new Date(), 1, new Group());
 			/*FIN de code de test.*/
 			this.MyListLesson = DayAdapter.getLesson();
 		
@@ -74,7 +73,7 @@ public class TodayActivity extends Activity {
 			
 		}catch(DatabaseManipulationException e)
 		{
-			DatabaseManipulationException e1 = new DatabaseManipulationException("Erreur dans mon test");
+			e = new DatabaseManipulationException("Erreur dans mon test");
 		}
 	}
 	
@@ -122,7 +121,7 @@ public class TodayActivity extends Activity {
 				
 			}else{
 				//on gére le cas ou la liste est vide, on remplis tous les champs à "Tu n'as pas cours"
-				this.h0800.setText("Tu n'as pas cours");
+				this.h0800.setText(this.MyListLesson.toString()+DayAdapter.getLesson().toString()+"Tu n'as pas cours");
 				this.h0930.setText("Tu n'as pas cours");
 				this.h1105.setText("Tu n'as pas cours");
 				this.h1415.setText("Tu n'as pas cours");
@@ -131,8 +130,7 @@ public class TodayActivity extends Activity {
 			}	
 		} catch (DatabaseManipulationException e) {
 			// TODO Auto-generated catch block
-			DatabaseManipulationException e1 = 
-					new DatabaseManipulationException("erreur dans l'initialisation des valeur des boutons");
+			e = new DatabaseManipulationException("erreur dans l'initialisation des valeur des boutons");
 			
 		}
 		
@@ -173,7 +171,7 @@ public class TodayActivity extends Activity {
 	}
 	
 	/**
-	 * permet de l'allerger le code
+	 * permet d'allerger le code
 	 * @author Hugz2& remy
 	 */
 	private void setEnFonctionActionBar() {
@@ -262,7 +260,8 @@ public class TodayActivity extends Activity {
 	
 	 protected class ActionBarTabsListener implements ActionBar.TabListener {
 
-	 		private Fragment fragment;
+	 		@SuppressWarnings("unused")
+			private Fragment fragment;
 	 		int i = 0;
 
 	 		public ActionBarTabsListener(Fragment fragment) {
