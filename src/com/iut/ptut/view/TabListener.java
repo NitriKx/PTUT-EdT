@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.iut.ptut.R;
 
@@ -14,6 +15,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     private final Activity mActivity;
     private final String mTag;
     private final Class<T> mClass;
+   
 
     /** Constructor used each time a new tab is created.
       * @param activity  The host Activity, used to instantiate the fragment
@@ -52,6 +54,25 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     }
 
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
-        // User selected the already selected tab. Usually do nothing.
+
+    	//
+    	// Easter Egg
+    	//
+    	// Si c'est l'onglet Messages
+    	if(mClass.equals(MessagesFragment.class)) {
+ 			i++;
+ 			if (i >= 3) {
+ 				Toast.makeText(MainActivity.context, messagesEasterEgg[0], Toast.LENGTH_LONG).show();
+ 			}
+    	}
     }
+    
+    
+    //
+    // Pour le Easter Egg
+    //
+    private int i = 0; 
+    private String[] messagesEasterEgg = new String[] { "Éh toi! Appuyer une fois c'est suffisant ! ", "Non mais c'est bon je t'assure.", 
+    		"Encore du travail ?", "Tu te rappelles des moutons de Warcraft ?", "Ca va pas tarder à faire pareil sur ton beau smartphone."};
+
 }
