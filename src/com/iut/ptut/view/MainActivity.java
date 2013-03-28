@@ -7,6 +7,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.iut.ptut.R;
 import com.iut.ptut.ctrl.CRONFetcher;
@@ -61,5 +63,10 @@ public class MainActivity extends Activity {
 		
 	}
 
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_contextuel, menu);
+	    return true;
+	}
 }
