@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import net.fortuna.ical4j.data.ParserException;
 import android.content.ContextWrapper;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.buzzbox.mob.android.scheduler.Task;
 import com.buzzbox.mob.android.scheduler.TaskResult;
@@ -19,6 +20,7 @@ import com.iut.ptut.model.Group;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
+import com.iut.ptut.view.MainActivity;
 
 public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 
@@ -46,8 +48,6 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
 		}
 				
-		
-		
 		_log.log(Level.FINE, "CRON terminé !");
 		
 		return result;

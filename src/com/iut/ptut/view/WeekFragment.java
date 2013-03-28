@@ -9,10 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -43,7 +45,7 @@ public class WeekFragment extends Fragment {
 	 */
 	public void creerBoutons() {
 		
-		SimpleDateFormat formatDateBouton = new SimpleDateFormat("dd MM yyyy", Locale.getDefault());
+		SimpleDateFormat formatDateBouton = new SimpleDateFormat("EEEE dd/MM/yyyy", Locale.getDefault());
 		
 		try {
 			// On récupère le layout qui va héberger les boutons
@@ -57,6 +59,22 @@ public class WeekFragment extends Fragment {
 				Button but = new Button(vue.getContext());
 				but.setGravity(Gravity.CENTER);
 				but.setText(formatDateBouton.format(d));
+				but.setTag(d.getTime());
+				// On créer un listener pour faire une instance pour afficher le jour
+				but.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						
+						Bundle args = new Bundle();
+						args.putLong("date", ((Long) v.getTag()));
+						
+						FragmentTransaction ft = getFragmentManager().beginTransaction(); 
+						Fragment mFragment = Fragment.instantiate(MainActivity.context, TodayFragment.class.getName(), args);
+						ft.replace(R.id.fragment_contenu, mFragment);
+						ft.commit();
+					}
+					
+				});
+				
 				parent.addView(but);
 			}
 			

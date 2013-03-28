@@ -9,6 +9,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.iut.ptut.R;
 import com.iut.ptut.ctrl.CRONFetcher;
@@ -26,19 +28,18 @@ public class MainActivity extends Activity {
 	private final Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public static Context context = null;
+	public static Activity activity = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		Locale.setDefault(Locale.FRANCE);
 
-		CRONFetcher fetcher = new CRONFetcher();
-		fetcher.execute(new String[]{});
-		
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
-
+		MainActivity.activity = this;
+		
 		setContentView(R.layout.activity_main);
 		
 		ActionBar actionbar = getActionBar();
@@ -68,5 +69,28 @@ public class MainActivity extends Activity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.menu_contextuel, menu);
 	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.menu_refresh:
+	            launchRefresh();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	
+	public void launchRefresh() {
+		
+		Toast toastConfirmation = Toast.makeText(MainActivity.context, "Récupération en cours...", Toast.LENGTH_LONG);
+		toastConfirmation.show();
+		
+		CRONFetcher fetcher = new CRONFetcher();
+		fetcher.execute(new String[]{});
+		
 	}
 }

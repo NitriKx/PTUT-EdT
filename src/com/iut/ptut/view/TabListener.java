@@ -28,33 +28,30 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         mClass = clz;
     }
 
-    /* The following are each of the ActionBar.TabListener callbacks */
-
+    // Lorsque l'un des onglet est sélectionné on le réinstancie pour raraichir les données
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        // Check if the fragment is already initialized
-        if (mFragment == null) {
-        	
-        	Bundle args = null;
-        	// Si c'est un TodayFragment on met la date acutelle
-        	if(mClass.equals(TodayFragment.class)) {
-        		args = new Bundle();
-        		args.putLong("date", 1364347098000L);
-        		// args.putLong("date", new Date().getTime());
-        	}
-        	
-            // If not, instantiate and add it to the activity
-            mFragment = Fragment.instantiate(mActivity, mClass.getName(), args);
-        }
         
-        // If it exists, simply attach it in order to show it
-        ft.replace(R.id.fragment_contenu, mFragment, mTag);
-    }
+		Bundle args = null;
+		// Si c'est un TodayFragment on met la date acutelle
+		if(mClass.equals(TodayFragment.class)) {
+			args = new Bundle();
+			args.putLong("date", 1364347098000L);
+			// args.putLong("date", new Date().getTime());
+		}
+		        	
+		mFragment = Fragment.instantiate(mActivity, mClass.getName(), args);
+		
+		ft.replace(R.id.fragment_contenu, mFragment, mTag);
+	}
 
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {
     }
 
     public void onTabReselected(Tab tab, FragmentTransaction ft) {
-
+    	
+    	// On réinstancie pour rafraichir
+    	onTabSelected(tab, ft);
+    	
     	//
     	// Easter Egg
     	//
