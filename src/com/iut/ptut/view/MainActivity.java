@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.iut.ptut.R;
-import com.iut.ptut.ctrl.CRONFetcher;
+import com.iut.ptut.ctrl.cron.CRONFetcher;
 
 /**
  * 
@@ -78,12 +78,18 @@ public class MainActivity extends Activity {
 	        case R.id.menu_refresh:
 	            launchRefresh();
 	            return true;
+	        case R.id.menu_parametres:
+	        	
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
 	
 	
+	/**
+	 * Lance le rafraichissement de la base dans une tâche parallèle.
+	 */
 	public void launchRefresh() {
 		
 		Toast toastConfirmation = Toast.makeText(MainActivity.context, "Récupération en cours...", Toast.LENGTH_LONG);

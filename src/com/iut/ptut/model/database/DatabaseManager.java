@@ -95,11 +95,11 @@ public class DatabaseManager {
 		this.bdd = null;
 	}
 
+	// ================================
 	//
+	// 				GROUPS
 	//
-	// GROUPS
-	//
-	//
+	// ================================
 
 	/**
 	 * Insère le groupe s'il ne se trouve pas déjà dans la base de données.
@@ -203,11 +203,11 @@ public class DatabaseManager {
 		return new Group(l[2], Integer.parseInt(l[1]), Integer.parseInt(l[0]));
 	}
 
+	// ================================
 	//
+	//			 TIMETABLES
 	//
-	// TIMETABLES
-	//
-	//
+	// ================================
 	
 	/**
 	 * Met à jour le TimeTable pour une semaine. <br/>
@@ -417,11 +417,11 @@ public class DatabaseManager {
 	}
 	
 
+	// ================================
 	//
+	// 				LESSONS
 	//
-	// LESSONS
-	//
-	//
+	// ================================
 
 	/**
 	 * Récupère la liste des Lessons pour une période donnée.
@@ -539,10 +539,10 @@ public class DatabaseManager {
 		return bdd.update(LessonTable.nom, vals, LessonTable.col_id + "=" + lesson.getIdLesson(), null) > 0;
 	}
 
+	// ================================
 	//
+	// 		GETTERS AND SETTERS
 	//
-	// GETTERS AND SETTERS
-	//
-	//
+	// ================================
 
 }

@@ -1,4 +1,4 @@
-package com.iut.ptut.ctrl;
+package com.iut.ptut.ctrl.cron;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -9,32 +9,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.fortuna.ical4j.data.ParserException;
-import android.content.ContextWrapper;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.buzzbox.mob.android.scheduler.Task;
-import com.buzzbox.mob.android.scheduler.TaskResult;
+import com.iut.ptut.ctrl.CalendarParser;
+import com.iut.ptut.ctrl.TimeTableFetcher;
 import com.iut.ptut.model.ConfigManager;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
-import com.iut.ptut.view.MainActivity;
 
-public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
+public class CRONFetcher extends AsyncTask<String, Void, Void> {
 
 	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
-	public TaskResult doWork(ContextWrapper arg0) {
-
+	@Override
+	protected Void doInBackground(String...params) {
+		
 		_log.log(Level.INFO, "Lancement du CRON de récupération de l'emploi du temps.");
 		
-		TaskResult result = new TaskResult();
 		Calendar cal = Calendar.getInstance(Locale.getDefault());
 		
 		try {
-			
 			DatabaseManager manager = DatabaseManager.getInstance();
 			manager.open();
 			
@@ -43,21 +39,11 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 			// On ajoute une semaine
 			cal.add(Calendar.WEEK_OF_YEAR, 1);
 			f.recupererEtStockerEdT(ConfigManager.getInstance().getProperty("user_semestre"), ""+cal.get(Calendar.WEEK_OF_YEAR));
-			
 		} catch (Exception e) {
 			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
 		}
 				
 		_log.log(Level.FINE, "CRON terminé !");
-		
-		return result;
-	}
-	
-	@Override
-	protected Void doInBackground(String...params) {
-		
-		// On appelle la routine de récupération
-		this.doWork(null);
 		
 		return null;
 	}
@@ -94,15 +80,6 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	public String getId() {
 		return "cron_fetcher";
 	}
@@ -110,8 +87,5 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 	public String getTitle() {
 		return "IUT BLagnac EdT Fetcher";
 	}
-
-
-	
 
 }

@@ -7,7 +7,7 @@ import net.fortuna.ical4j.data.ParserException;
 
 import android.accounts.NetworkErrorException;
 
-import com.iut.ptut.ctrl.CRONFetcher;
+import com.iut.ptut.ctrl.cron.CRONFetcher;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
 

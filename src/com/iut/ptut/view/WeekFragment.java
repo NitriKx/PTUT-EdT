@@ -64,9 +64,9 @@ public class WeekFragment extends Fragment {
 				but.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						
+						// On lance un intent dans l'hébergeur de fragment
 						Bundle args = new Bundle();
 						args.putLong("date", ((Long) v.getTag()));
-						
 						FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 						Fragment mFragment = Fragment.instantiate(MainActivity.context, TodayFragment.class.getName(), args);
 						ft.replace(R.id.fragment_contenu, mFragment);
@@ -75,6 +75,7 @@ public class WeekFragment extends Fragment {
 					
 				});
 				
+				// On ajoute le bouton dans la vue
 				parent.addView(but);
 			}
 			
