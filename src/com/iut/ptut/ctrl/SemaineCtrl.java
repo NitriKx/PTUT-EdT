@@ -25,7 +25,6 @@ public class SemaineCtrl {
 		List<Date> res = new ArrayList<Date>();
 		
 		DatabaseManager bdd = DatabaseManager.getInstance();
-		bdd.open();
 		Calendar cal = Calendar.getInstance(Locale.getDefault());
 		int semaine = cal.get(Calendar.WEEK_OF_YEAR);
 		int semestre = Integer.parseInt(ConfigManager.getInstance().getProperty("user_semestre"));
@@ -35,11 +34,13 @@ public class SemaineCtrl {
 				semestre,anneeScolaire
 				);
 		
+		bdd.open();
 		// On récupère le timetable courrant
 		TimeTable semaineCourante = bdd.getTimeTable(groupe, semaine, cal.get(Calendar.YEAR));
 		cal.add(Calendar.WEEK_OF_YEAR, 1);
 		// Puis celui de la semaine prochaine
 		TimeTable semaineSuivante = bdd.getTimeTable(groupe, cal.get(Calendar.WEEK_OF_YEAR), cal.get(Calendar.YEAR));
+		bdd.close();
 		
 		// Si l'on a la semaine courrante, on ajoute les jour dans la liste
 		if(semaineCourante != null) {

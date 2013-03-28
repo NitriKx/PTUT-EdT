@@ -2,7 +2,9 @@ package com.iut.ptut.ctrl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +29,24 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 		_log.log(Level.INFO, "Lancement du CRON de récupération de l'emploi du temps.");
 		
 		TaskResult result = new TaskResult();
+		Calendar cal = Calendar.getInstance(Locale.getDefault());
+		
+		try {
+			
+			DatabaseManager manager = DatabaseManager.getInstance();
+			manager.open();
+			
+			CRONFetcher f = new CRONFetcher();
+			f.recupererEtStockerEdT(ConfigManager.getInstance().getProperty("user_semestre"), ""+cal.get(Calendar.WEEK_OF_YEAR));
+			// On ajoute une semaine
+			cal.add(Calendar.WEEK_OF_YEAR, 1);
+			f.recupererEtStockerEdT(ConfigManager.getInstance().getProperty("user_semestre"), ""+cal.get(Calendar.WEEK_OF_YEAR));
+			
+		} catch (Exception e) {
+			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
+		}
+				
+		
 		
 		_log.log(Level.FINE, "CRON terminé !");
 		
@@ -36,19 +56,8 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 	@Override
 	protected Void doInBackground(String...params) {
 		
-		// TEST // 
-		try {
-			
-			DatabaseManager manager = DatabaseManager.getInstance();
-			manager.open();
-			
-			CRONFetcher f = new CRONFetcher();
-			f.recupererEtStockerEdT("04", "13");
-			f.recupererEtStockerEdT("04", "14");
-			
-		} catch (Exception e) {
-			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
-		}
+		// On appelle la routine de récupération
+		this.doWork(null);
 		
 		return null;
 	}

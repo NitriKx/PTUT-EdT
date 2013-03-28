@@ -367,6 +367,12 @@ public class DatabaseManager {
 			cal.set(Calendar.MILLISECOND, 999);
 			Date finJour = cal.getTime();
 
+			// REMARQUE - On est obligé de mettre ces valeurs à cause du fait qu'il pourrait ne pas y avoir de Lesson
+			// dans un jour. Si tel est le cas les dates ne sont pas recomptés, on doit donc lui mettre au cas où les
+			// bornes du jour.
+			jour.setpDateDebut(debutJour);
+			jour.setpDateFin(finJour);
+			
 			// Pour toute les lesson recupérées
 			while (cLesson.moveToNext()) {
 
@@ -387,6 +393,7 @@ public class DatabaseManager {
 			
 			// On reset le cursor 
 			cLesson.moveToFirst();
+			
 			timeTable.addDay(jour);
 		}
 
