@@ -1,13 +1,10 @@
 package com.iut.ptut.view;
 
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +14,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.iut.ptut.R;
-import com.iut.ptut.ctrl.cron.AlarmReceiver;
 import com.iut.ptut.ctrl.cron.CRONFetcher;
+import com.iut.ptut.model.ConfigManager;
 
 /**
  * 
@@ -44,6 +41,10 @@ public class MainActivity extends Activity {
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 		MainActivity.activity = this;
+		
+		ConfigManager.getInstance().setProperty("user_semestre", "4");
+
+		ConfigManager.getInstance().setProperty("user_group", "2A");
 		
 		setContentView(R.layout.activity_main);
 		
@@ -84,7 +85,10 @@ public class MainActivity extends Activity {
 	            launchRefresh();
 	            return true;
 	        case R.id.menu_parametres:
-	        	
+	        	// On lance l'activité des paramètres
+	        	Intent i = new Intent(this.getApplicationContext(), SettingsActivity.class);
+	        	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        	MainActivity.context.startActivity(i);
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);

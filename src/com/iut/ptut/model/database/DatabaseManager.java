@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -430,12 +431,15 @@ public class DatabaseManager {
 	 *            Le début de la préiode (compris)
 	 * @param fin
 	 *            La fin de la période (non compris)
+	 * @param groupe
+	 * 			  Le groupe auquel appartien le cours
 	 * @return Une liste d'objet Lesson où le cours se déroule dans la période.
 	 * @throws DatabaseManipulationException
 	 */
-	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin) throws DatabaseManipulationException {
+	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin, Group groupe) throws DatabaseManipulationException {
 		List<Lesson> resultat = new ArrayList<Lesson>();
-
+		HashMap<Integer, Group> mapTimeTable = new HashMap<Integer, Group>();
+		
 		String selectionDate = LessonTable.col_date_debut + " >= '" + dateFormat.format(debut.getTime()) +
 					"' AND " + LessonTable.col_date_fin + " <= '" + dateFormat.format(fin.getTime()) + "'";
 
@@ -443,18 +447,28 @@ public class DatabaseManager {
 				.query(LessonTable.nom, null, selectionDate, null, null, null, null, null);
 		c.moveToFirst();
 		
+		Cursor tt = this.bdd.query(TimeTableTable.nom, null, null, null, null, null, null, null);
+		tt.moveToFirst();
+		
+		// On construit la map
+		do {
+			mapTimeTable.put(tt.getInt(tt.getColumnIndex(TimeTableTable.col_id)), lireGroupe(tt.getString(tt.getColumnIndex(TimeTableTable.col_groupe))));
+		} while(tt.moveToNext());
+		
 		// Si on a des résultats
 		if (c.getCount() > 0) {
 			do {
 				try {
-
-					// On créer l'objet Lesson et on l'ajout à la liste de
-					// résultats
-					resultat.add(new Lesson(c.getInt(c.getColumnIndex(LessonTable.col_id)), c.getString(c.getColumnIndex(LessonTable.col_libelle)), c.getString(c
-							.getColumnIndex(LessonTable.col_intervenant)), c.getString(c.getColumnIndex(LessonTable.col_emplacement)), dateFormat.parse(c.getString(c
-							.getColumnIndex(LessonTable.col_date_debut))), dateFormat.parse(c.getString(c.getColumnIndex(LessonTable.col_date_fin))), c.getInt(c
-							.getColumnIndex(LessonTable.col_id_timetable)), new Group()));
-
+					// Si la Lesson appartient à un TimeTable qui est pour le groupe demandé
+					if(groupe.equals(mapTimeTable.get(c.getInt(c.getColumnIndex(LessonTable.col_id_timetable))))) {
+						
+						// On créer l'objet Lesson et on l'ajout à la liste de
+						// résultats
+						resultat.add(new Lesson(c.getInt(c.getColumnIndex(LessonTable.col_id)), c.getString(c.getColumnIndex(LessonTable.col_libelle)), c.getString(c
+								.getColumnIndex(LessonTable.col_intervenant)), c.getString(c.getColumnIndex(LessonTable.col_emplacement)), dateFormat.parse(c.getString(c
+								.getColumnIndex(LessonTable.col_date_debut))), dateFormat.parse(c.getString(c.getColumnIndex(LessonTable.col_date_fin))), c.getInt(c
+								.getColumnIndex(LessonTable.col_id_timetable)), new Group()));
+					}
 				} catch (ParseException e) {
 					throw new DatabaseManipulationException("Erreur lors de la lecture de la date pour le Lesson.");
 				}

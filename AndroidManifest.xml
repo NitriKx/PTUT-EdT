@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iut.ptut"
     android:versionCode="1"
@@ -10,33 +11,38 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light">
-        
-        <activity android:name=".view.ActivityNotification" 
-	     android:label="@string/app_name" />
-        
+        android:theme="@android:style/Theme.Holo.Light" >
+        <activity
+            android:name="com.iut.ptut.view.ActivityNotification"
+            android:label="@string/app_name" />
         <activity
             android:name="com.iut.ptut.view.MainActivity"
-            android:label="@string/title_activity_main" android:configChanges="orientation">
+            android:configChanges="orientation"
+            android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <receiver  android:process=":remote" android:name="AlarmReceiver"></receiver>
-        
+
+        <receiver
+            android:name="com.iut.ptut.AlarmReceiver"
+            android:process=":remote" >
+        </receiver>
+
+        <activity
+            android:name="com.iut.ptut.view.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
-    
-	<!-- Pour pouvoir programmer le CRON -->
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
-	<uses-permission android:name="android.permission.WAKE_LOCK" /> 
-	<uses-permission android:name="android.permission.VIBRATE" />
-	<!--  Accès à Internet -->
-	<uses-permission android:name="android.permission.INTERNET" /> 
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	
-	
+
+    <!-- Pour pouvoir programmer le CRON -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Accès à Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

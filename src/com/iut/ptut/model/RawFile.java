@@ -7,7 +7,7 @@ import java.util.Date;
  * @author Jérémie Rouelle
  *
  */
-public class File {
+public class RawFile {
 
 	
 	private int idFile;
@@ -15,7 +15,7 @@ public class File {
 	private Date dateRecuperation;
 	
 	
-	public File ()
+	public RawFile ()
 	{
 		
 	}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <Spinner android:id="@+id/spinnerGroupes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/liste_groupes"
+        android:prompt="@string/groupe_prompt"/>
+
+    <Spinner android:id="@+id/spinnerSemestre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/liste_semestre"
+        android:prompt="@string/groupe_prompt"/>
+    
+</LinearLayout>

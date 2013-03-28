@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Locale;
 
 import net.fortuna.ical4j.data.ParserException;
+
+import com.iut.ptut.model.ConfigManager;
+import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
@@ -47,14 +50,17 @@ public class DayAdapter {
 		Date fin = cal.getTime();
 		
 		List<Lesson> coursJour;
+		Group groupe = new Group(ConfigManager.getInstance().getProperty("user_group"), 
+				Integer.parseInt(ConfigManager.getInstance().getProperty("user_semestre")), 
+				CalendarParser.getAnneeScolairePourDate(new Date()));
 		// On récupère dans la base le lessons pour le jour
-		coursJour = bdd.getListeLessonPourPeriode(debut, fin); 
+		coursJour = bdd.getListeLessonPourPeriode(debut, fin, groupe); 
 		bdd.close();
 			
 		return coursJour;
 	}
 	
-	public static List<Lesson> getLessonJourCourant() throws DatabaseManipulationException, MalformedURLException, IOException, ParserException {
+	public static List<Lesson> getLessonJourCourant(Group groupe) throws DatabaseManipulationException, MalformedURLException, IOException, ParserException {
 		return DayAdapter.getLessonPourDay(new Date());
 	}
 

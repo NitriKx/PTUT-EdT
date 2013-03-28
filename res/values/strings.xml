@@ -15,5 +15,8 @@
 	<string name="menu_parametres">Paramètres</string>
 	<string name="menu_refresh">Raraîchir</string>
 	<string name="menu_about">A propos</string>
-
+	
+	<string name="groupe_prompt">Choississez votre groupe...</string>
+	<string name="semestre_prompt">Choississez votre semestre...</string>
+	
 </resources>

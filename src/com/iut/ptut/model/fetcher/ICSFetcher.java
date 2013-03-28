@@ -50,6 +50,7 @@ public class ICSFetcher {
 		
 	private InputStream getFile(URL u) throws IOException {
 		URLConnection uc = u.openConnection();
+		uc.setRequestProperty("User-Agent","");
 		int FileLenght = uc.getContentLength();
 		if (FileLenght == -1) {
 			throw new IOException("Impossible d'atteindre le fichier à l'url [" + u.toExternalForm() + "]");
