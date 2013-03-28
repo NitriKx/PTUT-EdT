@@ -11,6 +11,11 @@ import net.fortuna.ical4j.model.Property;
 
 import com.iut.ptut.ctrl.CalendarParser;
 
+/**
+ * 
+ * @author Jérémie Rouelle
+ *
+ */
 public class Lesson {
 
 	private int idLesson;

@@ -22,6 +22,11 @@ import com.iut.ptut.R;
 import com.iut.ptut.ctrl.DayAdapter;
 import com.iut.ptut.model.Lesson;
 
+/**
+ * 
+ * @author Hugo Roman, Benoît Sauvère
+ *
+ */
 public class TodayFragment extends Fragment {
 	
 	private List<Lesson> MyListLesson;

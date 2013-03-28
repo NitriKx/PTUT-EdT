@@ -4,6 +4,11 @@ import java.util.Date;
 
 import com.iut.ptut.ctrl.CalendarParser;
 
+/**
+ * 
+ * @author Jérémie Rouelle, Benoît Sauvère
+ *
+ */
 public class Group {
 
 	private String groupe;

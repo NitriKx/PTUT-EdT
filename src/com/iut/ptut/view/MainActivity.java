@@ -1,18 +1,19 @@
 package com.iut.ptut.view;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 
 import com.iut.ptut.R;
-import com.iut.ptut.ctrl.CRONFetcher;
 
+/**
+ * 
+ * @author Rémy Bienvenu, Hugo Roman, Benoît Sauvère
+ *
+ */
 public class MainActivity extends Activity {
 
 	// definition de l'id correspondant à la notification
@@ -21,15 +22,6 @@ public class MainActivity extends Activity {
 	private final Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public static Context context = null;
-	
-	private String menuAbout;
-	private String menuActualiser;
-	
-	// permettra simplement de recuperer la date l'heure ....
-	long theDate;
-	Date actual = new Date(theDate);
-	WeekActivity wAct;
-	Calendar c = Calendar.getInstance();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,12 +39,6 @@ public class MainActivity extends Activity {
 		ActionBar.Tab tabToday = actionbar.newTab().setText(R.string.tab_today);
 		ActionBar.Tab tabSemaine = actionbar.newTab().setText(R.string.tab_week);
 		ActionBar.Tab tabMessage = actionbar.newTab().setText(R.string.tab_message);
-
-		// definition des fragments qui seronts associés
-		// http://developer.android.com/guide/components/fragments.html
-		Fragment fragToday = new Fragment();
-		Fragment fragSemaine = new Fragment();
-		Fragment fragMessage = new Fragment();
 
 		tabToday.setTabListener(new TabListener<TodayFragment>(this, "today", TodayFragment.class));
 		tabSemaine.setTabListener(new TabListener<WeekFragment>(this, "week", WeekFragment.class));

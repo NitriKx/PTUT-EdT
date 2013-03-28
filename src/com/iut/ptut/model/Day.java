@@ -3,6 +3,11 @@ package com.iut.ptut.model;
 import java.util.Date;
 import java.util.Vector;
 
+/**
+ * 
+ * @author Jérémie Rouelle
+ *
+ */
 public class Day {
 
 	private int idDay;

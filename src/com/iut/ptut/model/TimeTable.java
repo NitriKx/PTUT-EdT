@@ -5,7 +5,7 @@ import java.util.Vector;
 
 /**
  * 
- * @author jérémie Rouelle, Benoît Sauvère
+ * @author Jérémie Rouelle, Benoît Sauvère
  *
  */
 public class TimeTable {

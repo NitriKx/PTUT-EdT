@@ -2,6 +2,11 @@ package com.iut.ptut.model;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author Jérémie Rouelle
+ *
+ */
 public class File {
 
 	
