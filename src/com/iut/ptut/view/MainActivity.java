@@ -70,8 +70,6 @@ public class MainActivity extends Activity {
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
-		
-		
 	}
 
 	@Override
