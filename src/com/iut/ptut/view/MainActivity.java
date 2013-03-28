@@ -1,5 +1,6 @@
 package com.iut.ptut.view;
 
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import android.app.ActionBar;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.iut.ptut.R;
+import com.iut.ptut.ctrl.CRONFetcher;
 
 /**
  * 
@@ -27,6 +29,11 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Locale.setDefault(Locale.FRANCE);
+
+		CRONFetcher fetcher = new CRONFetcher();
+		fetcher.execute(new String[]{});
+		
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 

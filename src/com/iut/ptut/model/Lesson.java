@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.DateTime;
@@ -27,6 +29,8 @@ public class Lesson {
 	private int idTimeTable;
 
 	private Group groupe;
+	
+	private Logger _log = Logger.getLogger(this.getClass().getName());
 
 	public Lesson() {
 		this.libelle = "";
@@ -127,10 +131,14 @@ public class Lesson {
 		
 		// Emplacement
 		prop = comp.getProperty("LOCATION");
-		if (prop == null || "".equals(prop.getValue()))
-			throw new ParsingProblemException(
+		// Si la localisation n'y est pas on en crée une fausse
+		if (prop == null || "".equals(prop.getValue())) {
+			_log.log(Level.WARNING, 
 					"La propriété LOCATION n'existe pas ou est vide.");
-		this.emplacement = prop.getValue();
+			this.emplacement = "???";
+		// Sinon on ajoute la bonne
+		} else 
+			this.emplacement = prop.getValue();
 	}
 
 	/**

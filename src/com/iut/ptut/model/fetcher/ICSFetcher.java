@@ -52,7 +52,7 @@ public class ICSFetcher {
 		URLConnection uc = u.openConnection();
 		int FileLenght = uc.getContentLength();
 		if (FileLenght == -1) {
-			throw new IOException("Fichier non valide.");
+			throw new IOException("Impossible d'atteindre le fichier à l'url [" + u.toExternalForm() + "]");
 		}
 		return uc.getInputStream();
 	}

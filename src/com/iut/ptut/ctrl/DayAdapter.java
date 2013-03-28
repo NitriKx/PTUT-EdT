@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import net.fortuna.ical4j.data.ParserException;
 import com.iut.ptut.model.Lesson;
@@ -26,7 +27,7 @@ public class DayAdapter {
 		bdd.open();
 
 		// On récupère l'instance de Calendar (au jour courant par défaut)
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(Locale.getDefault());
 		cal.setTime(dateDansJour);
 		
 		// On met le calendrier au tout début du jour (1 javier 2013 00:00.000)

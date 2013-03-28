@@ -62,9 +62,9 @@ public class TodayFragment extends Fragment {
 	private void remplirVuePourDate(Date dateDansJour) {
 		
 		// Format de la date au dessus du tableau
-		SimpleDateFormat formatDateTableau = new SimpleDateFormat("dd MM yyyy", Locale.FRANCE);
+		SimpleDateFormat formatDateTableau = new SimpleDateFormat("dd MM yyyy", Locale.getDefault());
 		// Format des heures pour les cours
-		SimpleDateFormat formatHeureLesson = new SimpleDateFormat("HH:mm", Locale.FRANCE);
+		SimpleDateFormat formatHeureLesson = new SimpleDateFormat("HH:mm", Locale.getDefault());
 		
 		try {
 			// On récupère la liste des lessons

@@ -14,7 +14,7 @@ public class DateTools {
 	 * @return
 	 */
 	public static long calculeTimestampDebutJour(Date date) {
-		java.util.Calendar calendrier = java.util.Calendar.getInstance();
+		java.util.Calendar calendrier = java.util.Calendar.getInstance(Locale.getDefault());
 		calendrier.setTime(date);
 		calendrier.set(java.util.Calendar.HOUR_OF_DAY, 0);
 		calendrier.set(java.util.Calendar.MINUTE, 0);
@@ -31,9 +31,10 @@ public class DateTools {
 	 */
 	public static Date calculeTimestampDebutSemaine(int noSemaine, int annee) {
 		
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.WEEK_OF_YEAR, noSemaine);
-		
+		Calendar cal = Calendar.getInstance(Locale.getDefault());
+		cal.clear();
+		cal.set(Calendar.YEAR, annee);
+		cal.set(Calendar.WEEK_OF_YEAR, noSemaine);	
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
@@ -51,9 +52,10 @@ public class DateTools {
 	 */
 	public static Date calculeTimestampFinSemaine(int noSemaine, int annee) {
 		
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(Locale.getDefault());
+		cal.clear();
+		cal.set(Calendar.YEAR, annee);
 		cal.set(Calendar.WEEK_OF_YEAR, noSemaine);
-		
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 		cal.set(Calendar.HOUR_OF_DAY, 23);
 		cal.set(Calendar.MINUTE, 59);
@@ -69,7 +71,7 @@ public class DateTools {
 	 * @return Une chaine de caractère contenant l'heure et les minutes.
 	 */
 	public static String recupererHeureFormatte(Date date) {
-		DateFormat df = new SimpleDateFormat("HH:mm", Locale.FRANCE);
+		DateFormat df = new SimpleDateFormat("HH:mm", Locale.getDefault());
 		return df.format(date);
 	}
 	

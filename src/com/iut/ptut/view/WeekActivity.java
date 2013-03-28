@@ -3,6 +3,7 @@ package com.iut.ptut.view;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import android.R.string;
 import android.app.ActionBar;
@@ -45,7 +46,7 @@ public class WeekActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_week);
 		
-		cal = Calendar.getInstance();
+		cal = Calendar.getInstance(Locale.getDefault());
 		d= new Date();
 		d= cal.getTime();
 		
@@ -164,7 +165,7 @@ public class WeekActivity extends Activity{
      
 	 /*
 	public WeekActivity(){
-		cal = Calendar.getInstance();
+		cal = Calendar.getInstance(Locale.getDefault());
 		b1 = (Button)findViewById(R.id.week_b1);
 		b2 = (Button)findViewById(R.id.week_b2);
 		b3 = (Button)findViewById(R.id.week_b3);

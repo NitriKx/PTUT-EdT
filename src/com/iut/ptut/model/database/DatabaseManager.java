@@ -219,7 +219,7 @@ public class DatabaseManager {
 	 */
 	public long majTimeTable(TimeTable nouveauTT) throws DatabaseManipulationException {
 		
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(Locale.getDefault());
 		
 		// On récupère les date de début et de fin de semaine
 		cal.setTime(nouveauTT.getDateDebut());
@@ -327,7 +327,8 @@ public class DatabaseManager {
 
 		// On récupère un Cursor contenant l'emploi du temps
 		Cursor cTT = this.bdd.query(TimeTableTable.nom, null, selectionSQL, null, null, null, null);
-
+		cTT.moveToFirst();
+		
 		// Si le TimeTable n'existe pas on retourne null
 		if (cTT.getCount() <= 0) {
 			return null;
@@ -340,16 +341,17 @@ public class DatabaseManager {
 		// On récupère le sjours associé au TimeTable
 		selectionSQL = LessonTable.col_id_timetable + " = " + timeTable.getId();
 		Cursor cLesson = this.bdd.query(LessonTable.nom, null, selectionSQL, null, null, null, null);
-
+		cLesson.moveToFirst();
 		// Pour les 5 jours de cours
 		for (int i = 2; i < 2 + 5; i++) {
 
 			Day jour = new Day();
 
-			Calendar cal = Calendar.getInstance();
+			Calendar cal = Calendar.getInstance(Locale.getDefault());
+			cal.clear();
 			cal.set(Calendar.YEAR, annee);
 			cal.set(Calendar.WEEK_OF_YEAR, semaine);
-			// Ici le i est une valeur de l'énumrtion des jour de la semaine de
+			// Ici le i est une valeur de l'énumértion des jour de la semaine de
 			// Calendar (2 = MONDAY, ...)
 			cal.set(Calendar.DAY_OF_WEEK, i);
 
@@ -366,7 +368,7 @@ public class DatabaseManager {
 			Date finJour = cal.getTime();
 
 			// Pour toute les lesson recupérées
-			for (int j = 0; j < cLesson.getCount(); j++) {
+			while (cLesson.moveToNext()) {
 
 				// On convertit les date du jour selectionné
 				Date debutCours = dateFormat.parse(cLesson.getString(cLesson.getColumnIndex(LessonTable.col_date_debut)));
@@ -380,10 +382,10 @@ public class DatabaseManager {
 							timeTable.getGroupe());
 					jour.addLesson(l);
 				}
-
+				
 			}
-
-			// On reset le curseur
+			
+			// On reset le cursor 
 			cLesson.moveToFirst();
 			timeTable.addDay(jour);
 		}

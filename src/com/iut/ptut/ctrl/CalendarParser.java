@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -231,8 +232,8 @@ public class CalendarParser {
 	}
 	
 	public static int getAnneeScolairePourDate(Date date) {
-		java.util.Calendar cal = java.util.Calendar.getInstance();
-		java.util.Calendar calJuillet = java.util.Calendar.getInstance();
+		java.util.Calendar cal = java.util.Calendar.getInstance(Locale.getDefault());
+		java.util.Calendar calJuillet = java.util.Calendar.getInstance(Locale.getDefault());
 
 		cal.setTime(date);
 		

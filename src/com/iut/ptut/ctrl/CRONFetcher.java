@@ -6,10 +6,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import test.com.iut.ptut.model.database.DatabaseManagerTest;
-
 import net.fortuna.ical4j.data.ParserException;
-
 import android.content.ContextWrapper;
 import android.os.AsyncTask;
 
@@ -47,6 +44,7 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 			
 			CRONFetcher f = new CRONFetcher();
 			f.recupererEtStockerEdT("04", "13");
+			f.recupererEtStockerEdT("04", "14");
 			
 		} catch (Exception e) {
 			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
