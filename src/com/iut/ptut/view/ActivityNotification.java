@@ -7,7 +7,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.iut.ptut.MainActivity;
 import com.iut.ptut.R;
  
 public class ActivityNotification extends Activity implements Serializable{

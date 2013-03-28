@@ -15,12 +15,12 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.iut.ptut.MainActivity;
 import com.iut.ptut.ctrl.DateTools;
 import com.iut.ptut.model.Day;
 import com.iut.ptut.model.Group;
 import com.iut.ptut.model.Lesson;
 import com.iut.ptut.model.TimeTable;
+import com.iut.ptut.view.MainActivity;
 
 /**
  * Cette classe fournit une collection de méthodes pour intéragir avec la base
@@ -427,16 +427,14 @@ public class DatabaseManager {
 	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin) throws DatabaseManipulationException {
 		List<Lesson> resultat = new ArrayList<Lesson>();
 
+		String selectionDate = LessonTable.col_date_debut + " >= '" + dateFormat.format(debut.getTime()) +
+					"' AND " + LessonTable.col_date_fin + " <= '" + dateFormat.format(fin.getTime()) + "'";
+
 		Cursor c = this.bdd
-				.query(LessonTable.nom, null,null , null, null, null, null, null);
-		c.moveToNext();
+				.query(LessonTable.nom, null, selectionDate, null, null, null, null, null);
+		c.moveToFirst();
 		
-		/*
-		 LessonTable.col_date_debut + " <= datetime(" + (debut.getTime() / 100) + ", 'unixepoch', 'localtime')" +
-		" AND " + LessonTable.col_date_fin + " >= datetime(" + (fin.getTime() / 100) + ", 'unixepoch', 'localtime')"
-		*/
 		// Si on a des résultats
-		
 		if (c.getCount() > 0) {
 			do {
 				try {

@@ -4,4 +4,5 @@
 	<color name="grey">#aaaaaa</color>
 	<color name="blue">#0000AA</color>
 	<color name="white">#ffffff</color>
+	<color name="table_background">#eeeeee</color>
 </resources>

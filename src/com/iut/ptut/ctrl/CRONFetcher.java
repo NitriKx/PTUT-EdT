@@ -31,15 +31,29 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 		
 		TaskResult result = new TaskResult();
 		
-		
-		
-		
-		
 		_log.log(Level.FINE, "CRON terminé !");
 		
 		return result;
 	}
 	
+	@Override
+	protected Void doInBackground(String...params) {
+		
+		// TEST // 
+		try {
+			
+			DatabaseManager manager = DatabaseManager.getInstance();
+			manager.open();
+			
+			CRONFetcher f = new CRONFetcher();
+			f.recupererEtStockerEdT("04", "13");
+			
+		} catch (Exception e) {
+			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * Récupère et stocke dans la base de données l'emplois du temps de la semaine passée en paramètre.
@@ -91,15 +105,6 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> implements Task {
 	}
 
 
-	@Override
-	protected Void doInBackground(String...params) {
-		// TEST // 
-		try {
-			DatabaseManagerTest.main(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 
 }

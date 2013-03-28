@@ -1,57 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/containerTable"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/h0800"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/h0930"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/h1105"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+	<ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+		<TableLayout 
+	         android:id = "@+id/tableau_today"
+	         android:layout_width="fill_parent"
+	         android:layout_height="wrap_content"
+	         android:shrinkColumns="1"
+   			 android:stretchColumns="1"
+	         android:padding="20dp">
+		</TableLayout>
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="     "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <Button
-        android:id="@+id/h1415"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/h1540"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/h1715"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Button" />
-
+	</ScrollView>
 </LinearLayout>

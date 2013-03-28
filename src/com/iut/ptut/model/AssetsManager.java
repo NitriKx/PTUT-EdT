@@ -4,7 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.iut.ptut.MainActivity;
+import com.iut.ptut.view.MainActivity;
 
 public class AssetsManager {
 	
