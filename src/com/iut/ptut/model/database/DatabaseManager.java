@@ -12,6 +12,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -436,6 +437,7 @@ public class DatabaseManager {
 	 * @return Une liste d'objet Lesson où le cours se déroule dans la période.
 	 * @throws DatabaseManipulationException
 	 */
+	@SuppressLint("UseSparseArrays")
 	public List<Lesson> getListeLessonPourPeriode(Date debut, Date fin, Group groupe) throws DatabaseManipulationException {
 		List<Lesson> resultat = new ArrayList<Lesson>();
 		HashMap<Integer, Group> mapTimeTable = new HashMap<Integer, Group>();

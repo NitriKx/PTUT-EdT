@@ -4,16 +4,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <Spinner android:id="@+id/spinnerGroupes"
+    
+	<LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="center">
+        
+	    <TextView android:id="@+id/label_spinner_semestre"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/semestre_prompt"
+           android:textSize="20sp" />
+	    
+	    <Spinner android:id="@+id/spinnerSemestre"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:entries="@array/liste_semestre"
+	        android:prompt="@string/groupe_prompt"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+        
+        <TextView android:id="@+id/label_spinner_group"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/groupe_prompt" 
+           android:textSize="20sp"/>
+        
+        <Spinner android:id="@+id/spinnerGroupes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/liste_groupes"
         android:prompt="@string/groupe_prompt"/>
-
-    <Spinner android:id="@+id/spinnerSemestre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/liste_semestre"
-        android:prompt="@string/groupe_prompt"/>
+    </LinearLayout>
     
 </LinearLayout>

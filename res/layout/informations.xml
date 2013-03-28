@@ -50,15 +50,13 @@
         android:layout_below="@+id/textView4"
         android:text="@string/made_by"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <QuickContactBadge
+	
+	
+	     <QuickContactBadge
         android:id="@+id/quickContactBadge1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
         android:layout_marginLeft="14dp"
-        android:layout_marginTop="87dp"
-        android:layout_toRightOf="@+id/textView4"
-        android:src="@drawable/groupe_small" />
+        android:layout_marginTop="87dp" />
 
 </RelativeLayout>

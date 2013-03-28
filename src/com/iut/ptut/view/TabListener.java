@@ -30,7 +30,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
         mClass = clz;
     }
 
-    // Lorsque l'un des onglet est sélectionné on le réinstancie pour raraichir les données
+    // Lorsque l'un des onglet est sélectionné on le réinstancie pour rafraichir les données
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
         
 		Bundle args = null;

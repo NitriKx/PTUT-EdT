@@ -14,6 +14,7 @@ import com.iut.ptut.model.ConfigManager;
 public class SettingsActivity extends Activity {
 
 	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -23,6 +24,7 @@ public class SettingsActivity extends Activity {
 		Spinner spinGroupe = (Spinner) this.findViewById(R.id.spinnerGroupes);
 
 		// On met les Spinner sur la valeur contenu dans les paramètres
+		
 		ArrayAdapter semestreAdapt = (ArrayAdapter) spinSemestre.getAdapter();
 		spinSemestre.setSelection(semestreAdapt.getPosition(ConfigManager.getInstance().getProperty("user_semestre")));
 		ArrayAdapter groupeAdapt = (ArrayAdapter) spinGroupe.getAdapter();

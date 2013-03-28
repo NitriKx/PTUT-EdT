@@ -11,12 +11,15 @@ import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iut.ptut.R;
 import com.iut.ptut.ctrl.DayAdapter;
@@ -49,6 +52,19 @@ public class TodayFragment extends Fragment {
 			if(this.getArguments().getLong("date") != 0L) {
 				this.date = new Date(this.getArguments().getLong("date"));
 			}
+			
+			// Si on veut revenir sur la page "semaine" en appuyant sur Back
+			if(this.getArguments().getBoolean("needBack")) {
+				vue.setOnKeyListener(new OnKeyListener() {
+					public boolean onKey(View v, int keyCode, KeyEvent event) {
+						if(keyCode == KeyEvent.KEYCODE_BACK) {
+							MainActivity.activity.forceAffichageOngletWeek();
+							return true;
+						}
+						return false;
+					}
+				});
+			}
 		} 
 		
 		this.remplirVuePourDate(this.date);
@@ -62,7 +78,7 @@ public class TodayFragment extends Fragment {
 	private void remplirVuePourDate(Date dateDansJour) {
 		
 		// Format de la date au dessus du tableau
-		SimpleDateFormat formatDateTableau = new SimpleDateFormat("dd MM yyyy", Locale.getDefault());
+		SimpleDateFormat formatDateTableau = new SimpleDateFormat("EEEE dd/MM/yyyy", Locale.getDefault());
 		// Format des heures pour les cours
 		SimpleDateFormat formatHeureLesson = new SimpleDateFormat("HH:mm", Locale.getDefault());
 		
@@ -83,10 +99,15 @@ public class TodayFragment extends Fragment {
 			tbl.setBackgroundResource(R.drawable.bordure_tableau);
 			
 			// On créer une ligne contenant la date 
+			// On est obligé de manipuler la première lettre pour la mettre en majuscule
+			String formattedDate = formatDateTableau.format(dateDansJour);
+			String texteDate = ("" + formattedDate.charAt(0)).toUpperCase(Locale.getDefault()) 
+					+ formattedDate.substring(1, formattedDate.length());
+			
 			TableRow rowTitreTableau = new TableRow(vue.getContext());
 			TextView texteDateTableau = new TextView(vue.getContext());
 			texteDateTableau.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
-			texteDateTableau.setText(formatDateTableau.format(dateDansJour));
+			texteDateTableau.setText(texteDate);
 			rowTitreTableau.addView(texteDateTableau);
 			tbl.addView(rowTitreTableau);
 			
@@ -131,8 +152,10 @@ public class TodayFragment extends Fragment {
 			}
 			
 		} catch (Throwable t) {
-			throw new RuntimeException("Impossible de charger la liste des cours pour le jour actuel. " +
+			_log.log(Level.SEVERE, "Impossible de charger la liste des cours pour le jour actuel. " +
 					"Cause = [" + t.getCause() + "] Raison = [" + t.getMessage() + "]");
+			
+			Toast.makeText(MainActivity.context, "Impossible de charger la liste des cours :/", Toast.LENGTH_SHORT).show();
 		}
 	}
 }

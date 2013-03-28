@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,10 +29,12 @@ public class MainActivity extends Activity {
 	// definition de l'id correspondant à la notification
 	public static final int ID_NOTIFICATION = 1337;
 	
-	private final Logger _log = Logger.getLogger(this.getClass().getName());
-
 	public static Context context = null;
-	public static Activity activity = null;
+	public static MainActivity activity = null;
+	
+	private ActionBar.Tab tabToday;
+	private ActionBar.Tab tabSemaine;
+	private ActionBar.Tab tabMessage;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,9 @@ public class MainActivity extends Activity {
 		actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// definition des tabs et de leurs texte
-		ActionBar.Tab tabToday = actionbar.newTab().setText(R.string.tab_today);
-		ActionBar.Tab tabSemaine = actionbar.newTab().setText(R.string.tab_week);
-		ActionBar.Tab tabMessage = actionbar.newTab().setText(R.string.tab_message);
+		tabToday = actionbar.newTab().setText(R.string.tab_today);
+		tabSemaine = actionbar.newTab().setText(R.string.tab_week);
+		tabMessage = actionbar.newTab().setText(R.string.tab_message);
 
 		tabToday.setTabListener(new TabListener<TodayFragment>(this, "today", TodayFragment.class));
 		tabSemaine.setTabListener(new TabListener<WeekFragment>(this, "week", WeekFragment.class));
@@ -79,6 +83,8 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i = null;
+		
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	        case R.id.menu_refresh:
@@ -86,9 +92,15 @@ public class MainActivity extends Activity {
 	            return true;
 	        case R.id.menu_parametres:
 	        	// On lance l'activité des paramètres
-	        	Intent i = new Intent(this.getApplicationContext(), SettingsActivity.class);
+	        	i = new Intent(this.getApplicationContext(), SettingsActivity.class);
 	        	i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        	MainActivity.context.startActivity(i);
+	        	return true;
+	        case R.id.menu_about:
+	        	FragmentTransaction ft = getFragmentManager().beginTransaction(); 
+				Fragment mFragment = Fragment.instantiate(MainActivity.context, AboutFragment.class.getName(), null);
+				ft.replace(R.id.fragment_contenu, mFragment);
+				ft.commit();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -107,5 +119,21 @@ public class MainActivity extends Activity {
 		CRONFetcher fetcher = new CRONFetcher();
 		fetcher.execute(new String[]{});
 		
+	}
+	
+	/**
+	 * Permet de rafraichir le tab actuellement affiché.
+	 */
+	public void rafraichirFragment() {
+		
+		// On resélectionne le tab courrant pour le rafraichir
+		this.getActionBar().selectTab(this.getActionBar().getSelectedTab());
+	}
+	
+	/**
+	 * Force l'affichage de la semaine. (utilié pour un retour à partir d'un jour ouvert dans l'onglet semaine)
+	 */
+	public void forceAffichageOngletWeek() {
+		this.getActionBar().selectTab(this.tabSemaine);
 	}
 }

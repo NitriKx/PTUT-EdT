@@ -67,6 +67,8 @@ public class WeekFragment extends Fragment {
 						// On lance un intent dans l'hébergeur de fragment
 						Bundle args = new Bundle();
 						args.putLong("date", ((Long) v.getTag()));
+						args.putBoolean("needBack", true);
+						
 						FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 						Fragment mFragment = Fragment.instantiate(MainActivity.context, TodayFragment.class.getName(), args);
 						ft.replace(R.id.fragment_contenu, mFragment);

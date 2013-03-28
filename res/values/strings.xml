@@ -1,7 +1,10 @@
 <resources>
 
     <string name="app_name">IUT Blagnac - EdT</string>
-    <string name="title_activity_main">EdT Moodle</string>
+    
+    <string name="title_activity_main">IUT Blagnac EdT</string>
+    <string name="title_activity_settings">Paramètres</string>
+    
     <string name="made_by">Benoît Sauvere, Remy Bienvenu, Hugo Roman, Jeremie Rouelle</string>
     <string name="adresse">http://algec.iut-blagnac/~jmi/edt/INFO/edtTeacherS343.html</string>
     <string name="dev_start">Debut de conception : 22/10/2012</string>
@@ -16,7 +19,9 @@
 	<string name="menu_refresh">Raraîchir</string>
 	<string name="menu_about">A propos</string>
 	
-	<string name="groupe_prompt">Choississez votre groupe...</string>
-	<string name="semestre_prompt">Choississez votre semestre...</string>
+	<string name="groupe_prompt">Groupe : </string>
+	<string name="semestre_prompt">Semestre : </string>
+	
+	
 	
 </resources>

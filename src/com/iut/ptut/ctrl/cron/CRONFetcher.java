@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import net.fortuna.ical4j.data.ParserException;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.iut.ptut.ctrl.CalendarParser;
 import com.iut.ptut.ctrl.TimeTableFetcher;
@@ -18,6 +19,7 @@ import com.iut.ptut.model.Group;
 import com.iut.ptut.model.TimeTable;
 import com.iut.ptut.model.database.DatabaseManager;
 import com.iut.ptut.model.database.DatabaseManipulationException;
+import com.iut.ptut.view.MainActivity;
 
 public class CRONFetcher extends AsyncTask<String, Void, Void> {
 
@@ -39,14 +41,30 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> {
 			// On ajoute une semaine
 			cal.add(Calendar.WEEK_OF_YEAR, 1);
 			f.recupererEtStockerEdT(ConfigManager.getInstance().getProperty("user_semestre"), ""+cal.get(Calendar.WEEK_OF_YEAR));
+		} catch (IOException e) {
+			// Si pas de réseau on le signale
+			MainActivity.activity.runOnUiThread(new Runnable() {
+				public void run() {
+					Toast.makeText(MainActivity.context, "Erreur réseau.", Toast.LENGTH_SHORT).show();
+				}
+			});
 		} catch (Exception e) {
 			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
+			
 		}
-				
+		
+		// Si tout s'est bien passsé on rafraichis la vue actuelle
+		MainActivity.activity.runOnUiThread(new Runnable() {
+			public void run() {
+				MainActivity.activity.rafraichirFragment();
+			}
+		});
+		
 		_log.log(Level.FINE, "CRON terminé !");
 		
 		return null;
 	}
+	
 	
 	/**
 	 * Récupère et stocke dans la base de données l'emplois du temps de la semaine passée en paramètre.
