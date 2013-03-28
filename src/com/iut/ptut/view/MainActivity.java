@@ -1,11 +1,15 @@
 package com.iut.ptut.view;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.iut.ptut.R;
+import com.iut.ptut.ctrl.cron.AlarmReceiver;
 import com.iut.ptut.ctrl.cron.CRONFetcher;
 
 /**

@@ -1,5 +1,7 @@
 package com.iut.ptut.view;
 
+import java.util.Date;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -35,8 +37,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 		// Si c'est un TodayFragment on met la date acutelle
 		if(mClass.equals(TodayFragment.class)) {
 			args = new Bundle();
-			args.putLong("date", 1364347098000L);
-			// args.putLong("date", new Date().getTime());
+			args.putLong("date", new Date().getTime());
 		}
 		        	
 		mFragment = Fragment.instantiate(mActivity, mClass.getName(), args);

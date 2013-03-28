@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
         
+        <receiver  android:process=":remote" android:name="AlarmReceiver"></receiver>
+        
     </application>
     
 	<!-- Pour pouvoir programmer le CRON -->
