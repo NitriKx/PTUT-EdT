@@ -46,10 +46,6 @@ public class MainActivity extends Activity {
 		MainActivity.context = this.getApplicationContext();
 		MainActivity.activity = this;
 		
-		ConfigManager.getInstance().setProperty("user_semestre", "4");
-
-		ConfigManager.getInstance().setProperty("user_group", "2A");
-		
 		setContentView(R.layout.activity_main);
 		
 		ActionBar actionbar = getActionBar();
