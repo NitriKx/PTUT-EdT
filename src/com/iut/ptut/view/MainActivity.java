@@ -75,13 +75,14 @@ public class MainActivity extends Activity {
 	    return true;
 	}
 	
+	// Méhtode appellée lorsque l'utilisateur presse un des onglets
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent i = null;
 		
-	    // Handle item selection
 	    switch (item.getItemId()) {
 	        case R.id.menu_refresh:
+	        	// On lance le rafraichissement des données
 	            launchRefresh();
 	            return true;
 	        case R.id.menu_parametres:
@@ -91,6 +92,7 @@ public class MainActivity extends Activity {
 	        	MainActivity.context.startActivity(i);
 	        	return true;
 	        case R.id.menu_about:
+	        	// On charge le fragment "A propos" dans le conteneur de fragments
 	        	FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 				Fragment mFragment = Fragment.instantiate(MainActivity.context, AboutFragment.class.getName(), null);
 				ft.replace(R.id.fragment_contenu, mFragment);
