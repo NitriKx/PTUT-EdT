@@ -4,18 +4,12 @@ import java.util.Date;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.iut.ptut.R;
-
 public class TabListener<T extends Fragment> implements ActionBar.TabListener {
-    private Fragment mFragment;
-    private final Activity mActivity;
-    private final String mTag;
     private final Class<T> mClass;
    
 
@@ -24,25 +18,21 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
       * @param tag  The identifier tag for the fragment
       * @param clz  The fragment's Class, used to instantiate the fragment
       */
-    public TabListener(Activity activity, String tag, Class<T> clz) {
-        mActivity = activity;
-        mTag = tag;
+    public TabListener(Class<T> clz) {
         mClass = clz;
     }
 
     // Lorsque l'un des onglet est sélectionné on le réinstancie pour rafraichir les données
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        
 		Bundle args = null;
 		// Si c'est un TodayFragment on met la date acutelle
 		if(mClass.equals(TodayFragment.class)) {
 			args = new Bundle();
 			args.putLong("date", new Date().getTime());
 		}
-		        	
-		mFragment = Fragment.instantiate(mActivity, mClass.getName(), args);
 		
-		ft.replace(R.id.fragment_contenu, mFragment, mTag);
+		// On charge un nouveau fragment de mClass
+		FragmentManager.chargerFragment(mClass, args, ft);
 	}
 
     public void onTabUnselected(Tab tab, FragmentTransaction ft) {

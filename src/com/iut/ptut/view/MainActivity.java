@@ -1,7 +1,6 @@
 package com.iut.ptut.view;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import com.iut.ptut.R;
 import com.iut.ptut.ctrl.cron.CRONFetcher;
-import com.iut.ptut.model.ConfigManager;
 
 /**
  * 
@@ -56,9 +54,9 @@ public class MainActivity extends Activity {
 		tabSemaine = actionbar.newTab().setText(R.string.tab_week);
 		tabMessage = actionbar.newTab().setText(R.string.tab_message);
 
-		tabToday.setTabListener(new TabListener<TodayFragment>(this, "today", TodayFragment.class));
-		tabSemaine.setTabListener(new TabListener<WeekFragment>(this, "week", WeekFragment.class));
-		tabMessage.setTabListener(new TabListener<MessagesFragment>(this, "messages", MessagesFragment.class));
+		tabToday.setTabListener(new TabListener<TodayFragment>(TodayFragment.class));
+		tabSemaine.setTabListener(new TabListener<WeekFragment>(WeekFragment.class));
+		tabMessage.setTabListener(new TabListener<MessagesFragment>(MessagesFragment.class));
 
 		actionbar.addTab(tabToday);
 		actionbar.addTab(tabSemaine);
@@ -94,8 +92,7 @@ public class MainActivity extends Activity {
 	        case R.id.menu_about:
 	        	// On charge le fragment "A propos" dans le conteneur de fragments
 	        	FragmentTransaction ft = getFragmentManager().beginTransaction(); 
-				Fragment mFragment = Fragment.instantiate(MainActivity.context, AboutFragment.class.getName(), null);
-				ft.replace(R.id.fragment_contenu, mFragment);
+				FragmentManager.chargerFragment(AboutFragment.class, null, ft);
 				ft.commit();
 	        	return true;
 	        default:
@@ -117,6 +114,30 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	// Méhtode appellée lorsque le bouton "Retour" est pressé
+	@Override
+	public void onBackPressed() {
+		
+		Fragment enCours = FragmentManager.getInstance().getEnCours();
+		
+		// Si le fragment est de type TodayFragment
+		if(enCours instanceof TodayFragment) {
+			
+			// et qu'on doit revenir au fragment Week lors d'un retour
+			TodayFragment f = (TodayFragment) enCours;
+			if(f.isRetourListeJours()) {
+				forceAffichageOngletWeek();
+			}
+		}
+		
+		// Si c'est un AboutActivity
+		if(enCours instanceof AboutFragment) {
+			// On revient au framgment Today
+			this.getActionBar().selectTab(this.tabToday);
+		}
+		
+	}
+	
 	/**
 	 * Permet de rafraichir le tab actuellement affiché.
 	 */
@@ -132,4 +153,5 @@ public class MainActivity extends Activity {
 	public void forceAffichageOngletWeek() {
 		this.getActionBar().selectTab(this.tabSemaine);
 	}
+	
 }

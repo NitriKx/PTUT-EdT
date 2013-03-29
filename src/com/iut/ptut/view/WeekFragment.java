@@ -70,8 +70,7 @@ public class WeekFragment extends Fragment {
 						args.putBoolean("needBack", true);
 						
 						FragmentTransaction ft = getFragmentManager().beginTransaction(); 
-						Fragment mFragment = Fragment.instantiate(MainActivity.context, TodayFragment.class.getName(), args);
-						ft.replace(R.id.fragment_contenu, mFragment);
+						FragmentManager.chargerFragment(TodayFragment.class, args, ft);
 						ft.commit();
 					}
 					

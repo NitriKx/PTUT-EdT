@@ -36,7 +36,8 @@ public class TodayFragment extends Fragment {
 	private Logger _log = Logger.getLogger(this.getClass().getName());
 	private View vue;
 	private Date date;
-
+	private boolean retourListeJours = false;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,15 +56,7 @@ public class TodayFragment extends Fragment {
 			
 			// Si on veut revenir sur la page "semaine" en appuyant sur Back
 			if(this.getArguments().getBoolean("needBack")) {
-				vue.setOnKeyListener(new OnKeyListener() {
-					public boolean onKey(View v, int keyCode, KeyEvent event) {
-						if(keyCode == KeyEvent.KEYCODE_BACK) {
-							MainActivity.activity.forceAffichageOngletWeek();
-							return true;
-						}
-						return false;
-					}
-				});
+				this.retourListeJours = true;
 			}
 		} 
 		
@@ -158,4 +151,9 @@ public class TodayFragment extends Fragment {
 			Toast.makeText(MainActivity.context, "Impossible de charger la liste des cours :/", Toast.LENGTH_SHORT).show();
 		}
 	}
+
+	public boolean isRetourListeJours() {
+		return retourListeJours;
+	}
+
 }
