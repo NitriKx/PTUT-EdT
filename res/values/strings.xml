@@ -5,9 +5,8 @@
     <string name="title_activity_main">IUT Blagnac EdT</string>
     <string name="title_activity_settings">Paramètres</string>
     
-    <string name="made_by">Benoît Sauvere, Remy Bienvenu, Hugo Roman, Jeremie Rouelle</string>
-    <string name="adresse">http://algec.iut-blagnac/~jmi/edt/INFO/edtTeacherS343.html</string>
-    <string name="dev_start">Debut de conception : 22/10/2012</string>
+    <string name="made_by">Benoît Sauvere, Remy Bienvenu, Hugo Roman, Jérémie Rouelle</string>
+    <string name="dev_start">Projet Tuteuré 2013</string>
 	<string name="version">Version : 0.2 ALPHA PRE-RELEASE</string>
 	<string name="creator">Notre Equipe :</string>
 	

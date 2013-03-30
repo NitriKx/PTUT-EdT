@@ -10,8 +10,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import android.content.res.AssetManager;
-
 import com.iut.ptut.view.MainActivity;
 
 /**
@@ -38,9 +36,10 @@ public class ConfigManager {
 				byte[] buf = new byte[30];
 				FileOutputStream writer = new FileOutputStream(configFile);
 				InputStream backupReader = AssetsManager.ouvrirInputStreamAsset("config.properties");
-				
-				while(backupReader.read(buf) > 0)
-					writer.write(buf);
+
+				int len = 0;
+				while((len = backupReader.read(buf)) > 0)
+					writer.write(buf, 0, len);
 				
 				writer.close();
 				backupReader.close();
@@ -60,7 +59,7 @@ public class ConfigManager {
 			
 	}
 	
-	public static ConfigManager getInstance() {
+	public synchronized static ConfigManager getInstance() {
 		if(_instance == null) {
 			_instance = new ConfigManager();
 		}
@@ -68,7 +67,7 @@ public class ConfigManager {
 		return _instance;
 	}
 	
-	public void sauvegarderValeurs() {
+	public synchronized void sauvegarderValeurs() {
 		try {
 			OutputStream os = new FileOutputStream(configFile);
 			this.prop.store(os, null);
@@ -83,7 +82,7 @@ public class ConfigManager {
 	 * @param name Le nom de la propriété
 	 * @return La valeur associée
 	 */
-	public String getProperty(String name) {
+	public synchronized String getProperty(String name) {
 		return this.prop.getProperty(name);
 	}
 	
@@ -92,7 +91,7 @@ public class ConfigManager {
 	 * @param name
 	 * @param value
 	 */
-	public void setProperty(String name, String value) {
+	public synchronized void setProperty(String name, String value) {
 		this.prop.setProperty(name, value);
 		sauvegarderValeurs();
 	}

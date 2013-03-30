@@ -24,6 +24,7 @@ import com.iut.ptut.view.MainActivity;
 public class CRONFetcher extends AsyncTask<String, Void, Void> {
 
 	private Logger _log = Logger.getLogger(this.getClass().getName());
+	private static boolean running = false;
 	
 	@Override
 	protected Void doInBackground(String...params) {
@@ -32,7 +33,18 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> {
 		
 		Calendar cal = Calendar.getInstance(Locale.getDefault());
 		
+		// Si le CRON est déjà en marche, on affiche un message et on annule le lancement
+		if(running) {
+			MainActivity.activity.runOnUiThread(new Runnable() {
+				public void run() {
+					Toast.makeText(MainActivity.context, "Récupérateur déjà en fonctionnement...", Toast.LENGTH_SHORT).show();
+				}
+			});
+			return null;
+		}
+		
 		try {
+			CRONFetcher.running = true;
 			DatabaseManager manager = DatabaseManager.getInstance();
 			manager.open();
 			
@@ -51,6 +63,8 @@ public class CRONFetcher extends AsyncTask<String, Void, Void> {
 		} catch (Exception e) {
 			_log.log(Level.WARNING, "Erreur lors de la récupération de l'emploi du temps. Message = [" + e.getMessage() + "]");
 			
+		} finally {
+			CRONFetcher.running = false;
 		}
 		
 		// Si tout s'est bien passsé on rafraichis la vue actuelle

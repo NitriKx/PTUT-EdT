@@ -97,6 +97,9 @@ public class MainActivity extends Activity {
 			ft.commit();
 		}
 		
+		// Lancement de la récupération pour le groupe actuel
+		launchRefresh();
+		
 	}
 	
 	@Override
@@ -160,6 +163,7 @@ public class MainActivity extends Activity {
 			TodayFragment f = (TodayFragment) enCours;
 			if(f.isRetourListeJours()) {
 				forceAffichageOngletWeek();
+				return;
 			}
 		}
 		
@@ -167,7 +171,11 @@ public class MainActivity extends Activity {
 		if(enCours instanceof AboutFragment) {
 			// On revient au framgment Today
 			this.getActionBar().selectTab(this.tabToday);
+			return;
 		}
+		
+		// Si ce n'était pas un des cas précédent on fait l'action par défaut (fermeture de l'application)
+		super.onBackPressed();
 		
 	}
 	

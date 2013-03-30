@@ -162,9 +162,9 @@ public class TodayFragment extends Fragment {
 				tbl.addView(lessonRow);
 			}
 			
-		} catch (Throwable t) {
+		} catch (Exception e) {
 			_log.log(Level.SEVERE, "Impossible de charger la liste des cours pour le jour actuel. " +
-					"Cause = [" + t.getCause() + "] Raison = [" + t.getMessage() + "]");
+					"Nom = [" + e.getClass() + "] Cause = [" + e.getCause() + "] Message = [" + e.getMessage() + "]");
 			
 			Toast.makeText(MainActivity.context, "Impossible de charger la liste des cours :/", Toast.LENGTH_SHORT).show();
 		}
