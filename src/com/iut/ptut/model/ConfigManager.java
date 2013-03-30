@@ -2,7 +2,6 @@ package com.iut.ptut.model;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,9 +10,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.iut.ptut.view.MainActivity;
-
 import android.content.res.AssetManager;
+
+import com.iut.ptut.view.MainActivity;
 
 /**
  * Cette classe permet de manipuler le fichier de cofiguration de l'application.
@@ -27,7 +26,6 @@ public class ConfigManager {
 	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
 	private Properties prop;
-	private AssetManager assetManager;
 	private File configFile = new File(MainActivity.context.getFilesDir(), "config.properties");
 	
 	private ConfigManager() {

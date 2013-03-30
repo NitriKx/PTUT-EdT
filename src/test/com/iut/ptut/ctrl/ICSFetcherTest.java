@@ -35,8 +35,7 @@ public class ICSFetcherTest extends TestCase{
 	
 	@Test
 	public void testRecuperationTimeTableURLValide() throws MalformedURLException, IOException {
-		ICSFetcher fetcher = new ICSFetcher("S4", "13");
-		InputStream is = fetcher.getFile();
+		new ICSFetcher("S4", "13");
 	}
 	
 	@Test 
@@ -46,7 +45,7 @@ public class ICSFetcherTest extends TestCase{
 		boolean throwed = false;
 		
 		try {
-			InputStream is = fetcher.getFile();
+			fetcher.getFile();
 		} catch (FileNotFoundException e) {
 			throwed = true;
 		}

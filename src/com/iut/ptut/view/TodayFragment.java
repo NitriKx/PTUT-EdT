@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ public class TodayFragment extends Fragment {
 	 * Cette méthode vide et remplis le fragment avec les données pour la date désirée.
 	 * @param dateDansJour La date dans le jour dont on veut les cours
 	 */
+	@SuppressLint("DefaultLocale")
 	private void remplirVuePourDate(Date dateDansJour) {
 		
 		// Format de la date au dessus du tableau
