@@ -16,6 +16,7 @@ public class FragmentManager {
 	private static FragmentManager _instance = null;
 	
 	private static Fragment enCours = null;
+	private static Bundle currentArgs = null;
 	
 	private FragmentManager() {
 		
@@ -30,15 +31,25 @@ public class FragmentManager {
 	
 	
 	public static Fragment chargerFragment(Class<?> clz, Bundle args, FragmentTransaction ft) {
-		
 		Fragment mFragment = Fragment.instantiate(MainActivity.context, clz.getName(), args);
 		FragmentManager.enCours = mFragment;
+		FragmentManager.currentArgs = args;
 		ft.replace(R.id.fragment_contenu, mFragment);
 		return mFragment;
 	}
 	
-	public Fragment getEnCours() {
+	public static void rechargerFragmentCourant(FragmentTransaction ft) {
+		Fragment mFragment = Fragment.instantiate(MainActivity.context, enCours.getClass().getName(), currentArgs);
+		FragmentManager.enCours = mFragment;
+		ft.replace(R.id.fragment_contenu, mFragment);
+	}
+	
+	public static Fragment getEnCours() {
 		return enCours;
+	}
+
+	public static Bundle getEnCoursArgs() {
+		return currentArgs;
 	}
 	
 }

@@ -11,10 +11,8 @@ import android.app.Fragment;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -98,18 +96,34 @@ public class TodayFragment extends Fragment {
 					+ formattedDate.substring(1, formattedDate.length());
 			
 			TableRow rowTitreTableau = new TableRow(vue.getContext());
+			tbl.addView(rowTitreTableau);
 			TextView texteDateTableau = new TextView(vue.getContext());
 			texteDateTableau.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
 			texteDateTableau.setText(texteDate);
+			TableRow.LayoutParams p = (TableRow.LayoutParams) texteDateTableau.getLayoutParams();
+			if(p == null) {
+				p = new TableRow.LayoutParams();
+			}
+				
+			p.span = 3;
+			texteDateTableau.setLayoutParams(p);
 			rowTitreTableau.addView(texteDateTableau);
-			tbl.addView(rowTitreTableau);
 			
 			// ====== LIGNE DES TITRES ======
+			
+			// Le paramètre pour espacer les colonnes
+			int espaceCol = 5;
+			p = new android.widget.TableRow.LayoutParams();
+			p.rightMargin = DisplayHelper.dpToPixel(espaceCol, MainActivity.context); 
+			p.leftMargin = DisplayHelper.dpToPixel(espaceCol, MainActivity.context); 
+			
 			TableRow rowTitre = new TableRow(vue.getContext());
 			String[] titres = new String[] {"Heures", "Matière", "Salle"};
 			// On construit la ligne de titre
 			for(String t : titres) {
 				TextView tv = new TextView(vue.getContext());
+				
+				tv.setLayoutParams(p);
 				tv.setText(t);
 				// En GRAAAS
 				tv.setTypeface(null, Typeface.BOLD);
@@ -121,21 +135,23 @@ public class TodayFragment extends Fragment {
 			// Pour chaque Lesson on créer une ligne
 			for(Lesson l : MyListLesson) {
 				TableRow lessonRow = new TableRow(vue.getContext());
-				
 				// On créer la case avec les heures
 				TextView viewHoraire = new TextView(vue.getContext());
+				viewHoraire.setLayoutParams(p);
 				viewHoraire.setText(formatHeureLesson.format(l.getDateDebut()) + " - " + formatHeureLesson.format(l.getDateFin()));
 				viewHoraire.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 				lessonRow.addView(viewHoraire); 
 				
 				// On créer la case avec le libelle de la matière
 				TextView viewMatiere = new TextView(vue.getContext());
+				viewMatiere.setLayoutParams(p);
 				viewMatiere.setText(l.getLibelle());
 				viewMatiere.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 				lessonRow.addView(viewMatiere); 
 				
 				// On créer la case avec l'emplacement du cour
 				TextView viewSalle = new TextView(vue.getContext());
+				viewSalle.setLayoutParams(p);
 				viewSalle.setText(l.getEmplacement());
 				viewSalle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
 				lessonRow.addView(viewSalle); 

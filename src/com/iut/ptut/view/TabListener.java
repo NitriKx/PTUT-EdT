@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class TabListener<T extends Fragment> implements ActionBar.TabListener {
     private final Class<T> mClass;
    
+    public static Tab enCours = null;
 
     /** Constructor used each time a new tab is created.
       * @param activity  The host Activity, used to instantiate the fragment
@@ -24,6 +25,7 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     // Lorsque l'un des onglet est sélectionné on le réinstancie pour rafraichir les données
     public void onTabSelected(Tab tab, FragmentTransaction ft) {
+    	TabListener.enCours = tab;
 		Bundle args = null;
 		// Si c'est un TodayFragment on met la date acutelle
 		if(mClass.equals(TodayFragment.class)) {

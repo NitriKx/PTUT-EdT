@@ -11,6 +11,8 @@
          android:shrinkColumns="1"
   			 android:stretchColumns="1"
          android:padding="20dp">
+         
+
 	</TableLayout>
 
 </ScrollView>

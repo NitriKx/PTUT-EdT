@@ -3,6 +3,7 @@ package com.iut.ptut.view;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
 	public static Context context = null;
 	public static MainActivity activity = null;
 	
+	
 	private ActionBar.Tab tabToday;
 	private ActionBar.Tab tabSemaine;
 	private ActionBar.Tab tabMessage;
@@ -43,6 +45,11 @@ public class MainActivity extends Activity {
 		// On récupère le conexte pour l'utliser ailleurs
 		MainActivity.context = this.getApplicationContext();
 		MainActivity.activity = this;
+		
+		// Si on a relancé l'Activity sans redémarrer l'application, on récupère le fragment précédemment chargé
+		Fragment fragmentPrecedent = FragmentManager.getEnCours();
+		Bundle fragmentPrecedenArgs = FragmentManager.getEnCoursArgs();
+		Tab ongletPrecedent = TabListener.enCours;
 		
 		setContentView(R.layout.activity_main);
 		
@@ -58,14 +65,40 @@ public class MainActivity extends Activity {
 		tabSemaine.setTabListener(new TabListener<WeekFragment>(WeekFragment.class));
 		tabMessage.setTabListener(new TabListener<MessagesFragment>(MessagesFragment.class));
 
+		tabToday.setTag(TodayFragment.class.getName());
+		tabSemaine.setTag(WeekFragment.class.getName());
+		tabMessage.setTag(MessagesFragment.class.getName());
+		
 		actionbar.addTab(tabToday);
 		actionbar.addTab(tabSemaine);
 		actionbar.addTab(tabMessage);
 
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
+		
+		// Si on a relancé l'Activity sans redémarrer l'application
+		// - On récupère remet d'abort l'onglet avant le redémarrage de l'Activity
+		//   du fait qu'à la resélection le fragment sera rechargé.
+		if(ongletPrecedent != null) {
+			
+			// Si c'était l'onglet message
+			if(MessagesFragment.class.getName().equals(ongletPrecedent.getTag())) {
+				actionbar.selectTab(tabMessage);
+			} else if (WeekFragment.class.getName().equals(ongletPrecedent.getTag())) {
+				actionbar.selectTab(tabSemaine);
+			} else {
+				actionbar.selectTab(tabToday);
+			}
+		}
+		// - On récupère le framgent précédemment chargé.
+		if(fragmentPrecedent != null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			FragmentManager.chargerFragment(fragmentPrecedent.getClass(), fragmentPrecedenArgs, ft);
+			ft.commit();
+		}
+		
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
@@ -118,7 +151,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		
-		Fragment enCours = FragmentManager.getInstance().getEnCours();
+		Fragment enCours = FragmentManager.getEnCours();
 		
 		// Si le fragment est de type TodayFragment
 		if(enCours instanceof TodayFragment) {
