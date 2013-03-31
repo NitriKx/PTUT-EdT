@@ -1,6 +1,8 @@
 package com.iut.ptut.view;
 
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -31,6 +33,7 @@ public class MainActivity extends Activity {
 	public static Context context = null;
 	public static MainActivity activity = null;
 	
+	private Logger _log = Logger.getLogger(this.getClass().getName());
 	
 	private ActionBar.Tab tabToday;
 	private ActionBar.Tab tabSemaine;
@@ -184,8 +187,16 @@ public class MainActivity extends Activity {
 	 */
 	public void rafraichirFragment() {
 		
-		// On resélectionne le tab courrant pour le rafraichir
-		this.getActionBar().selectTab(this.getActionBar().getSelectedTab());
+		try {
+		
+			// On resélectionne le tab courrant pour le rafraichir
+			this.getActionBar().selectTab(this.getActionBar().getSelectedTab());
+			
+		// On catch les erreurs au cas ou l'application soit en tâche de fond et qu(il n'y ai rien
+		// à rafraichir à la fin du CROn
+		} catch (Exception e) {
+			_log.log(Level.WARNING, "Impossible de rafraichier le fragment. Application toujours lancée .");
+		}
 	}
 	
 	/**
