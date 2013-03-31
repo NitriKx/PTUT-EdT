@@ -95,4 +95,15 @@ public class ConfigManager {
 		this.prop.setProperty(name, value);
 		sauvegarderValeurs();
 	}
+	
+	/**
+	 * Supprime une propriété.
+	 * @param name Le nom de la propriété
+	 * @return True si l'élément à été supprimer ou false si l'élément n'existe pas.
+	 */
+	public synchronized boolean supprimerProperty(String name) {
+		boolean r = this.prop.remove(name) != null;
+		sauvegarderValeurs();
+		return r;
+	}
 }
